@@ -85,13 +85,14 @@ namespace YangTools.Revit.Commands
                     }
                 }
 
-                using (TransactionGroup tg = new TransactionGroup(doc, "布尔几何批处理"))
-                {
-                    tg.Start();
+                var mainFi = state.MainInst[0];
+                Document? famDoc = null;
+                string? tempFile = null;
 
-                    var mainFi = state.MainInst[0];
-                    Document famDoc = doc.EditFamily(mainFi.Symbol.Family);
-                    if (famDoc == null) throw new Exception("无法编辑主体实例的族。");
+                try
+                {
+                    famDoc = doc.EditFamily(mainFi.Symbol.Family);
+                    if (famDoc == null) throw new InvalidOperationException("无法编辑主体实例的族。");
 
                     Transform mainInv = mainFi.GetTransform().Inverse;
 
@@ -117,7 +118,7 @@ namespace YangTools.Revit.Commands
                             }
                         }
 
-                        if (mergeableSolids.Count == 0) throw new Exception("无法获取主体实例的内部实体几何。");
+                        if (mergeableSolids.Count == 0) throw new InvalidOperationException("无法获取主体实例的内部实体几何。");
 
                         List<Solid> independentSolids = new List<Solid>();
 
@@ -132,8 +133,9 @@ namespace YangTools.Revit.Commands
                                 {
                                     current = BooleanOperationsUtils.ExecuteBooleanOperation(current, m, BooleanOperationsType.Union);
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
+                                    System.Diagnostics.Debug.WriteLine($"[YangTools] 布尔融合失败: {ex.Message}");
                                     nextMergeable.Add(m);
                                 }
                             }
@@ -157,8 +159,9 @@ namespace YangTools.Revit.Commands
                                         intersected = true;
                                     }
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
+                                    System.Diagnostics.Debug.WriteLine($"[YangTools] 布尔剪切失败: {ex.Message}");
                                     nextMergeable.Add(m);
                                 }
                             }
@@ -166,18 +169,18 @@ namespace YangTools.Revit.Commands
 
                             if (!intersected)
                             {
-                                // 没交集的就连接
                                 independentSolids.Add(cutS);
                             }
                         }
 
-                        // 3. 在连接
+                        // 3. 再连接
                         independentSolids.AddRange(joinSolids);
 
                         // 删除原有的几何体并重新生成主体
                         foreach (var form in forms)
                         {
-                            try { famDoc.Delete(form.Id); } catch { }
+                            try { famDoc.Delete(form.Id); }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[YangTools] 删除旧几何体失败({form.Id}): {ex.Message}"); }
                         }
 
                         foreach (var m in mergeableSolids)
@@ -194,9 +197,13 @@ namespace YangTools.Revit.Commands
                     }
 
                     // Save and Load
-                    string tempFile = Path.Combine(Path.GetTempPath(), mainFi.Symbol.Family.Name + ".rfa");
+                    tempFile = Path.Combine(Path.GetTempPath(), mainFi.Symbol.Family.Name + ".rfa");
                     if (File.Exists(tempFile)) File.Delete(tempFile);
                     famDoc.SaveAs(tempFile);
+
+                    // 先关闭族文档再加载
+                    famDoc.Close(false);
+                    famDoc = null;
 
                     Family loadedFamily;
                     using (Transaction tLoad = new Transaction(doc, "载入族"))
@@ -208,18 +215,32 @@ namespace YangTools.Revit.Commands
                         var allTargets = state.UnionInsts.Concat(state.CutInsts).Concat(state.JoinInsts).ToList();
                         if (state.DeleteTargetInst && !state.DeleteTargetFam)
                         {
-                            foreach (var target in allTargets) { try { doc.Delete(target.Id); } catch { } }
+                            foreach (var target in allTargets)
+                            {
+                                try { doc.Delete(target.Id); }
+                                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[YangTools] 删除目标实例失败({target.Id}): {ex.Message}"); }
+                            }
                         }
                         if (state.DeleteTargetFam)
                         {
-                            foreach (var target in allTargets) { try { doc.Delete(target.Symbol.Family.Id); } catch { } }
+                            foreach (var target in allTargets)
+                            {
+                                try { doc.Delete(target.Symbol.Family.Id); }
+                                catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[YangTools] 删除目标族失败: {ex.Message}"); }
+                            }
                         }
 
                         tLoad.Commit();
                     }
-                    famDoc.Close(false);
-
-                    tg.Assimilate();
+                }
+                finally
+                {
+                    // 确保族文档在任何情况下都被关闭
+                    if (famDoc != null)
+                    {
+                        try { famDoc.Close(false); }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[YangTools] 关闭族文档失败: {ex.Message}"); }
+                    }
                 }
 
                 TaskDialog.Show("完成", "批处理执行成功！");

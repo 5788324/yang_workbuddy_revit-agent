@@ -61,7 +61,7 @@ public class MergeTextCommand : IExternalCommand
 							list2 = list2.OrderByDescending((TextNote tx) => tx.Coord.Y).ToList();
 							break;
 						}
-						string separator = (!mergeTextWindow.UseNewlineSeparator ? "\r" : "");
+						string separator = mergeTextWindow.UseNewlineSeparator ? "\r" : "";
 						List<string> values = list2.Select((TextNote tx) => tx.Text).ToList();
 						string text = string.Join(separator, values);
 						list2[0].Text = text;

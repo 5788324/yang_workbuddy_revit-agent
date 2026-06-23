@@ -60,46 +60,64 @@ namespace YangTools.Revit.Mcp
             }
         }
 
-        private void Listen()
+        private async Task ListenAsync()
         {
             while (_listener.IsListening)
             {
+                HttpListenerContext? context = null;
                 try
                 {
-                    var context = _listener.GetContext();
+                    context = await _listener.GetContextAsync().ConfigureAwait(false);
                     var request = context.Request;
 
                     if (request.HttpMethod == "POST")
                     {
+                        string body;
                         using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
                         {
-                            string body = reader.ReadToEnd();
-                            JObject payload = JObject.Parse(body);
-                            
-                            var tcs = new TaskCompletionSource<string>();
-                            _handler.EnqueueCommand(payload, tcs);
-                            _externalEvent.Raise();
-
-                            string result = tcs.Task.Result; 
-
-                            byte[] buffer = Encoding.UTF8.GetBytes(result);
-                            context.Response.ContentLength64 = buffer.Length;
-                            context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                            body = await reader.ReadToEndAsync().ConfigureAwait(false);
                         }
+
+                        JObject payload = JObject.Parse(body);
+
+                        var tcs = new TaskCompletionSource<string>();
+                        _handler.EnqueueCommand(payload, tcs);
+                        _externalEvent.Raise();
+
+                        // 异步等待 ExternalEvent 完成，避免同步阻塞导致死锁
+                        string result = await tcs.Task.ConfigureAwait(false);
+
+                        byte[] buffer = Encoding.UTF8.GetBytes(result);
+                        context.Response.ContentLength64 = buffer.Length;
+                        await context.Response.OutputStream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     }
                     else
                     {
                         byte[] buffer = Encoding.UTF8.GetBytes("Revit MCP Receiver is running.");
                         context.Response.ContentLength64 = buffer.Length;
-                        context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                        await context.Response.OutputStream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                     }
-                    context.Response.Close();
                 }
-                catch (Exception)
+                catch (HttpListenerException)
                 {
-                    // Ignore
+                    // 监听器被关闭，正常退出
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[YangTools MCP] 请求处理异常: {ex.Message}");
+                }
+                finally
+                {
+                    try { context?.Response.Close(); } catch { }
                 }
             }
+        }
+
+        private void Listen()
+        {
+            // 包装异步方法，保持公开 API 向后兼容
+            ListenAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }
