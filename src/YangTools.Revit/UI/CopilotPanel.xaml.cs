@@ -40,11 +40,38 @@ namespace YangTools.Revit.UI
         public string ApiKey { get; set; } = "";
         public string BaseUrl { get; set; } = "https://api.deepseek.com/chat/completions";
         public string ModelName { get; set; } = "deepseek-chat";
+        public bool UseStreaming { get; set; } = true;
         
         public List<SystemPromptItem> SystemPrompts { get; set; } = new List<SystemPromptItem>
         {
             new SystemPromptItem { Name = "通用助手", Content = "你是一个精通 Revit API 和 IronPython 的可爱AI桌面宠物兼顶级工程师。如果用户要求建模或修改模型，你只输出包裹在 ```python ... ``` 块内的 Python 代码，并且代码中不要包含任何中文字符（包含注释）以防止乱码。运行环境已经为你准备好了 doc, uidoc, app, uiapp 全局变量，你可以直接使用。除了代码外，你可以用一两句软萌的话跟用户互动。" }
         };
+
+        /// <summary>
+        /// 摸鱼模式专用人设
+        /// </summary>
+        public static readonly List<SystemPromptItem> DefaultMoyuPrompts = new List<SystemPromptItem>
+        {
+            new SystemPromptItem
+            {
+                Id = "moyu_catgirl",
+                Name = "🐱 猫娘",
+                Content = "你是一只可爱的猫娘小助手，名字叫'小喵'。你说话喜欢在句尾加'喵~'，性格调皮又粘人。你是主人的桌面宠物，可以闲聊、讲笑话、安慰主人。注意：你绝对不能输出任何色情、暴力或政治敏感内容，始终保持可爱健康的风格。回答控制在100字以内，用可爱的语气。"
+            },
+            new SystemPromptItem
+            {
+                Id = "moyu_secretary",
+                Name = "👩‍💼 小秘书",
+                Content = "你是一位专业又贴心的AI小秘书，名字叫'小雅'。你说话温柔有礼，偶尔会开点小玩笑。你可以帮主人整理思路、安排工作计划、提供情绪价值。注意：你绝对不能输出任何色情、暴力或政治敏感内容。回答简洁优雅，控制在100字以内。"
+            },
+            new SystemPromptItem
+            {
+                Id = "moyu_philosopher",
+                Name = "🤔 哲学家",
+                Content = "你是一位睿智又风趣的哲学家，擅长用幽默的方式探讨人生、工作和创造力。你是主人工作之余的精神角落。注意：你绝对不能输出任何色情、暴力或政治敏感内容。回答有趣但不啰嗦，控制在100字以内。"
+            }
+        };
+
         public string CurrentPromptId { get; set; } = "";
 
         public static bool IsMoyuProfile = false;
@@ -133,6 +160,15 @@ namespace YangTools.Revit.UI
                 // Toggle Profile Configuration
                 CopilotSettings.IsMoyuProfile = _isMoyuMode;
                 _settings = CopilotSettings.Load();
+                
+                // 摸鱼模式首次使用：加载预设角色人设
+                if (_isMoyuMode && (_settings.SystemPrompts == null || _settings.SystemPrompts.Count <= 1))
+                {
+                    _settings.SystemPrompts = new List<SystemPromptItem>(CopilotSettings.DefaultMoyuPrompts);
+                    _settings.CurrentPromptId = _settings.SystemPrompts.First().Id;
+                    _settings.Save();
+                }
+                
                 _historyManager = new CopilotHistoryManager(_isMoyuMode);
                 HistoryListBox.ItemsSource = _historyManager.Conversations;
                 
@@ -293,6 +329,7 @@ namespace YangTools.Revit.UI
             BaseUrlBox.Text = _settings.BaseUrl;
             ApiKeyBox.Password = _settings.ApiKey;
             ModelNameBox.Text = _settings.ModelName;
+            ChkStreaming.IsChecked = _settings.UseStreaming;
             
             RefreshSystemPromptsUI();
 
@@ -386,6 +423,7 @@ namespace YangTools.Revit.UI
             _settings.BaseUrl = BaseUrlBox.Text.Trim();
             _settings.ApiKey = ApiKeyBox.Password.Trim();
             _settings.ModelName = ModelNameBox.Text?.Trim() ?? "";
+            _settings.UseStreaming = ChkStreaming.IsChecked == true;
             _settings.Save();
             
             var currentPrompt = _settings.SystemPrompts.FirstOrDefault(p => p.Id == _settings.CurrentPromptId)?.Content ?? "";
@@ -574,6 +612,21 @@ namespace YangTools.Revit.UI
             }
         }
 
+        /// <summary>
+        /// 摸鱼模式敏感词检测 — 防止社死
+        /// </summary>
+        private static readonly string[] _sensitiveWords = new[]
+        {
+            "性", "色情", "裸", "淫", "操你", "fuck", "sex", "porn",
+            "政治敏感", "革命", "颠覆", "反党", "台独", "疆独", "藏独"
+        };
+
+        private static bool ContainsSensitive(string text)
+        {
+            var lower = text.ToLowerInvariant();
+            return _sensitiveWords.Any(w => lower.Contains(w));
+        }
+
         private async void SendMessageAsync(string text, bool isMoyu)
         {
             text = text?.Trim();
@@ -604,16 +657,20 @@ namespace YangTools.Revit.UI
             string context = await GetSelectionContextAsync();
             string finalPrompt = string.IsNullOrWhiteSpace(context) ? text : $"[当前选中图元上下文: {context}]\n\n{text}";
 
+            // 摸鱼模式必须非流式（防社死），正常模式看用户设置
+            bool useStreaming = !isMoyu && _settings.UseStreaming;
+
             string reply = "";
             try
             {
-                using var httpClient = new System.Net.Http.HttpClient();
+                using var httpClient = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromMinutes(3) };
                 var currentPrompt = _settings.SystemPrompts?.FirstOrDefault(p => p.Id == _settings.CurrentPromptId)?.Content ?? "";
                 var payload = new 
                 { 
                     prompt = finalPrompt, 
                     history = _currentConversation.ChatHistory.Take(_currentConversation.ChatHistory.Count - 1),
-                    systemPrompt = currentPrompt
+                    systemPrompt = currentPrompt,
+                    stream = useStreaming
                 };
                 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
@@ -627,16 +684,16 @@ namespace YangTools.Revit.UI
                 using var reader = new System.IO.StreamReader(stream);
 
                 var sb = new System.Text.StringBuilder();
+                string? lastDisplayed = null;
 
-                // 简单的 SSE 模拟接收 (如果服务端支持 SSE，则逐步读取)
                 while (!reader.EndOfStream)
                 {
                     var line = await reader.ReadLineAsync();
-                    if (!string.IsNullOrEmpty(line) && line.StartsWith("data: "))
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    if (line.StartsWith("data: "))
                     {
                         var data = line.Substring(6);
-                        // 处理转义换行符等 (这里为了简化，直接 append)
-                        // 实际开发中服务端可能传输 JSON {"content": "..."}
                         if (data == "[DONE]") break;
                         
                         try
@@ -649,23 +706,27 @@ namespace YangTools.Revit.UI
                         }
                         catch
                         {
-                            // fallback 如果不是 JSON
                             sb.Append(data);
                         }
 
-                        if (isMoyu)
+                        // 流式输出：逐字更新到 UI
+                        if (useStreaming && !isMoyu)
                         {
-                            Dispatcher.Invoke(() => MoyuOutputTextBox.Text = sb.ToString());
+                            var current = sb.ToString();
+                            if (current != lastDisplayed)
+                            {
+                                lastDisplayed = current;
+                                Dispatcher.Invoke(() => UpdateLastAiMessage(current));
+                            }
                         }
                     }
-                    else if (!string.IsNullOrEmpty(line) && !line.StartsWith("event:") && !line.StartsWith("id:") && !line.StartsWith(":"))
+                    else if (!line.StartsWith("event:") && !line.StartsWith("id:") && !line.StartsWith(":"))
                     {
-                        // 兼容非 SSE 的纯文本或 JSON 响应
                         sb.AppendLine(line);
                     }
                 }
                 
-                reply = sb.ToString();
+                reply = sb.ToString().Trim();
                 if (string.IsNullOrWhiteSpace(reply))
                 {
                     reply = "未能从 MCP Server 获取到有效回复。";
@@ -674,6 +735,12 @@ namespace YangTools.Revit.UI
             catch (Exception ex)
             {
                 reply = $"[Exception] MCP 连接失败: {ex.Message}";
+            }
+
+            // 摸鱼模式敏感词检测
+            if (isMoyu && ContainsSensitive(reply))
+            {
+                reply = "🙈 喵~这个话题太敏感了，小助理不敢聊呢~ 我们换个轻松的话题吧！";
             }
             
             _currentConversation.ChatHistory.Add(new ApiMessage { role = "assistant", content = reply });
@@ -686,10 +753,68 @@ namespace YangTools.Revit.UI
             else
             {
                 SendButton.IsEnabled = true;
-                AddMessage(reply, false, true);
+                // 流式模式下已有气泡，非流式新增
+                if (!useStreaming)
+                    AddMessage(reply, false, true);
+                else
+                    FinalizeStreamingMessage(reply);
             }
 
             ExtractAndExecutePython(reply);
+        }
+
+        /// <summary>
+        /// 流式输出时实时更新最后一条 AI 气泡
+        /// </summary>
+        private void UpdateLastAiMessage(string text)
+        {
+            // 如果最后一条不是 AI 消息，创建新的
+            if (_messages.Count == 0 || _messages.Last().IsUser)
+            {
+                var chatMsg = new ChatMessage { Message = text, IsUser = false, BubbleStyle = (Style)FindResource("AiBubbleStyle") };
+                chatMsg.Segments.Add(new TextSegment { Content = text });
+                _messages.Add(chatMsg);
+                // 同步到磁盘
+                if (_currentConversation != null)
+                    _currentConversation.Messages.Add(new ChatMessageData { Message = text, IsUser = false });
+            }
+            else
+            {
+                var last = _messages.Last();
+                last.Message = text;
+                if (last.Segments.Count > 0 && last.Segments[0] is TextSegment ts)
+                    ts.Content = text;
+                else
+                    last.Segments.Add(new TextSegment { Content = text });
+                // 更新磁盘记录
+                if (_currentConversation != null && _currentConversation.Messages.Count > 0)
+                {
+                    var lastSaved = _currentConversation.Messages.Last();
+                    if (!lastSaved.IsUser) lastSaved.Message = text;
+                }
+            }
+            ChatScrollViewer.ScrollToBottom();
+        }
+
+        private void FinalizeStreamingMessage(string text)
+        {
+            // 流式完成后，确保消息完整保存
+            if (_messages.Count > 0)
+            {
+                var last = _messages.Last();
+                if (!last.IsUser)
+                {
+                    last.Message = text;
+                    if (last.Segments.Count > 0 && last.Segments[0] is TextSegment ts)
+                        ts.Content = text;
+                    else
+                    {
+                        last.Segments.Clear();
+                        last.Segments.Add(new TextSegment { Content = text });
+                    }
+                }
+            }
+            _historyManager.Save();
         }
 
         private Task<string> GetSelectionContextAsync()
