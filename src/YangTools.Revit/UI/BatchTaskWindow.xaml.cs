@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -85,14 +87,24 @@ namespace YangTools.Revit.UI
 
             try
             {
-                BatchTaskEngine.RunBatchGui(_doc, _viewModel, (msg) =>
+                var errors = BatchTaskEngine.RunBatch(_doc, _viewModel, (msg) =>
                 {
                     TxtProgress.Text = msg;
                     FlushUI();
                 });
 
-                TxtProgress.Text = "批处理全部完成！";
-                MessageBox.Show("所有任务已执行完毕！", "完成", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (errors.Count == 0)
+                {
+                    TxtProgress.Text = "批处理全部完成！";
+                    MessageBox.Show("所有任务已执行完毕！", "完成", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    TxtProgress.Text = $"批处理完成，{errors.Count} 个错误";
+                    MessageBox.Show($"部分任务失败:\n\n{string.Join("\n", errors.Take(10))}" +
+                                    (errors.Count > 10 ? $"\n\n...及其他 {errors.Count - 10} 个错误" : ""),
+                                    "完成（有错误）", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             catch (Exception ex)
             {
