@@ -10,7 +10,7 @@ using YangTools.Revit.Core;
 namespace YangTools.Revit.Commands
 {
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton(panelName: "模型修改区", buttonText: "布尔几何", tooltip: "对两个族实例进行布尔运算(连接/剪切/融合)", largeIcon: "Icons/generic_32.png", smallIcon: "Icons/generic_16.png")]
+    [RibbonButton(panelName: "模型修改区", buttonText: "布尔几何", tooltip: "对两个族实例进行布尔运算(连接/剪切/融合)", largeIcon: "Icons/boolean_geometry_32.png", smallIcon: "Icons/boolean_geometry_16.png")]
     public class BooleanGeometryCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

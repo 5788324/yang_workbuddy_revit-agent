@@ -24,7 +24,8 @@ namespace YangTools.Revit.Commands
         {
             var list = new System.Collections.Generic.List<YangTools.Revit.UI.ProjectItem>();
             list.Add(new YangTools.Revit.UI.ProjectItem { Name = "默认仓库", FullPath = GetMicroProjectsFolder() });
-            list.Add(new YangTools.Revit.UI.ProjectItem { Name = "当前项目(92053)", FullPath = @"E:\Yang\92053\92053" });
+            // 以下为自定义项目路径，可根据需要手动修改
+            // list.Add(new YangTools.Revit.UI.ProjectItem { Name = "我的项目", FullPath = @"C:\MyProject" });
             
             var configPath = GetConfigFilePath();
             if (File.Exists(configPath))

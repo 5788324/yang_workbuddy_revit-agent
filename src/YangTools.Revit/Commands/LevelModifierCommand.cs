@@ -39,6 +39,7 @@ public class LevelModifierCommand : IExternalCommand
 				return Result.Failed;
 			}
 			LevelModifierWindow levelModifierWindow = new LevelModifierWindow(list);
+			new System.Windows.Interop.WindowInteropHelper(levelModifierWindow).Owner = commandData.Application.MainWindowHandle;
 			levelModifierWindow.ShowDialog();
 			if (levelModifierWindow.IsOk && levelModifierWindow.SelectedLevel != null)
 			{

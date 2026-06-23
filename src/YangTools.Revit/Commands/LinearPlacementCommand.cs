@@ -8,7 +8,7 @@ using YangTools.Revit.UI;
 namespace YangTools.Revit.Commands
 {
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton("模型修改区", "线性布置", "沿路径线性布置族", "Icons/generic_32.png", "Icons/generic_16.png")]
+    [RibbonButton("模型修改区", "线性布置", "沿路径线性布置族", "Icons/linear_placement_32.png", "Icons/linear_placement_16.png")]
     public class LinearPlacementCommand : IExternalCommand
     {
         private static LinearPlacementWindow? _window;

@@ -18,6 +18,7 @@ namespace YangTools.Revit.Commands
             try
             {
                 var window = new TextModifierWindow(commandData);
+                new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
                 window.ShowDialog();
                 return Result.Succeeded;
             }

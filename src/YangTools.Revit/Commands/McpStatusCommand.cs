@@ -13,6 +13,7 @@ namespace YangTools.Revit.Commands
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var window = new McpStatusWindow();
+            new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
             window.ShowDialog();
             
             return Result.Succeeded;

@@ -8,7 +8,7 @@ using YangTools.Revit.UI;
 namespace YangTools.Revit.Commands
 {
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton("项目工具区", "项目微工具", tooltip: "管理并运行项目微工具", largeIcon: "Icons/assistant_32.png", smallIcon: "Icons/assistant_16.png")]
+    [RibbonButton("项目工具区", "项目微工具", tooltip: "管理并运行项目微工具", largeIcon: "Icons/micro_tool_32.png", smallIcon: "Icons/micro_tool_16.png")]
     public class MicroToolCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -16,6 +16,7 @@ namespace YangTools.Revit.Commands
             try
             {
                 var window = new MicroToolWindow();
+                new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
                 if (window.ShowDialog() == true && !string.IsNullOrEmpty(window.SelectedDllPath))
                 {
                     return MicroToolEngine.ExecuteMicroTool(window.SelectedDllPath, commandData, ref message, elements);

@@ -37,7 +37,7 @@ namespace YangTools.Revit.Commands
     }
 
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton("MEP工具", "管道修改 TypeA", "根据文字内容（例如 A1 4.18-225）自动修改管道的注释、尺寸和一端高程", "Icons/generic_32.png", "Icons/generic_16.png")]
+    [RibbonButton("MEP工具", "管道修改 TypeA", "根据文字内容（例如 A1 4.18-225）自动修改管道的注释、尺寸和一端高程", "Icons/pipe_modify_32.png", "Icons/pipe_modify_16.png")]
     public class PipeModifyTypeACommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

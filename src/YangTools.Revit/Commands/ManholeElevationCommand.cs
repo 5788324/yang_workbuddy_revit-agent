@@ -10,7 +10,7 @@ using YangTools.Revit.Core;
 namespace YangTools.Revit.Commands
 {
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton("MEP工具", "管井标高修改", "选择管井族和文字（例如 CL 5.70），自动修改族的标高偏移量", "Icons/generic_32.png", "Icons/generic_16.png")]
+    [RibbonButton("MEP工具", "管井标高修改", "选择管井族和文字（例如 CL 5.70），自动修改族的标高偏移量", "Icons/manhole_elevation_32.png", "Icons/manhole_elevation_16.png")]
     public class ManholeElevationCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

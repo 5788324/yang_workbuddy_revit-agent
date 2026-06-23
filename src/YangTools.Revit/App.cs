@@ -22,6 +22,15 @@ namespace YangTools.Revit
         {
             try
             {
+                // 初始化 WPF 应用程序资源（用于绑定等）
+                if (System.Windows.Application.Current == null)
+                {
+                    new System.Windows.Application();
+                }
+
+                // 初始化主题系统（必须在任何窗口创建之前）
+                ThemeManager.Initialize();
+
                 // 调用动态 Ribbon 构建器 (AI-A 负责的插件功能)
                 RibbonBuilder.Build(application);
 

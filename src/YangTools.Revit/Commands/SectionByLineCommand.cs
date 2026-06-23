@@ -26,7 +26,7 @@ namespace YangTools.Revit.Commands
     }
 
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton(panelName: "视图修改区", buttonText: "剖面(By Line)", tooltip: "根据选择的模型线或详图线生成剖面视图", largeIcon: "Icons/generic_32.png", smallIcon: "Icons/generic_16.png")]
+    [RibbonButton(panelName: "视图修改区", buttonText: "剖面(By Line)", tooltip: "根据选择的模型线或详图线生成剖面视图", largeIcon: "Icons/section_line_32.png", smallIcon: "Icons/section_line_16.png")]
     public class SectionByLineCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

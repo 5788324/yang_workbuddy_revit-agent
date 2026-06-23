@@ -83,12 +83,18 @@
     <PackageReference Include="IronPython" Version="3.4.1" />
   </ItemGroup>
 
-  <!-- 将 Icons 目录下的图标素材在编译时自动拷贝到本地输出目录 -->
+  <!-- 将 Icons/Docs/Themes 目录下的资源在编译时自动拷贝到本地输出目录 -->
   <ItemGroup>
     <None Update="Icons\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Docs\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="UI\Themes\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="UI\SharedStyles.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
