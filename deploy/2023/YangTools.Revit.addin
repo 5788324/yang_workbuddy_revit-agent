@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <!-- 插件的显示名称 -->
+    <Name>YangTools Revit 个人插件</Name>
+    <!-- 使用相对路径，指向子文件夹内的 DLL，以实现干净的目录结构 -->
+    <Assembly>YangTools/YangTools.Revit.dll</Assembly>
+    <!-- 插件启动入口的完整类名 -->
+    <FullClassName>YangTools.Revit.App</FullClassName>
+    <!-- 全局唯一标识符 (GUID) -->
+    <ClientId>f8425265-d41c-4b68-80e2-632b4b2cb829</ClientId>
+    <!-- 厂商标识与信息 -->
+    <VendorId>YangTools</VendorId>
+    <VendorDescription>Yang Revit Development Framework, https://github.com/yangtools</VendorDescription>
+  </AddIn>
+</RevitAddIns>

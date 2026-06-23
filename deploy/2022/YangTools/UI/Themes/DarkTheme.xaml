@@ -1,0 +1,91 @@
+<!--
+    YangTools 主题 - 深色现代 (Dark Modern)
+    护眼深色模式，适合暗光环境
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ===== 基础色板 ===== -->
+    <Color x:Key="Color_WindowBg">#2D2D30</Color>
+    <Color x:Key="Color_WindowBorder">#3E3E42</Color>
+    <Color x:Key="Color_PanelBg">#333337</Color>
+    <Color x:Key="Color_SidePanelBg">#2A2A2D</Color>
+    <Color x:Key="Color_BottomBarBg">#313135</Color>
+    
+    <Color x:Key="Color_PrimaryText">#E8E8E8</Color>
+    <Color x:Key="Color_SecondaryText">#A0A0A0</Color>
+    <Color x:Key="Color_DisabledText">#606060</Color>
+    
+    <Color x:Key="Color_Accent">#6CB8E4</Color>
+    <Color x:Key="Color_AccentHover">#5AA0CC</Color>
+    <Color x:Key="Color_AccentLight">#8CD0F0</Color>
+    
+    <Color x:Key="Color_BtnBg">#3E3E42</Color>
+    <Color x:Key="Color_BtnBorder">#505055</Color>
+    <Color x:Key="Color_BtnHover">#4A4A50</Color>
+    <Color x:Key="Color_BtnPressed">#38383D</Color>
+    <Color x:Key="Color_BtnText">#E8E8E8</Color>
+    
+    <Color x:Key="Color_DangerBg">#D06050</Color>
+    <Color x:Key="Color_DangerHover">#B84840</Color>
+    <Color x:Key="Color_Success">#5CA860</Color>
+    <Color x:Key="Color_Warning">#D8A840</Color>
+    <Color x:Key="Color_Info">#6090C0</Color>
+    
+    <Color x:Key="Color_TitleBarStart">#252528</Color>
+    <Color x:Key="Color_TitleBarEnd">#2D2D30</Color>
+    <Color x:Key="Color_TitleText">#E0E0E0</Color>
+    <Color x:Key="Color_TitleCloseHover">#D06050</Color>
+
+    <Color x:Key="Color_InputBg">#252528</Color>
+    <Color x:Key="Color_InputBorder">#505055</Color>
+    <Color x:Key="Color_InputFocusBorder">#6CB8E4</Color>
+    <Color x:Key="Color_InputText">#E8E8E8</Color>
+    <Color x:Key="Color_Placeholder">#606060</Color>
+    
+    <Color x:Key="Color_GridHeaderBg">#333337</Color>
+    <Color x:Key="Color_GridRowBg">#2D2D30</Color>
+    <Color x:Key="Color_GridAltRowBg">#303034</Color>
+    <Color x:Key="Color_GridLine">#3E3E42</Color>
+    <Color x:Key="Color_GridSelected">#3A5060</Color>
+    <Color x:Key="Color_GridHover">#353540</Color>
+
+    <!-- ===== 笔刷 ===== -->
+    <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource Color_WindowBg}"/>
+    <SolidColorBrush x:Key="WindowBorder" Color="{DynamicResource Color_WindowBorder}"/>
+    <SolidColorBrush x:Key="PanelBg" Color="{DynamicResource Color_PanelBg}"/>
+    <SolidColorBrush x:Key="SidePanelBg" Color="{DynamicResource Color_SidePanelBg}"/>
+    <SolidColorBrush x:Key="BottomBarBg" Color="{DynamicResource Color_BottomBarBg}"/>
+    <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource Color_PrimaryText}"/>
+    <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource Color_SecondaryText}"/>
+    <SolidColorBrush x:Key="DisabledText" Color="{DynamicResource Color_DisabledText}"/>
+    <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Color_Accent}"/>
+    <SolidColorBrush x:Key="AccentHover" Color="{DynamicResource Color_AccentHover}"/>
+    <SolidColorBrush x:Key="AccentLight" Color="{DynamicResource Color_AccentLight}"/>
+    <SolidColorBrush x:Key="BtnBg" Color="{DynamicResource Color_BtnBg}"/>
+    <SolidColorBrush x:Key="BtnBorder" Color="{DynamicResource Color_BtnBorder}"/>
+    <SolidColorBrush x:Key="BtnHover" Color="{DynamicResource Color_BtnHover}"/>
+    <SolidColorBrush x:Key="BtnPressed" Color="{DynamicResource Color_BtnPressed}"/>
+    <SolidColorBrush x:Key="BtnText" Color="{DynamicResource Color_BtnText}"/>
+    <SolidColorBrush x:Key="DangerBg" Color="{DynamicResource Color_DangerBg}"/>
+    <SolidColorBrush x:Key="DangerHover" Color="{DynamicResource Color_DangerHover}"/>
+    <SolidColorBrush x:Key="SuccessColor" Color="{DynamicResource Color_Success}"/>
+    <SolidColorBrush x:Key="WarningColor" Color="{DynamicResource Color_Warning}"/>
+    <SolidColorBrush x:Key="InfoColor" Color="{DynamicResource Color_Info}"/>
+    <SolidColorBrush x:Key="TitleBarStart" Color="{DynamicResource Color_TitleBarStart}"/>
+    <SolidColorBrush x:Key="TitleBarEnd" Color="{DynamicResource Color_TitleBarEnd}"/>
+    <SolidColorBrush x:Key="TitleText" Color="{DynamicResource Color_TitleText}"/>
+    <SolidColorBrush x:Key="TitleCloseHover" Color="{DynamicResource Color_TitleCloseHover}"/>
+    <SolidColorBrush x:Key="InputBg" Color="{DynamicResource Color_InputBg}"/>
+    <SolidColorBrush x:Key="InputBorder" Color="{DynamicResource Color_InputBorder}"/>
+    <SolidColorBrush x:Key="InputFocusBorder" Color="{DynamicResource Color_InputFocusBorder}"/>
+    <SolidColorBrush x:Key="InputText" Color="{DynamicResource Color_InputText}"/>
+    <SolidColorBrush x:Key="Placeholder" Color="{DynamicResource Color_Placeholder}"/>
+    <SolidColorBrush x:Key="GridHeaderBg" Color="{DynamicResource Color_GridHeaderBg}"/>
+    <SolidColorBrush x:Key="GridRowBg" Color="{DynamicResource Color_GridRowBg}"/>
+    <SolidColorBrush x:Key="GridAltRowBg" Color="{DynamicResource Color_GridAltRowBg}"/>
+    <SolidColorBrush x:Key="GridLine" Color="{DynamicResource Color_GridLine}"/>
+    <SolidColorBrush x:Key="GridSelected" Color="{DynamicResource Color_GridSelected}"/>
+    <SolidColorBrush x:Key="GridHover" Color="{DynamicResource Color_GridHover}"/>
+
+</ResourceDictionary>
