@@ -70,7 +70,7 @@
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent" CornerRadius="15">
-                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bg" Property="Background" Value="{DynamicResource DangerBg}"/></Trigger>

@@ -46,8 +46,8 @@
             <Border CornerRadius="3,3,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
-                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
+                        <GradientStop Color="#8B6D4C" Offset="0"/>
+                        <GradientStop Color="#C4A67A" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>

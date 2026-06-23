@@ -13,13 +13,6 @@ using Autodesk.Revit.UI;
 
 namespace YangTools.Revit.UI
 {
-    public class CommandSettingItem
-    {
-        public string CommandFullName { get; set; } = "";
-        public string DisplayName { get; set; } = "";
-        public bool IsVisible { get; set; }
-    }
-
     /// <summary>
     /// 主题选项 ViewModel（用于设置窗口内的主题选择器）
     /// </summary>
