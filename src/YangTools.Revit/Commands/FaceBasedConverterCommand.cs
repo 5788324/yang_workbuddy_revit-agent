@@ -8,7 +8,7 @@ using YangTools.Revit.UI;
 namespace YangTools.Revit.Commands
 {
     [Transaction(TransactionMode.Manual)]
-    [RibbonButton("模型修改区", "基于面转换", "将基于面的族实例转换为非基于面的常规模型族", "Icons/level_modifier_32.png", "Icons/level_modifier_16.png")]
+    [RibbonButton("模型修改区", "基于面转换", "将基于面的族实例转换为非基于面的常规模型族", "Icons/face_based_32.png", "Icons/face_based_16.png")]
     public class FaceBasedConverterCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
