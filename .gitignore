@@ -1,0 +1,42 @@
+# ========================
+# YangTools Revit Plugin
+# .gitignore
+# ========================
+
+# --- 编译输出 ---
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+*.cache
+
+# --- IDE / 编辑器 ---
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+*.DotSettings.user
+
+# --- NuGet ---
+packages/
+*.nupkg
+
+# --- OS 系统文件 ---
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- Revit 临时文件 ---
+*.0001.rvt
+*.0002.rvt
+*.0003.rvt
+*.rfa.backup
+*.rvt.backup
+
+# --- 日志 ---
+*.log
+
+# --- Gemini/Antigravity 工具数据（不上传） ---
+.gemini/

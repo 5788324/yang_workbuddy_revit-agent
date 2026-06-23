@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>YangTools_Installer</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\src\YangTools.Revit\bin\x64\Release\net48\YangTools.Revit.dll" LogicalName="YangTools.Revit.net48.dll" />
+    <EmbeddedResource Include="..\..\src\YangTools.Revit\bin\x64\Release\net8.0-windows\YangTools.Revit.dll" LogicalName="YangTools.Revit.net8.dll" />
+    <EmbeddedResource Include="..\..\src\YangTools.Revit\YangTools.Revit.addin" LogicalName="YangTools.Revit.addin" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,97 @@
+﻿<Window x:Class="YangTools.Revit.UI.AlignTextToLineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="对齐到线" Height="250" Width="300"
+        AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Background="Transparent">
+
+    <Window.Resources>
+        <!-- ComboBoxItem Style -->
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="10,7"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="itemBd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title Bar -->
+            <Border CornerRadius="3,3,0,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B6D4C" Offset="0"/>
+                        <GradientStop Color="#C4A67A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <TextBlock Text="对齐到线" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold"/>
+                    <Button Content="✕" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" 
+                            Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="16"
+                            Click="BtnCancel_Click" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="0,3,0,0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#C05040"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Content -->
+            <StackPanel Grid.Row="1" Margin="20" Background="#F0EAE0">
+                <CheckBox x:Name="chkKeepUpright" Content="保持文字正向" Foreground="#3A3028" IsChecked="True" Margin="0,0,0,15"/>
+                
+                <TextBlock Text="基点对齐方式：" Foreground="#3A3028" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbAlignBase" Background="#F5F0E8" BorderBrush="#C8B8A0" SelectedIndex="0">
+                    <ComboBoxItem Content="保持原点" Tag="Retain"/>
+                    <ComboBoxItem Content="对齐到起点" Tag="Start"/>
+                    <ComboBoxItem Content="对齐到终点" Tag="End"/>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Bottom Bar -->
+            <Border Grid.Row="2" Background="#EDE6DA" BorderBrush="#C8B8A0" BorderThickness="0,1,0,0" CornerRadius="0,0,3,3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
+                    <Button Content="取消" Width="70" Height="28" Margin="0,0,10,0" Click="BtnCancel_Click"
+                            Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028"/>
+                    <Button Content="确定" Width="70" Height="28" Click="BtnOk_Click"
+                            Background="#A0734A" BorderBrush="#8A5E38" Foreground="#FFFFFF" FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

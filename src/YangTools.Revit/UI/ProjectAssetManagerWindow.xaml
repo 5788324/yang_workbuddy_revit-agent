@@ -1,0 +1,381 @@
+﻿<Window x:Class="YangTools.Revit.UI.ProjectAssetManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="项目资产管理器" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        FontFamily="Microsoft YaHei">
+    <Window.Resources>
+        <Style x:Key="FlatButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#E8DFD0"/>
+            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15,6"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DDD0C0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#C8B8A0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="PrimaryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
+            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#A0734A"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#8A5E38"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#5A4A38"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="5000"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bg" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#DDD0C0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#C8B8A0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border Name="Border" Padding="12,8" Margin="0,0,4,0" Background="#E8DFD0" CornerRadius="4,4,0,0">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#FAF6F0"/>
+                                <Setter Property="Foreground" Value="#A0734A"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#DDD0C0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Padding" Value="4,2"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" MinHeight="60"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title Bar -->
+            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B6D4C" Offset="0.0"/>
+                        <GradientStop Color="#C4A67A" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <TextBlock Text="项目资产管理器 - Project Asset Manager" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <TextBlock Text="搜索: " VerticalAlignment="Center" Foreground="#FFFFFF" Margin="0,0,5,0"/>
+                        <TextBox x:Name="SearchBox" Width="150" Margin="0,0,20,0" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged"/>
+                        <Button Click="CloseButton_Click" Width="40" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="16" Content="✕">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="bg" Background="Transparent" CornerRadius="0,8,0,0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="bg" Property="Background" Value="#C05040"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Main Content -->
+            <Grid Grid.Row="1" Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TabControl x:Name="MainTabControl" Grid.Row="0" Background="Transparent" BorderThickness="0" SelectionChanged="MainTabControl_SelectionChanged">
+                    <TabItem Header="视图与排版" Tag="Views"/>
+                    <TabItem Header="材质管理" Tag="Materials"/>
+                    <TabItem Header="工作集" Tag="Worksets"/>
+                    <TabItem Header="视图过滤器" Tag="Filters"/>
+                    <TabItem Header="填充图案" Tag="FilledRegions"/>
+                    <TabItem Header="线型管理" Tag="LineStyles"/>
+                    <TabItem Header="系统配置" Tag="System"/>
+                    <TabItem Header="项目链接" Tag="ProjectLinks"/>
+                    <TabItem Header="编组管理" Tag="Groups"/>
+                </TabControl>
+
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250" x:Name="TreeColumn"/>
+                        <ColumnDefinition Width="10" x:Name="SplitterColumn"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Sidebar: TreeView -->
+                    <Border x:Name="TreeBorder" Grid.Column="0" Background="#F0EAE0" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4">
+                        <TreeView x:Name="AssetTreeView" Background="Transparent" BorderThickness="0" Margin="5" SelectedItemChanged="AssetTreeView_SelectedItemChanged">
+                            <TreeView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="删除勾选的节点 (Delete Checked Nodes)" Click="DeleteCheckedNodes_Click"/>
+                                </ContextMenu>
+                            </TreeView.ContextMenu>
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Border>
+
+                    <!-- Center/Right: DataGrid -->
+                    <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4">
+                        <Grid>
+                            <DataGrid x:Name="AssetDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                      HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
+                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0"
+                                      CellEditEnding="AssetDataGrid_CellEditEnding">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="隐藏选中行 (Hide Selected Rows)" Click="HideSelectedRows_Click"/>
+                                        <MenuItem Header="隐藏当前列 (Hide Current Column)" Click="HideCurrentColumn_Click"/>
+                                        <Separator/>
+                                        <MenuItem Header="恢复所有隐藏行 (Restore Hidden Rows)" Click="RestoreHiddenRows_Click"/>
+                                        <MenuItem Header="恢复所有隐藏列 (Restore Hidden Columns)" Click="RestoreHiddenColumns_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="元素ID (ID)" Binding="{Binding AssetIdValue}" IsReadOnly="True" Width="100"/>
+                                    <DataGridTextColumn Header="名称 (Name)" Binding="{Binding AssetName, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid x:Name="FilledRegionDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
+                                      HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
+                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0" RowHeight="35"
+                                      CellEditEnding="FilledRegionDataGrid_CellEditEnding">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="名称 (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
+                                    <DataGridTemplateColumn Header="前景色" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="FilledRegionColor_Click" Tag="Fore" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改前景色">
+                                                    <Border Width="30" Height="20" Background="{Binding ForeColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="前景图案" Width="200">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox ItemsSource="{Binding Path=DataContext.AvailableFillPatterns, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                          SelectedValue="{Binding ForePatternId, UpdateSourceTrigger=PropertyChanged}"
+                                                          SelectedValuePath="Id" SelectionChanged="FillPattern_SelectionChanged" Tag="Fore">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" Margin="5,2" VerticalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="背景色" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="FilledRegionColor_Click" Tag="Back" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改背景色">
+                                                    <Border Width="30" Height="20" Background="{Binding BackColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="背景图案" Width="200">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox ItemsSource="{Binding Path=DataContext.AvailableFillPatterns, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                          SelectedValue="{Binding BackPatternId, UpdateSourceTrigger=PropertyChanged}"
+                                                          SelectedValuePath="Id" SelectionChanged="FillPattern_SelectionChanged" Tag="Back">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" Margin="5,2" VerticalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridCheckBoxColumn Header="遮罩 (Masking)" Binding="{Binding IsMasking, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid x:Name="LineStyleDataGrid" Visibility="Collapsed" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                      HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
+                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0" RowHeight="30"
+                                      CellEditEnding="LineStyleDataGrid_CellEditEnding">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="名称 (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="Margin" Value="5,0"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsBuiltIn}" Value="True">
+                                                        <Setter Property="Foreground" Value="Gray"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="线宽 (Width)" Binding="{Binding LineWeight, UpdateSourceTrigger=Explicit}" Width="80"/>
+                                    <DataGridTemplateColumn Header="颜色 (Color)" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="LineStyleColor_Click" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改颜色">
+                                                    <Border Width="30" Height="15" Background="{Binding ColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="线型图案" Width="250">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox ItemsSource="{Binding Path=DataContext.AvailableLinePatterns, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                          SelectedValue="{Binding LinePatternId, UpdateSourceTrigger=PropertyChanged}"
+                                                          SelectedValuePath="Id" SelectionChanged="LinePattern_SelectionChanged" Margin="2">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" Margin="5,2" VerticalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Bottom Action Bar -->
+            <Border Grid.Row="2" Background="#EDE6DA" CornerRadius="0,0,8,8" BorderBrush="#D5C8B8" BorderThickness="0,1,0,0">
+                <Grid Margin="15,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Name="StatusText" Text="就绪" Foreground="#8A7A68" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <WrapPanel x:Name="DefaultActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5">
+                        <Button x:Name="AnalyzeFilterBtn" ToolTip="深度分析过滤器 (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="#2196F3">
+                            <TextBlock Text="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="删除勾选 (Delete Checked)" Style="{StaticResource IconButton}" Click="DeleteSelected_Click" Foreground="#D32F2F">
+                            <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="清理未使用 (Purge Unused)" Style="{StaticResource IconButton}" Click="PurgeUnused_Click" Foreground="#D32F2F">
+                            <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="批量重命名 (Batch Rename)" Style="{StaticResource IconButton}" Click="BatchRename_Click">
+                            <TextBlock Text="&#xE8AC;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="在视图中选择 (Select In View)" Style="{StaticResource IconButton}" Click="SelectInView_Click">
+                            <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="重置管理器" Style="{StaticResource IconButton}" Click="ResetColumns_Click">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button x:Name="ExportBtn" ToolTip="导出 Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
+                            <TextBlock Text="&#xEDE1;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button x:Name="ImportBtn" ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="#A0734A">
+                            <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                    </WrapPanel>
+                    <WrapPanel x:Name="DuplicateActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5" Visibility="Collapsed">
+                        <Button ToolTip="查找并替换所有图元 (Find &amp; Replace)" Style="{StaticResource IconButton}" Click="FindAndReplaceStyle_Click">
+                            <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                        <Button ToolTip="新建副本 (Duplicate)" Style="{StaticResource IconButton}" Click="DuplicateAsset_Click">
+                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                        </Button>
+                    </WrapPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

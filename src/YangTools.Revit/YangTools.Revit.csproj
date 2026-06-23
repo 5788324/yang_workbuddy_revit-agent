@@ -1,0 +1,118 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>YangTools.Revit</AssemblyName>
+    <RootNamespace>YangTools.Revit</RootNamespace>
+    <Version>1.0.3</Version>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <!-- Revit API 必须编译为 64 位 -->
+    <Platforms>x64</Platforms>
+    <Configurations>2021;2022;2023;2024;2025;2026;2027</Configurations>
+    <!-- 将第三方 NuGet 包的 DLL 随主 DLL 一并输出，防止 Revit 找不到依赖 -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- AppendTargetFrameworkToOutputPath avoids putting things in e.g. bin/x64/2021/net48 -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+  </ItemGroup>
+
+  <!-- 针对 x64 平台设置输出路径与优化开关 -->
+  <PropertyGroup Condition="'$(Platform)' == 'x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <!-- TargetFramework based on Configuration -->
+  <PropertyGroup Condition="'$(Configuration)' == '2021' Or '$(Configuration)' == '2022' Or '$(Configuration)' == '2023' Or '$(Configuration)' == '2024'">
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '2025' Or '$(Configuration)' == '2026'">
+    <TargetFramework>net8.0-windows</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '2027'">
+    <TargetFramework>net10.0-windows</TargetFramework>
+  </PropertyGroup>
+
+  <!-- Defines for conditional compilation -->
+  <PropertyGroup Condition="'$(Configuration)' == '2021'">
+    <DefineConstants>REVIT2021;REVIT2021_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2022'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2023'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER;REVIT2023_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2024'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER;REVIT2023_OR_GREATER;REVIT2024_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2025'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER;REVIT2023_OR_GREATER;REVIT2024_OR_GREATER;REVIT2025_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2026'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER;REVIT2023_OR_GREATER;REVIT2024_OR_GREATER;REVIT2025_OR_GREATER;REVIT2026_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == '2027'">
+    <DefineConstants>REVIT2021_OR_GREATER;REVIT2022_OR_GREATER;REVIT2023_OR_GREATER;REVIT2024_OR_GREATER;REVIT2025_OR_GREATER;REVIT2026_OR_GREATER;REVIT2027_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Reference specific Revit API version -->
+  <ItemGroup>
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(Configuration).*" PrivateAssets="All" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(Configuration).*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- net48 specifics -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <!-- JSON 库与 Python 执行引擎用于 MCP 数据交换与动态脚本执行 -->
+  <ItemGroup>
+    <PackageReference Include="MiniExcel" Version="1.44.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="IronPython" Version="3.4.1" />
+  </ItemGroup>
+
+  <!-- 将 Icons 目录下的图标素材在编译时自动拷贝到本地输出目录 -->
+  <ItemGroup>
+    <None Update="Icons\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- 编译后自动拷贝部署至当前用户的 Revit Addins 目录 -->
+  <Target Name="CopyToRevitAddins" AfterTargets="Build">
+    <PropertyGroup>
+      <RevitAddinsDir>$(AppData)\Autodesk\Revit\Addins</RevitAddinsDir>
+    </PropertyGroup>
+
+    <Message Text="[Auto Deploy] 正在部署至 Revit $(Configuration) Addins 目录..." Importance="high" />
+    
+    <ItemGroup>
+      <DeployDlls Include="$(TargetDir)*.dll" />
+      <DeployPdbs Include="$(TargetDir)*.pdb" />
+      <IconFiles Include="$(TargetDir)Icons\**\*.*" />
+      <DocFiles Include="$(TargetDir)Docs\**\*.*" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="YangTools.Revit.addin" DestinationFolder="$(RevitAddinsDir)\$(Configuration)\" ContinueOnError="true" />
+    <Copy SourceFiles="@(DeployDlls)" DestinationFolder="$(RevitAddinsDir)\$(Configuration)\YangTools\" ContinueOnError="true" />
+    <Copy SourceFiles="@(DeployPdbs)" DestinationFolder="$(RevitAddinsDir)\$(Configuration)\YangTools\" ContinueOnError="true" />
+    <Copy SourceFiles="@(IconFiles)" DestinationFolder="$(RevitAddinsDir)\$(Configuration)\YangTools\Icons\%(RecursiveDir)" ContinueOnError="true" />
+    <Copy SourceFiles="@(DocFiles)" DestinationFolder="$(RevitAddinsDir)\$(Configuration)\YangTools\Docs\%(RecursiveDir)" ContinueOnError="true" />
+  </Target>
+
+</Project>

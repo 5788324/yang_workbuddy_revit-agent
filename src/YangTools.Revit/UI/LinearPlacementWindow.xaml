@@ -1,0 +1,192 @@
+﻿<Window x:Class="YangTools.Revit.UI.LinearPlacementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="线性布置 (Linear Placement)" Height="520" Width="400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" Topmost="True">
+
+    <Window.Resources>
+        <!-- Changan Theme Resources -->
+        <SolidColorBrush x:Key="WindowBg" Color="#FAF6F0"/>
+        <SolidColorBrush x:Key="WindowBorder" Color="#D5C8B8"/>
+        <SolidColorBrush x:Key="PanelBg" Color="#F0EAE0"/>
+        <SolidColorBrush x:Key="PrimaryText" Color="#3A3028"/>
+        <SolidColorBrush x:Key="SecondaryText" Color="#8A7A68"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#A0734A"/>
+
+        <!-- TextBox Style -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="5,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- Button Style -->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#E8DFD0"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#D5C8B8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{StaticResource WindowBg}" BorderBrush="{StaticResource WindowBorder}" BorderThickness="1" CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title Bar -->
+            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B6D4C" Offset="0.0" />
+                        <GradientStop Color="#C4A67A" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <TextBlock Text="线性布置 (Linear Placement)" Foreground="White" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="SemiBold" FontSize="14"/>
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="30" Height="30" Padding="0"
+                            Background="Transparent" BorderThickness="0" Click="CloseButton_Click">
+                        <TextBlock Text="&#xE711;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="15">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#C05040"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20">
+                    <TextBlock Text="选择路线 (Select Path):" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{StaticResource PrimaryText}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button Content="拾取路线 (Pick Path)" Click="PickPath_Click" Padding="10,3" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding PathInfoText}" VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="选择族类型 (Family Type):" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{StaticResource PrimaryText}"/>
+                    <ComboBox ItemsSource="{Binding AvailableSymbols}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedSymbol}" Margin="0,0,0,15" IsEditable="True"/>
+
+                    <TextBlock Text="布置模式 (Placement Mode):" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{StaticResource PrimaryText}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <RadioButton Content="按里程 (Distance)" IsChecked="{Binding IsByDistance}" Margin="0,0,15,0" Foreground="{StaticResource PrimaryText}"/>
+                        <RadioButton Content="按参数 (Parameter, 0~1)" IsChecked="{Binding IsByParameter}" Foreground="{StaticResource PrimaryText}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="细分模式 (Division Mode):" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{StaticResource PrimaryText}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <RadioButton Content="固定间距 (Spacing)" IsChecked="{Binding IsBySpacing}" Margin="0,0,15,0" Foreground="{StaticResource PrimaryText}"/>
+                        <RadioButton Content="固定个数 (Count)" IsChecked="{Binding IsByCount}" Foreground="{StaticResource PrimaryText}"/>
+                    </StackPanel>
+
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="起点 (Start):" Foreground="{StaticResource SecondaryText}" Margin="0,0,0,5"/>
+                            <TextBox Text="{Binding StartValue, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="终点 (End):" Foreground="{StaticResource SecondaryText}" Margin="0,0,0,5"/>
+                            <TextBox Text="{Binding EndValue, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="{Binding SpacingOrCountLabel}" Foreground="{StaticResource SecondaryText}" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding StepValue, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="定向选项 (Orientation Options):" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{StaticResource PrimaryText}"/>
+                    <CheckBox Content="随线转向 (Align to Curve Tangent)" IsChecked="{Binding AlignToCurve}" Margin="0,0,0,8" Foreground="{StaticResource PrimaryText}"/>
+                    <CheckBox Content="保持竖直 (Keep Z Vertical)" IsChecked="{Binding KeepVertical}" Margin="0,0,0,15" Foreground="{StaticResource PrimaryText}"/>
+
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="旋转偏移 (Rotation Offset, 度):" Foreground="{StaticResource SecondaryText}" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding RotationOffset, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="注: 默认沿线(0)，想垂直线填90或-90" Foreground="#A0A0A0" FontSize="11" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Action -->
+            <Border Grid.Row="2" Background="{StaticResource PanelBg}" CornerRadius="0,0,8,8" BorderBrush="{StaticResource WindowBorder}" BorderThickness="0,1,0,0">
+                <Button Content="开始布置 (Start Placement)" Click="StartPlacement_Click" Width="200" Height="32" 
+                        Background="#8B6D4C" Foreground="White" FontWeight="SemiBold" BorderThickness="0">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#A0734A"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

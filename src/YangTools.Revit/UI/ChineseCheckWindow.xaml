@@ -1,0 +1,312 @@
+﻿<Window x:Class="YangTools.Revit.UI.ChineseCheckWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="项目中文检查"
+        Height="650" Width="850"
+        WindowStartupLocation="CenterScreen"
+        Background="#FAF6F0"
+        Foreground="#3A3028"
+        FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        BorderThickness="1"
+        BorderBrush="#D5C8B8"
+        MouseDown="Window_MouseDown">
+
+    <Window.Resources>
+
+        <!-- 普通按钮 -->
+        <Style x:Key="FlatButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#E8DFD0"/>
+            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Padding" Value="14,7"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bd" CornerRadius="6"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#A0734A"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#B0A898"/>
+                                <Setter TargetName="bd" Property="Background" Value="#EDE8E0"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#D8D0C0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 强调按钮（铜色） -->
+        <Style x:Key="AccentButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="18,7"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bd" CornerRadius="6"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#7A5030"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 关闭按钮（标题栏用） -->
+        <Style x:Key="TitleCloseButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#C05040"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ListBox 样式 -->
+        <Style x:Key="CheckListBox" TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="#F5F0E8"/>
+            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
+        <!-- ListBoxItem 样式 -->
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="itemBd"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="itemBd" Property="Background" Value="#E8DFD0"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== 标题栏 ===== -->
+        <Border Grid.Row="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#8B6D4C" Offset="0"/>
+                    <GradientStop Color="#C4A67A" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Text="项目中文检查" FontWeight="Bold" FontSize="17" Foreground="#FFFFFF"/>
+                    <TextBlock Text="  |  扫描族、参数、注释中的中文字符" FontSize="12"
+                               Foreground="#E8D8C4" Margin="6,3,0,0" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <Button Grid.Column="1" Width="32" Height="32"
+                        Content="✕" FontSize="15" FontWeight="Bold"
+                        Style="{StaticResource TitleCloseButton}"
+                        Click="CloseButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- ===== 上半区（族/类型/材质/注释 + 族实例） ===== -->
+        <Grid Grid.Row="1" Margin="14,10,14,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左上：族/族类型/材质/注释 -->
+            <Border Grid.Column="0" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
+                    BorderBrush="#C8B8A0" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="族、族类型、材质、注释 —— 存在中文："
+                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                    <ListBox Grid.Row="1" x:Name="ListFamilyTypes"
+                             Style="{StaticResource CheckListBox}"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                        <Button Content="删除" Style="{StaticResource FlatButton}"
+                                Click="BtnDeleteFamilyTypes_Click" Margin="0,0,6,0" Padding="12,5"/>
+                        <Button Content="导出ID" Style="{StaticResource FlatButton}"
+                                Click="BtnExportFamilyTypeIds_Click" Padding="12,5"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 右上：族实例参数 -->
+            <Border Grid.Column="2" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
+                    BorderBrush="#C8B8A0" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="族实例 —— 存在中文参数："
+                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                    <ListBox Grid.Row="1" x:Name="ListFamilyInstances"
+                             Style="{StaticResource CheckListBox}"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                        <Button Content="删除" Style="{StaticResource FlatButton}"
+                                Click="BtnDeleteInstances_Click" Margin="0,0,6,0" Padding="12,5"/>
+                        <Button Content="导出ID" Style="{StaticResource FlatButton}"
+                                Click="BtnExportInstanceIds_Click" Padding="12,5"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ===== 下半区（SharedParameter + 项目环境） ===== -->
+        <Grid Grid.Row="2" Margin="14,4,14,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左下：项目参数 -->
+            <Border Grid.Column="0" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
+                    BorderBrush="#C8B8A0" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="项目参数 —— 存在中文："
+                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                    <ListBox Grid.Row="1" x:Name="ListProjectParams"
+                             Style="{StaticResource CheckListBox}"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                        <Button Content="删除" Style="{StaticResource FlatButton}"
+                                Click="BtnDeleteProjectParams_Click" Margin="0,0,6,0" Padding="12,5"/>
+                        <Button Content="导出ID" Style="{StaticResource FlatButton}"
+                                Click="BtnExportProjectParamIds_Click" Padding="12,5"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 右下：项目环境（视图名称等） -->
+            <Border Grid.Column="2" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
+                    BorderBrush="#C8B8A0" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="项目环境（视图名称等）："
+                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                    <ListBox Grid.Row="1" x:Name="ListProjectEnv"
+                             Style="{StaticResource CheckListBox}"/>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                        <Button Content="删除" Style="{StaticResource FlatButton}"
+                                Click="BtnDeleteProjectEnv_Click" Margin="0,0,6,0" Padding="12,5"/>
+                        <Button Content="导出ID" Style="{StaticResource FlatButton}"
+                                Click="BtnExportProjectEnvIds_Click" Padding="12,5"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ===== 底部操作栏 ===== -->
+        <Border Grid.Row="3" Background="#EDE6DA"
+                BorderThickness="0,1,0,0" BorderBrush="#C8B8A0">
+            <Grid Margin="14,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="#8A7A68"
+                           TextWrapping="Wrap" Margin="0,0,10,0"
+                           Text="检查内容：所有族(含系统族)的族名、族类型名、族类别名、族参数名/值，以及项目中所有文字注释、视图名称是否包含中文。"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="查询/刷新" Style="{StaticResource FlatButton}"
+                            Click="BtnRefresh_Click" Margin="0,0,8,0"/>
+                    <Button Content="关闭" Style="{StaticResource AccentButton}"
+                            Click="CloseButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

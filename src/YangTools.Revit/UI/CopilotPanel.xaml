@@ -1,0 +1,387 @@
+<Page x:Class="YangTools.Revit.UI.CopilotPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:YangTools.Revit.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="300"
+      Background="#F3F5F8">
+
+    <Page.Resources>
+        <!-- 气泡样式 -->
+        <Style x:Key="UserBubbleStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="#E3F2FD"/>
+            <Setter Property="CornerRadius" Value="10,10,0,10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="20,5,5,5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#CCCCCC" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AiBubbleStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="CornerRadius" Value="10,10,10,0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5,5,20,5"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#CCCCCC" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 隐藏 ScrollViewer 的水平滚动条 -->
+        <Style TargetType="{x:Type ScrollViewer}">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <!-- 正常聊天模式 UI -->
+        <Grid x:Name="ChatUIContainer">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 头部区域 -->
+            <Grid Grid.Row="0" Background="#FFFFFF" Margin="5">
+                <Grid.Effect>
+                    <DropShadowEffect Color="#CCCCCC" BlurRadius="5" Direction="270" ShadowDepth="1" Opacity="0.5"/>
+                </Grid.Effect>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- 头像 -->
+                <Image Grid.Column="0" Source="pack://application:,,,/YangTools.Revit;component/Icons/pet_avatar.png" Width="50" Height="50" Margin="5" Stretch="UniformToFill">
+                    <Image.RenderTransform>
+                        <TranslateTransform x:Name="FloatingTransform" Y="0" />
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                                    <DoubleAnimation Storyboard.TargetName="FloatingTransform" Storyboard.TargetProperty="Y" From="-3" To="3" Duration="0:0:1.5">
+                                        <DoubleAnimation.EasingFunction>
+                                            <SineEase EasingMode="EaseInOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+                
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5,0,0,0">
+                    <TextBlock Text="AI 助手" FontSize="15" FontWeight="Bold" Foreground="#333"/>
+                    <TextBlock Text="待命状态 - 专注 Revit" FontSize="11" Foreground="Gray" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <Button Grid.Column="2" x:Name="HistoryBtn" Content="🕒历史" FontSize="12" Foreground="#888" Background="Transparent" BorderThickness="0" Margin="0,0,5,0" VerticalAlignment="Center" Cursor="Hand" Click="HistoryBtn_Click"/>
+                <Button Grid.Column="3" x:Name="SettingsBtn" Content="⚙设置" FontSize="12" Foreground="#888" Background="Transparent" BorderThickness="0" Margin="0,0,5,0" VerticalAlignment="Center" Cursor="Hand" Click="SettingsBtn_Click"/>
+            </Grid>
+
+            <!-- 对话记录区 -->
+            <ScrollViewer Grid.Row="1" x:Name="ChatScrollViewer" VerticalScrollBarVisibility="Auto" Margin="5">
+                <ItemsControl x:Name="ChatHistoryList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{Binding BubbleStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <ItemsControl Grid.Row="0" ItemsSource="{Binding Segments}" Margin="0,0,0,5">
+                                        <ItemsControl.Resources>
+                                            <DataTemplate DataType="{x:Type local:TextSegment}">
+                                                <TextBox Text="{Binding Content, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" Background="Transparent" TextWrapping="Wrap" Foreground="#333" FontFamily="Microsoft YaHei" FontSize="13" />
+                                            </DataTemplate>
+                                            <DataTemplate DataType="{x:Type local:CodeSegment}">
+                                                <Expander Header="🐍 Python 代码 / 执行结果" IsExpanded="False" Margin="0,5,0,5" Foreground="#666" FontFamily="Microsoft YaHei" FontSize="12">
+                                                    <TextBox Text="{Binding Code, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" Background="#f4f4f4" TextWrapping="Wrap" Foreground="#d14" FontFamily="Consolas" FontSize="13" Padding="5" Margin="0,5,0,0" />
+                                                </Expander>
+                                            </DataTemplate>
+                                        </ItemsControl.Resources>
+                                    </ItemsControl>
+                                    
+                                    <Button Grid.Row="1" Content="C" Visibility="{Binding CopyButtonVisibility}" HorizontalAlignment="Right" Background="#EEEEEE" BorderThickness="0" Foreground="#888" Cursor="Hand" Click="CopyMessage_Click" Margin="0,5,-5,-5" Width="22" Height="22" FontSize="11" ToolTip="复制整条消息内容">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="11" BorderBrush="#DDDDDD" BorderThickness="1">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- 历史记录面板遮罩 (默认隐藏) -->
+            <Border Grid.Row="1" x:Name="HistoryOverlay" Background="#FAFAFA" Visibility="Collapsed" Padding="15" BorderBrush="#E0E0E0" BorderThickness="0,1,0,1" Panel.ZIndex="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="历史对话记录" FontWeight="Bold" FontSize="15" Margin="0,0,0,15" Foreground="#333"/>
+                    <Button Grid.Row="0" HorizontalAlignment="Right" Content="关闭" Width="40" Height="25" Background="#EEE" BorderThickness="0" Cursor="Hand" Click="CancelHistory_Click"/>
+                    
+                    <StackPanel Grid.Row="1">
+                        <Button Content="➕ 新建对话" Background="#2196F3" Foreground="White" BorderThickness="0" Height="30" Margin="0,0,0,10" Cursor="Hand" Click="NewConversation_Click"/>
+                        
+                        <ListBox x:Name="HistoryListBox" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="10,5" Margin="0,0,0,5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Cursor="Hand" MouseLeftButtonUp="SelectConversation_Click" Background="Transparent"/>
+                                            
+                                            <Button Grid.Column="1" Content="✏️" Background="Transparent" BorderThickness="0" Margin="5,0" Cursor="Hand" Click="RenameConversation_Click" ToolTip="重命名"/>
+                                            <Button Grid.Column="2" Content="🗑️" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="DeleteConversation_Click" ToolTip="删除"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 设置面板遮罩 (默认隐藏) -->
+            <Border Grid.Row="1" x:Name="SettingsOverlay" Background="#FAFAFA" Visibility="Collapsed" Padding="15" BorderBrush="#E0E0E0" BorderThickness="0,1,0,1" Panel.ZIndex="10">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="引擎设置" FontWeight="Bold" FontSize="15" Margin="0,0,0,15" Foreground="#333"/>
+                        
+                        <TextBlock Text="MCP Server URL (支持SSE通信):" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                        <TextBox x:Name="McpUrlBox" Padding="5" Margin="0,0,0,12" Background="#FFF" BorderBrush="#CCC"/>
+                        <TextBlock Text="API Base URL (兼容 OpenAI):" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                        <TextBox x:Name="BaseUrlBox" Padding="5" Margin="0,0,0,12" Background="#FFF" BorderBrush="#CCC"/>
+                        
+                        <TextBlock Text="API Key:" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                        <PasswordBox x:Name="ApiKeyBox" Margin="0,0,0,12" Background="#FFF" BorderBrush="#CCC"/>
+                        
+                        <TextBlock Text="模型名称 (Model Name):" FontSize="12" Foreground="#555" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="ModelNameBox" IsEditable="True" Padding="5" Background="#FFF" BorderBrush="#CCC"/>
+                            <Button Grid.Column="1" x:Name="GetModelsBtn" Content="获取模型" Margin="5,0,0,0" Padding="10,0" Background="#2196F3" Foreground="White" BorderThickness="0" Cursor="Hand" Click="GetModels_Click"/>
+                        </Grid>
+                        
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="System Prompt (系统人设):" FontSize="12" Foreground="#555" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="SystemPromptComboBox" Grid.Column="1" Margin="10,0,0,0" Background="#FFF" BorderBrush="#CCC" DisplayMemberPath="Name" SelectionChanged="SystemPromptComboBox_SelectionChanged"/>
+                            <Button x:Name="AddPromptBtn" Grid.Column="2" Content="➕ 新增" Margin="5,0,0,0" Padding="5,2" Background="#4CAF50" Foreground="White" BorderThickness="0" Cursor="Hand" Click="AddPrompt_Click"/>
+                            <Button x:Name="DeletePromptBtn" Grid.Column="3" Content="🗑️ 删除" Margin="5,0,0,0" Padding="5,2" Background="#f44336" Foreground="White" BorderThickness="0" Cursor="Hand" Click="DeletePrompt_Click"/>
+                        </Grid>
+                        <TextBox x:Name="PromptNameBox" Padding="5" Margin="0,0,0,5" Background="#FFF" BorderBrush="#CCC" ToolTip="人设名称" TextChanged="PromptNameBox_TextChanged"/>
+                        <TextBox x:Name="PromptBox" TextWrapping="Wrap" AcceptsReturn="True" Height="100" Padding="5" VerticalScrollBarVisibility="Auto" Margin="0,0,0,15" Background="#FFF" BorderBrush="#CCC" TextChanged="PromptBox_TextChanged"/>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="测试连接" Width="70" Height="28" Margin="0,0,10,0" Background="#4CAF50" Foreground="White" BorderThickness="0" Cursor="Hand" Click="TestConnection_Click"/>
+                            <Button Content="取消" Width="60" Height="28" Margin="0,0,10,0" Background="#EEE" BorderThickness="0" Cursor="Hand" Click="CancelSettings_Click"/>
+                            <Button Content="保存" Width="60" Height="28" Background="#2196F3" Foreground="White" BorderThickness="0" Cursor="Hand" Click="SaveSettings_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- 底部输入区 -->
+            <Border Grid.Row="2" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBox x:Name="InputTextBox" Grid.Column="0" 
+                             MinHeight="40" MaxHeight="100" TextWrapping="Wrap" AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto" Padding="8"
+                             BorderBrush="#D0D0D0" BorderThickness="1"
+                             FontFamily="Microsoft YaHei" FontSize="13"
+                             KeyDown="InputTextBox_KeyDown"
+                             ToolTip="输入需求，回车发送 (Shift+Enter换行)"/>
+                             
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Orientation="Horizontal">
+                        <Button x:Name="UndoButton" Width="40" Height="40" Margin="0,0,5,0"
+                                Background="#f44336" Foreground="White" BorderThickness="0"
+                                Content="撤销" FontWeight="Bold" Cursor="Hand"
+                                Click="UndoButton_Click" ToolTip="撤销上一次对话">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <Button x:Name="SendButton" Width="55" Height="40"
+                                Background="#2196F3" Foreground="White" BorderThickness="0"
+                                Content="发送" FontWeight="Bold" Cursor="Hand"
+                                Click="SendButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 摸鱼伪装模式 UI (伪装成 Revit 原生属性面板) -->
+        <Grid x:Name="MoyuUIContainer" Visibility="Collapsed" Background="#F0F0F0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 顶部 Type Selector 伪装区 -->
+            <ComboBox Grid.Row="0" Margin="5,5,5,0" Background="White" BorderBrush="#A0A0A0" BorderThickness="1" SelectedIndex="0" Height="22" FontFamily="Segoe UI" FontSize="11">
+                <ComboBoxItem Content="Views (Floor Plan)"/>
+                <ComboBoxItem Content="Level 1"/>
+            </ComboBox>
+            
+            <Button Grid.Row="1" Content="Edit Type" Margin="5,5,5,5" HorizontalAlignment="Right" Width="70" Height="22" Background="#E0E0E0" BorderBrush="#A0A0A0" BorderThickness="1" FontFamily="Segoe UI" FontSize="11"/>
+
+            <!-- 假属性列表与实际聊天结合区 -->
+            <!-- 这里可以将真正的聊天输入框伪装成某个属性的输入值 -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="5,0,5,5" Background="White" BorderBrush="#A0A0A0" BorderThickness="1">
+                <Grid>
+                    <!-- 用 StackPanel 放一些假的属性条目 -->
+                    <StackPanel>
+                        <!-- Fake Category: Graphics -->
+                        <Border Background="#D0D0D0" BorderBrush="#A0A0A0" BorderThickness="0,0,0,1" Padding="5,2">
+                            <TextBlock Text="Graphics" FontWeight="Bold" FontFamily="Segoe UI" FontSize="11" Foreground="#333"/>
+                        </Border>
+                        <Grid Background="White" Margin="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" Padding="5,3">
+                                <TextBlock Text="View Scale" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="5,3">
+                                <TextBlock Text="1:100" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                        </Grid>
+                        
+                        <Grid Background="White" Margin="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" Padding="5,3">
+                                <TextBlock Text="Detail Level" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="5,3">
+                                <TextBlock Text="Coarse" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Fake Category: Extents -->
+                        <Border Background="#D0D0D0" BorderBrush="#A0A0A0" BorderThickness="0,0,0,1" Padding="5,2">
+                            <TextBlock Text="Extents" FontWeight="Bold" FontFamily="Segoe UI" FontSize="11" Foreground="#333"/>
+                        </Border>
+                        <Grid Background="White" Margin="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" Padding="5,3">
+                                <TextBlock Text="Crop View" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="5,3">
+                                <CheckBox IsChecked="False"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Fake Category: Identity Data (This is where we hide the Chat!) -->
+                        <Border Background="#D0D0D0" BorderBrush="#A0A0A0" BorderThickness="0,0,0,1" Padding="5,2">
+                            <TextBlock Text="Identity Data" FontWeight="Bold" FontFamily="Segoe UI" FontSize="11" Foreground="#333"/>
+                        </Border>
+                        
+                        <Grid Background="White" Margin="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" Padding="5,3">
+                                <TextBlock Text="View Name" FontFamily="Segoe UI" FontSize="11"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0">
+                                <TextBox x:Name="MoyuInputTextBox" BorderThickness="0" Background="Transparent" 
+                                         FontFamily="Segoe UI" FontSize="11" Padding="5,3"
+                                         TextWrapping="Wrap" AcceptsReturn="True"
+                                         KeyDown="MoyuInputTextBox_KeyDown"
+                                         ToolTip="在此处输入内容... 按 Enter 发送"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Output Area (Fake parameter) -->
+                        <Grid Background="White" Margin="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,1,1" Padding="5,3" VerticalAlignment="Stretch">
+                                <TextBlock Text="Title on Sheet" FontFamily="Segoe UI" FontSize="11" Foreground="Gray"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0">
+                                <TextBox x:Name="MoyuOutputTextBox" BorderThickness="0" Background="Transparent" 
+                                         Foreground="Gray" FontFamily="Segoe UI" FontSize="11" Padding="5,3"
+                                         TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True"
+                                         MinHeight="200" VerticalScrollBarVisibility="Auto"/>
+                            </Border>
+                        </Grid>
+
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- 底部 Apply 按钮 -->
+            <Grid Grid.Row="3" Background="#F0F0F0" Margin="5">
+                <Button Content="Apply" HorizontalAlignment="Right" Width="75" Height="22" Background="#E0E0E0" BorderBrush="#A0A0A0" BorderThickness="1" FontFamily="Segoe UI" FontSize="11" Click="MoyuSendButton_Click"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
