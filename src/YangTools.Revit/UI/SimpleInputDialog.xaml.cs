@@ -9,6 +9,7 @@ namespace YangTools.Revit.UI
         public SimpleInputDialog(string title, string message, string defaultText = "")
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             this.Title = title;
             this.MessageTextBlock.Text = message;
             this.InputTextBox.Text = defaultText;

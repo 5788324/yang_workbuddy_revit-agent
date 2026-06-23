@@ -7,18 +7,18 @@
 
     <Window.Resources>
         <!-- Changan Theme Resources -->
-        <SolidColorBrush x:Key="WindowBg" Color="#FAF6F0"/>
-        <SolidColorBrush x:Key="WindowBorder" Color="#D5C8B8"/>
-        <SolidColorBrush x:Key="PanelBg" Color="#F0EAE0"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="#3A3028"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="#8A7A68"/>
-        <SolidColorBrush x:Key="AccentColor" Color="#A0734A"/>
+        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
+        <SolidColorBrush x:Key="WindowBorder" Color="{DynamicResource WindowBorder}"/>
+        <SolidColorBrush x:Key="PanelBg" Color="{DynamicResource PanelBg}"/>
+        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
+        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
+        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColor}"/>
 
         <!-- TextBox Style -->
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="Padding" Value="5,4"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="#FFFFFF"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
@@ -35,14 +35,14 @@
 
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Background" Value="#FFFFFF"/>
         </Style>
 
         <!-- Button Style -->
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -54,7 +54,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#D5C8B8"/>
+                                <Setter Property="Background" Value="{DynamicResource WindowBorder}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -75,8 +75,8 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0" />
-                        <GradientStop Color="#C4A67A" Offset="1.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -94,7 +94,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#C05040"/>
+                                                    <Setter Property="Background" Value="{DynamicResource DangerBg}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -177,7 +177,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#A0734A"/>
+                                                <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>

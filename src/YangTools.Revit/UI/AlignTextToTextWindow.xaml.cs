@@ -12,6 +12,7 @@ namespace YangTools.Revit.UI
         public AlignTextToTextWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

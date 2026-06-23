@@ -5,21 +5,21 @@
         Height="550"
         Width="500"
         WindowStartupLocation="CenterScreen"
-        Background="#FAF6F0"
-        Foreground="#3A3028"
+        Background="{DynamicResource WindowBg}"
+        Foreground="{DynamicResource PrimaryText}"
         FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
         AllowsTransparency="True"
         WindowStyle="None"
         BorderThickness="1"
-        BorderBrush="#D5C8B8"
+        BorderBrush="{DynamicResource WindowBorder}"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -31,7 +31,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#B0A088"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
@@ -44,7 +44,7 @@
         </Style>
 
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="20,8"/>
@@ -59,7 +59,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#7A5030"/>
@@ -83,7 +83,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#C05040"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DangerBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -92,21 +92,21 @@
         </Style>
 
         <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Margin" Value="0,0,15,0"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
         <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Margin" Value="0,0,15,0"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
         <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="10,7"/>
             <Setter Property="FontSize" Value="13"/>
@@ -118,7 +118,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -143,8 +143,8 @@
         <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                    <GradientStop Color="#C4A67A" Offset="1.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="18,0">
@@ -171,9 +171,9 @@
             </Grid.RowDefinitions>
 
             <!-- 作用范围 -->
-            <Border Grid.Row="0" Background="#F0EAE0" BorderThickness="1" BorderBrush="#C8B8A0" CornerRadius="4" Padding="15,10" Margin="0,0,0,15">
+            <Border Grid.Row="0" Background="{DynamicResource PanelBg}" BorderThickness="1" BorderBrush="{DynamicResource BtnBorder}" CornerRadius="4" Padding="15,10" Margin="0,0,0,15">
                 <StackPanel>
-                    <TextBlock Text="作用范围" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#8A7A68"/>
+                    <TextBlock Text="作用范围" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="{DynamicResource SecondaryText}"/>
                     <StackPanel Orientation="Horizontal">
                         <RadioButton x:Name="RbScopeSelection" Content="当前选中" Style="{StaticResource RadioButtonStyle}" IsChecked="True"/>
                         <RadioButton x:Name="RbScopeView" Content="当前视图" Style="{StaticResource RadioButtonStyle}"/>
@@ -189,13 +189,13 @@
             </StackPanel>
 
             <!-- 查找替换面板 -->
-            <Border x:Name="PanelFindReplace" Grid.Row="2" Background="#F0EAE0" BorderThickness="1" BorderBrush="#C8B8A0" CornerRadius="4" Padding="15,15" Visibility="Visible">
+            <Border x:Name="PanelFindReplace" Grid.Row="2" Background="{DynamicResource PanelBg}" BorderThickness="1" BorderBrush="{DynamicResource BtnBorder}" CornerRadius="4" Padding="15,15" Visibility="Visible">
                 <StackPanel>
                     <TextBlock Text="查找内容：" Margin="0,0,0,5"/>
-                    <TextBox x:Name="TxtFind" Height="32" Padding="5" Background="#F5F0E8" BorderBrush="#C8B8A0" BorderThickness="1" Margin="0,0,0,15"/>
+                    <TextBox x:Name="TxtFind" Height="32" Padding="5" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" Margin="0,0,0,15"/>
 
                     <TextBlock Text="替换为：" Margin="0,0,0,5"/>
-                    <TextBox x:Name="TxtReplace" Height="32" Padding="5" Background="#F5F0E8" BorderBrush="#C8B8A0" BorderThickness="1" Margin="0,0,0,15"/>
+                    <TextBox x:Name="TxtReplace" Height="32" Padding="5" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" Margin="0,0,0,15"/>
 
                     <StackPanel Orientation="Horizontal">
                         <CheckBox x:Name="ChkMatchCase" Content="区分大小写" Style="{StaticResource CheckBoxStyle}"/>
@@ -205,7 +205,7 @@
             </Border>
 
             <!-- 格式化面板 -->
-            <Border x:Name="PanelFormat" Grid.Row="2" Background="#F0EAE0" BorderThickness="1" BorderBrush="#C8B8A0" CornerRadius="4" Padding="15,15" Visibility="Collapsed">
+            <Border x:Name="PanelFormat" Grid.Row="2" Background="{DynamicResource PanelBg}" BorderThickness="1" BorderBrush="{DynamicResource BtnBorder}" CornerRadius="4" Padding="15,15" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -213,7 +213,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                        <ComboBox x:Name="CmbFormats" Width="200" Height="32" Background="#F5F0E8" BorderBrush="#C8B8A0" Padding="5" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="CmbFormats" Width="200" Height="32" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" Padding="5" Margin="0,0,10,0"/>
                         <Button Content="添 加" Style="{StaticResource FlatButton}" Width="70" Click="BtnAddFormat_Click"/>
                     </StackPanel>
 
@@ -223,7 +223,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <ListBox x:Name="LstOperations" Grid.Column="0" Background="#F5F0E8" BorderBrush="#C8B8A0" SelectionMode="Single" Margin="0,0,10,0">
+                        <ListBox x:Name="LstOperations" Grid.Column="0" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" SelectionMode="Single" Margin="0,0,10,0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding DisplayName}" Padding="5"/>
@@ -243,7 +243,7 @@
         </Grid>
 
         <!-- 底部操作栏 -->
-        <Border Grid.Row="2" Background="#EDE6DA" BorderThickness="0,1,0,0" BorderBrush="#C8B8A0">
+        <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BtnBorder}">
             <Grid Margin="24,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

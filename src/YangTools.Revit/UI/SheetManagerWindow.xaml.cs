@@ -41,6 +41,7 @@ namespace YangTools.Revit.UI
         public SheetManagerWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             this.DataContext = this;
             _uiapp = uiapp;
             _doc = uiapp.ActiveUIDocument.Document;

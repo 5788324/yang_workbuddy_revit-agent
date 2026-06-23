@@ -12,6 +12,7 @@ namespace YangTools.Revit.UI
         public AlignTextToLineWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             Options = new AlignToLineOptions();
         }
 

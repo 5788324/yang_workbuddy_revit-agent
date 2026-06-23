@@ -9,9 +9,9 @@
         Loaded="Window_Loaded">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ActionButtonStyle">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="15,5"/>
             <Setter Property="Margin" Value="5"/>
@@ -29,15 +29,15 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#DDD0C0"/>
+                    <Setter Property="Background" Value="{DynamicResource BtnHover}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="PrimaryButtonStyle">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#A0734A"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="15,5"/>
             <Setter Property="Margin" Value="5"/>
@@ -55,14 +55,14 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#8A5E38"/>
+                    <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <!-- ComboBox Item Style safely without nested templates -->
         <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="10,7"/>
             <Setter Property="FontSize" Value="13"/>
@@ -74,7 +74,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -88,7 +88,7 @@
         </Style>
     </Window.Resources>
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="8">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="8">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -100,8 +100,8 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                        <GradientStop Color="#C4A67A" Offset="1.0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -123,7 +123,7 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C05040"/>
+                                        <Setter Property="Background" Value="{DynamicResource DangerBg}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -138,15 +138,15 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="选择目标标高 (保持图元原位置):" Foreground="#3A3028" FontSize="14" Margin="0,0,0,10" Grid.Row="0"/>
+                <TextBlock Text="选择目标标高 (保持图元原位置):" Foreground="{DynamicResource PrimaryText}" FontSize="14" Margin="0,0,0,10" Grid.Row="0"/>
                 
                 <ComboBox x:Name="LevelComboBox" Grid.Row="1" Height="30" DisplayMemberPath="Name" 
-                          Background="#F5F0E8" BorderBrush="#C8B8A0" BorderThickness="1" Foreground="#3A3028">
+                          Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" Foreground="{DynamicResource PrimaryText}">
                 </ComboBox>
             </Grid>
 
             <!-- Bottom Action Area -->
-            <Border Grid.Row="2" Background="#EDE6DA" CornerRadius="0,0,8,8">
+            <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" CornerRadius="0,0,8,8">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
                     <Button Content="取消" Style="{StaticResource ActionButtonStyle}" Click="BtnCancel_Click" Width="80"/>
                     <Button Content="确定" Style="{StaticResource PrimaryButtonStyle}" Click="BtnOk_Click" Width="80"/>

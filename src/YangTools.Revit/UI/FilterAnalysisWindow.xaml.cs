@@ -22,6 +22,7 @@ namespace YangTools.Revit.UI
         public FilterAnalysisWindow(Document doc, ParameterFilterElement filter)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _doc = doc;
             _filter = filter;
             

@@ -24,6 +24,7 @@ namespace YangTools.Revit.UI
         public PasteCadWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             DetectCadClipboard();
         }
 

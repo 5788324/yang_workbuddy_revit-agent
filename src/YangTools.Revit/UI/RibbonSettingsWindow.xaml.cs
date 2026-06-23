@@ -50,6 +50,7 @@ namespace YangTools.Revit.UI
         public RibbonSettingsWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             LoadThemes();
             LoadCommands();
         }

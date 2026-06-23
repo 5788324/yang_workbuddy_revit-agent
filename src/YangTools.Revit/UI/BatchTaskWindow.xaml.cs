@@ -17,6 +17,7 @@ namespace YangTools.Revit.UI
         public BatchTaskWindow(Document doc)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _doc = doc;
             
             _viewModel = new BatchTaskViewModel(doc);

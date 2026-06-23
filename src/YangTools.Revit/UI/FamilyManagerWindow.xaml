@@ -23,7 +23,7 @@
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#E8DFD0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBg}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -35,7 +35,7 @@
                                 <Setter Property="Background" Value="#EAE0D5"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#D5C8B8"/>
+                                <Setter Property="Background" Value="{DynamicResource WindowBorder}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -49,8 +49,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
                         <StackPanel>
-                            <Border Background="#C8B8A0" Padding="10,5">
-                                <TextBlock FontWeight="Bold" Foreground="#3A3028" Text="{Binding Name}" />
+                            <Border Background="{DynamicResource BtnBorder}" Padding="10,5">
+                                <TextBlock FontWeight="Bold" Foreground="{DynamicResource PrimaryText}" Text="{Binding Name}" />
                             </Border>
                             <ItemsPresenter />
                         </StackPanel>
@@ -72,23 +72,23 @@
             <Border CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#A0734A" Offset="0"/>
+                        <GradientStop Color="{DynamicResource AccentColor}" Offset="0"/>
                         <GradientStop Color="#C89F7A" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
                         <TextBlock Text="族文档管理" Foreground="#FFFFFF" FontSize="16" FontWeight="Bold"/>
-                        <TextBlock Text=" Family Manager" Foreground="#F0EAE0" FontSize="14" Margin="5,2,0,0"/>
+                        <TextBlock Text=" Family Manager" Foreground="{DynamicResource PanelBg}" FontSize="14" Margin="5,2,0,0"/>
                     </StackPanel>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="30" Height="30" Background="Transparent" BorderThickness="0" Click="CloseButton_Click" Padding="0">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent" CornerRadius="15">
-                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bg" Property="Background" Value="#C05040"/></Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bg" Property="Background" Value="{DynamicResource DangerBg}"/></Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
@@ -195,7 +195,7 @@
                             <Button ToolTip="导出 Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
                                 <TextBlock Text="&#xEDE1;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
-                            <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="#A0734A">
+                            <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                                 <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
                             <Button ToolTip="删除类型/族 (Delete)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="#D32F2F">

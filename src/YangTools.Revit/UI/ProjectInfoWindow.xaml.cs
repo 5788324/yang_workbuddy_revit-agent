@@ -17,6 +17,7 @@ namespace YangTools.Revit.UI
         public ProjectInfoWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
             _doc = uiapp.ActiveUIDocument.Document;
             LoadInfo();

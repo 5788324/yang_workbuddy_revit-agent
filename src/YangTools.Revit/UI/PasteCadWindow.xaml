@@ -4,22 +4,22 @@
         Title="从 CAD 粘贴"
         Height="540" Width="600"
         WindowStartupLocation="CenterScreen"
-        Background="#FAF6F0"
-        Foreground="#3A3028"
+        Background="{DynamicResource WindowBg}"
+        Foreground="{DynamicResource PrimaryText}"
         FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
         AllowsTransparency="True"
         WindowStyle="None"
         BorderThickness="1"
-        BorderBrush="#D5C8B8"
+        BorderBrush="{DynamicResource WindowBorder}"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
         <!-- 普通按钮 -->
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Padding" Value="14,8"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -36,8 +36,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#DDD0C0"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#A0734A"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
@@ -55,7 +55,7 @@
 
         <!-- 强调色按钮 -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="18,8"/>
@@ -72,13 +72,13 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#704A28"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#C8B8A0"/>
+                                <Setter Property="Foreground" Value="{DynamicResource BtnBorder}"/>
                                 <Setter TargetName="bd" Property="Background" Value="#C8B090"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -89,7 +89,7 @@
 
         <!-- ComboBoxItem 样式 -->
         <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="10,7"/>
             <Setter Property="FontSize" Value="13"/>
@@ -103,7 +103,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -128,8 +128,8 @@
         <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0"/>
-                    <GradientStop Color="#C4A67A" Offset="1"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="18,0">
@@ -153,7 +153,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="closebd" Property="Background" Value="#C05040"/>
+                                    <Setter TargetName="closebd" Property="Background" Value="{DynamicResource DangerBg}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -179,7 +179,7 @@
                         <TextBlock x:Name="TxtStatusTitle" Text="检测状态"
                                    FontSize="13" FontWeight="Bold" Margin="0,0,0,4"/>
                         <TextBlock x:Name="TxtStatusDesc" Text="状态描述..."
-                                   FontSize="11" Foreground="#8A7A68"
+                                   FontSize="11" Foreground="{DynamicResource SecondaryText}"
                                    TextWrapping="Wrap" LineHeight="17"/>
                     </StackPanel>
                 </Grid>
@@ -192,11 +192,11 @@
                     <ColumnDefinition Width="8"/>
                     <ColumnDefinition Width="108"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Background="#F5F0E8"
-                        BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="6">
+                <Border Grid.Column="0" Background="{DynamicResource GridHover}"
+                        BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="6">
                     <TextBlock x:Name="TxtSelectedFile"
                                Text="（自动检测 AutoCAD 剪贴板文件）"
-                               FontSize="11" Foreground="#8A7A68"
+                               FontSize="11" Foreground="{DynamicResource SecondaryText}"
                                VerticalAlignment="Center"
                                Margin="10,0" TextTrimming="CharacterEllipsis" Height="32"/>
                 </Border>
@@ -209,7 +209,7 @@
 
             <!-- 导入参数标题 -->
             <TextBlock Text="导入参数设置" FontSize="13" FontWeight="Bold"
-                       Foreground="#A0734A" Margin="0,0,0,12"/>
+                       Foreground="{DynamicResource AccentColor}" Margin="0,0,0,12"/>
 
             <!-- 导入单位 -->
             <Grid Margin="0,0,0,10">
@@ -219,11 +219,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="导入单位：" VerticalAlignment="Center"
                            FontSize="13" Foreground="#5A5040"/>
-                <Border Grid.Column="1" Background="#F5F0E8" BorderBrush="#C8B8A0"
+                <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboUnits" SelectedIndex="1"
                               Background="Transparent" BorderThickness="0"
-                              Foreground="#3A3028" FontSize="13" Height="32">
+                              Foreground="{DynamicResource PrimaryText}" FontSize="13" Height="32">
                         <ComboBoxItem>自动检测</ComboBoxItem>
                         <ComboBoxItem>毫米 (mm)</ComboBoxItem>
                         <ComboBoxItem>厘米 (cm)</ComboBoxItem>
@@ -243,11 +243,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="颜色模式：" VerticalAlignment="Center"
                            FontSize="13" Foreground="#5A5040"/>
-                <Border Grid.Column="1" Background="#F5F0E8" BorderBrush="#C8B8A0"
+                <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboColors" SelectedIndex="0"
                               Background="Transparent" BorderThickness="0"
-                              Foreground="#3A3028" FontSize="13" Height="32">
+                              Foreground="{DynamicResource PrimaryText}" FontSize="13" Height="32">
                         <ComboBoxItem>保留色彩</ComboBoxItem>
                         <ComboBoxItem>黑白模式</ComboBoxItem>
                         <ComboBoxItem>反色模式</ComboBoxItem>
@@ -263,11 +263,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="定位方式：" VerticalAlignment="Center"
                            FontSize="13" Foreground="#5A5040"/>
-                <Border Grid.Column="1" Background="#F5F0E8" BorderBrush="#C8B8A0"
+                <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboPlacement" SelectedIndex="0"
                               Background="Transparent" BorderThickness="0"
-                              Foreground="#3A3028" FontSize="13" Height="32">
+                              Foreground="{DynamicResource PrimaryText}" FontSize="13" Height="32">
                         <ComboBoxItem>原点到原点</ComboBoxItem>
                         <ComboBoxItem>中心到中心</ComboBoxItem>
                     </ComboBox>
@@ -288,15 +288,15 @@
         </StackPanel>
 
         <!-- 底部操作栏 -->
-        <Border Grid.Row="2" Background="#EDE6DA"
-                BorderThickness="0,1,0,0" BorderBrush="#D5C8B8">
+        <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}"
+                BorderThickness="0,1,0,0" BorderBrush="{DynamicResource WindowBorder}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="数据从 AutoCAD 剪贴板临时缓存提取"
-                           VerticalAlignment="Center" FontSize="11" Foreground="#8A7A68"/>
+                           VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource SecondaryText}"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button Content="重新检测" Style="{StaticResource FlatButton}"
                             Click="BtnRedetect_Click" Margin="0,0,10,0"/>

@@ -7,7 +7,7 @@
 
     <Window.Resources>
         <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="10,7"/>
             <Setter Property="FontSize" Value="13"/>
@@ -19,7 +19,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
@@ -33,7 +33,7 @@
         </Style>
     </Window.Resources>
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4" MouseLeftButtonDown="Window_MouseLeftButtonDown">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -45,8 +45,8 @@
             <Border CornerRadius="3,3,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0"/>
-                        <GradientStop Color="#C4A67A" Offset="1"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -61,7 +61,7 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C05040"/>
+                                        <Setter Property="Background" Value="{DynamicResource DangerBg}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -71,9 +71,9 @@
             </Border>
 
             <!-- Content -->
-            <StackPanel Grid.Row="1" Margin="20" Background="#F0EAE0">
-                <TextBlock Text="排序方式：" Foreground="#3A3028" Margin="0,0,0,5"/>
-                <ComboBox x:Name="cmbSortBy" Background="#F5F0E8" BorderBrush="#C8B8A0" SelectedIndex="0" Margin="0,0,0,15">
+            <StackPanel Grid.Row="1" Margin="20" Background="{DynamicResource PanelBg}">
+                <TextBlock Text="排序方式：" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbSortBy" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" SelectedIndex="0" Margin="0,0,0,15">
                     <ComboBoxItem Content="选择顺序" Tag="SelectionOrder"/>
                     <ComboBoxItem Content="X 坐标递增 (从左到右)" Tag="XAsc"/>
                     <ComboBoxItem Content="X 坐标递减 (从右到左)" Tag="XDesc"/>
@@ -81,18 +81,18 @@
                     <ComboBoxItem Content="Y 坐标递增 (从下到上)" Tag="YAsc"/>
                 </ComboBox>
 
-                <TextBlock Text="分布方向：" Foreground="#3A3028" Margin="0,0,0,5"/>
-                <ComboBox x:Name="cmbDistributeDir" Background="#F5F0E8" BorderBrush="#C8B8A0" SelectedIndex="1" Margin="0,0,0,15">
+                <TextBlock Text="分布方向：" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbDistributeDir" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" SelectedIndex="1" Margin="0,0,0,15">
                     <ComboBoxItem Content="不分布 (仅对齐)" Tag="None"/>
                     <ComboBoxItem Content="沿 Y 轴 (垂直间距)" Tag="Y"/>
                     <ComboBoxItem Content="沿 X 轴 (水平间距)" Tag="X"/>
                 </ComboBox>
 
-                <TextBlock Text="固定间距 (mm)：" Foreground="#3A3028" Margin="0,0,0,5"/>
-                <TextBox x:Name="txtSpacing" Text="500" Background="#F5F0E8" BorderBrush="#C8B8A0" Padding="4" Margin="0,0,0,15"/>
+                <TextBlock Text="固定间距 (mm)：" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtSpacing" Text="500" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" Padding="4" Margin="0,0,0,15"/>
 
-                <TextBlock Text="基线对齐方式：" Foreground="#3A3028" Margin="0,0,0,5"/>
-                <ComboBox x:Name="cmbAlignMode" Background="#F5F0E8" BorderBrush="#C8B8A0" SelectedIndex="1">
+                <TextBlock Text="基线对齐方式：" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbAlignMode" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" SelectedIndex="1">
                     <ComboBoxItem Content="保持原状" Tag="None"/>
                     <ComboBoxItem Content="对齐到第一个元素的 X (垂直排版用)" Tag="AlignX"/>
                     <ComboBoxItem Content="对齐到第一个元素的 Y (水平排版用)" Tag="AlignY"/>
@@ -100,12 +100,12 @@
             </StackPanel>
 
             <!-- Bottom Bar -->
-            <Border Grid.Row="2" Background="#EDE6DA" BorderBrush="#C8B8A0" BorderThickness="0,1,0,0" CornerRadius="0,0,3,3">
+            <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,1,0,0" CornerRadius="0,0,3,3">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
                     <Button Content="取消" Width="70" Height="28" Margin="0,0,10,0" Click="BtnCancel_Click"
-                            Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028"/>
+                            Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}"/>
                     <Button Content="确定" Width="70" Height="28" Click="BtnOk_Click"
-                            Background="#A0734A" BorderBrush="#8A5E38" Foreground="#FFFFFF" FontWeight="Bold"/>
+                            Background="{DynamicResource AccentColor}" BorderBrush="{DynamicResource AccentHover}" Foreground="#FFFFFF" FontWeight="Bold"/>
                 </StackPanel>
             </Border>
         </Grid>

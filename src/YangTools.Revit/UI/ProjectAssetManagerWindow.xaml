@@ -10,9 +10,9 @@
         FontFamily="Microsoft YaHei">
     <Window.Resources>
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="15,6"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -28,10 +28,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DDD0C0"/>
+                                <Setter Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#C8B8A0"/>
+                                <Setter Property="Background" Value="{DynamicResource BtnBorder}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -40,9 +40,9 @@
         </Style>
         
         <Style x:Key="PrimaryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#A0734A"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -54,7 +54,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#8A5E38"/>
+                                <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -78,10 +78,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="bg" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bg" Property="Background" Value="#C8B8A0"/>
+                                <Setter TargetName="bg" Property="Background" Value="{DynamicResource BtnBorder}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -93,17 +93,17 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
-                        <Border Name="Border" Padding="12,8" Margin="0,0,4,0" Background="#E8DFD0" CornerRadius="4,4,0,0">
+                        <Border Name="Border" Padding="12,8" Margin="0,0,4,0" Background="{DynamicResource BtnBg}" CornerRadius="4,4,0,0">
                             <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#FAF6F0"/>
-                                <Setter Property="Foreground" Value="#A0734A"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource WindowBg}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -112,12 +112,12 @@
         </Style>
         
         <Style TargetType="{x:Type TreeViewItem}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Padding" Value="4,2"/>
         </Style>
     </Window.Resources>
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="8">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="8">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -129,8 +129,8 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                        <GradientStop Color="#C4A67A" Offset="1.0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -146,7 +146,7 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="bg" Property="Background" Value="#C05040"/>
+                                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource DangerBg}"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -183,7 +183,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Left Sidebar: TreeView -->
-                    <Border x:Name="TreeBorder" Grid.Column="0" Background="#F0EAE0" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4">
+                    <Border x:Name="TreeBorder" Grid.Column="0" Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4">
                         <TreeView x:Name="AssetTreeView" Background="Transparent" BorderThickness="0" Margin="5" SelectedItemChanged="AssetTreeView_SelectedItemChanged">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
@@ -202,12 +202,12 @@
                     </Border>
 
                     <!-- Center/Right: DataGrid -->
-                    <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4">
+                    <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4">
                         <Grid>
                             <DataGrid x:Name="AssetDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" 
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
                                       RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
-                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0"
+                                      HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}"
                                       CellEditEnding="AssetDataGrid_CellEditEnding">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
@@ -227,7 +227,7 @@
                             <DataGrid x:Name="FilledRegionDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
                                       RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
-                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0" RowHeight="35"
+                                      HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="35"
                                       CellEditEnding="FilledRegionDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="名称 (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
@@ -286,7 +286,7 @@
                             <DataGrid x:Name="LineStyleDataGrid" Visibility="Collapsed" AutoGenerateColumns="False" CanUserAddRows="False" 
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
                                       RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
-                                      HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0" RowHeight="30"
+                                      HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="30"
                                       CellEditEnding="LineStyleDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="名称 (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200">
@@ -335,10 +335,10 @@
             </Grid>
 
             <!-- Bottom Action Bar -->
-            <Border Grid.Row="2" Background="#EDE6DA" CornerRadius="0,0,8,8" BorderBrush="#D5C8B8" BorderThickness="0,1,0,0">
+            <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="0,1,0,0">
                 <Grid Margin="15,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock x:Name="StatusText" Text="就绪" Foreground="#8A7A68" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="StatusText" Text="就绪" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <WrapPanel x:Name="DefaultActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5">
                         <Button x:Name="AnalyzeFilterBtn" ToolTip="深度分析过滤器 (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="#2196F3">
@@ -362,7 +362,7 @@
                         <Button x:Name="ExportBtn" ToolTip="导出 Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
                             <TextBlock Text="&#xEDE1;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button x:Name="ImportBtn" ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="#A0734A">
+                        <Button x:Name="ImportBtn" ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                             <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
                     </WrapPanel>

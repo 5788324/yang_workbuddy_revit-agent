@@ -7,6 +7,7 @@ namespace YangTools.Revit.UI
         public McpStatusWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)

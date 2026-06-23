@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="输入" Width="350" SizeToContent="Height" MinHeight="160"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        Background="#FAF6F0" FontFamily="Microsoft YaHei"
+        Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei"
         WindowStyle="ToolWindow">
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -13,12 +13,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="MessageTextBlock" Text="请输入名称：" FontWeight="Bold" Margin="0,0,0,10" Foreground="#3A3028"/>
+        <TextBlock x:Name="MessageTextBlock" Text="请输入名称：" FontWeight="Bold" Margin="0,0,0,10" Foreground="{DynamicResource PrimaryText}"/>
 
         <TextBox x:Name="InputTextBox" Grid.Row="1" Padding="4" Margin="0,0,0,15" VerticalAlignment="Center"/>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="确认 (OK)" Width="80" Padding="5" Margin="0,0,10,0" Background="#A0734A" Foreground="White" BorderThickness="0" Click="OkButton_Click"/>
+            <Button Content="确认 (OK)" Width="80" Padding="5" Margin="0,0,10,0" Background="{DynamicResource AccentColor}" Foreground="White" BorderThickness="0" Click="OkButton_Click"/>
             <Button Content="取消 (Cancel)" Width="80" Padding="5" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>

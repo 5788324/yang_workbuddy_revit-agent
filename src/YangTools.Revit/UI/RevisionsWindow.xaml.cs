@@ -13,6 +13,7 @@ namespace YangTools.Revit.UI
         public RevisionsWindow(Document doc, ViewSheet sheet)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
 
             var allRevisions = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_Revisions)

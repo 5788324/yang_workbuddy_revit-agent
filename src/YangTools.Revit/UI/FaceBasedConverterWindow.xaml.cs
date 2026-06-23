@@ -24,6 +24,7 @@ namespace YangTools.Revit.UI
         public FaceBasedConverterWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
             _doc = uiapp.ActiveUIDocument.Document;
 

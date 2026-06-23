@@ -12,6 +12,7 @@ namespace YangTools.Revit.UI
         public AssistantWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             SetGreeting();
         }
 

@@ -15,6 +15,7 @@ namespace YangTools.Revit.UI
         public LevelModifierWindow(List<Level> levels)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             LevelComboBox.ItemsSource = levels;
             if (levels.Count > 0)
             {

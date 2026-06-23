@@ -4,22 +4,22 @@
         Title="项目统计信息"
         Height="700" Width="600"
         WindowStartupLocation="CenterScreen"
-        Background="#FAF6F0"
-        Foreground="#3A3028"
+        Background="{DynamicResource WindowBg}"
+        Foreground="{DynamicResource PrimaryText}"
         FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
         AllowsTransparency="True"
         WindowStyle="None"
         BorderThickness="1"
-        BorderBrush="#D5C8B8"
+        BorderBrush="{DynamicResource WindowBorder}"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
         <!-- 普通按钮 -->
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Padding" Value="15,8"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -36,8 +36,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#DDD0C0"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#A0734A"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
@@ -54,7 +54,7 @@
 
         <!-- 强调色按钮 -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="18,8"/>
@@ -71,7 +71,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#704A28"/>
@@ -98,8 +98,8 @@
         <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                    <GradientStop Color="#C4A67A" Offset="1.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="18,0">
@@ -122,7 +122,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="closebd" Property="Background" Value="#C05040"/>
+                                    <Setter TargetName="closebd" Property="Background" Value="{DynamicResource DangerBg}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -137,28 +137,28 @@
                 <!-- Card 1: 基本信息 -->
                 <TextBlock Text="基本信息 (Basic Info)"
                            FontSize="14" FontWeight="SemiBold"
-                           Foreground="#A0734A" Margin="0,0,0,8"/>
-                <Border Background="#F0EAE0" CornerRadius="8"
-                        BorderThickness="1" BorderBrush="#D5C8B8" Padding="15" Margin="0,0,0,16">
+                           Foreground="{DynamicResource AccentColor}" Margin="0,0,0,8"/>
+                <Border Background="{DynamicResource PanelBg}" CornerRadius="8"
+                        BorderThickness="1" BorderBrush="{DynamicResource WindowBorder}" Padding="15" Margin="0,0,0,16">
                     <Border.Effect>
                         <DropShadowEffect Color="#000000" Opacity="0.05" BlurRadius="5" ShadowDepth="2"/>
                     </Border.Effect>
                     <StackPanel>
                         <!-- Revit Version -->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="Revit 版本" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="TxtRevitVersion" Text="加载中..." FontSize="13" Foreground="#3A3028"/>
+                            <TextBlock Text="Revit 版本" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="TxtRevitVersion" Text="加载中..." FontSize="13" Foreground="{DynamicResource PrimaryText}"/>
                         </StackPanel>
 
                         <!-- File Name -->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="文件名称" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="TxtFileName" Text="加载中..." FontSize="13" Foreground="#3A3028"/>
+                            <TextBlock Text="文件名称" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="TxtFileName" Text="加载中..." FontSize="13" Foreground="{DynamicResource PrimaryText}"/>
                         </StackPanel>
 
                         <!-- File Path -->
                         <StackPanel Margin="0,0,0,10">
-                            <TextBlock Text="本地文档路径" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                            <TextBlock Text="本地文档路径" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -166,14 +166,14 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="TxtDocPath" Text="加载中..." FontSize="13"
                                          Background="Transparent" BorderThickness="0" IsReadOnly="True"
-                                         Foreground="#3A3028" TextWrapping="Wrap" Margin="0,0,10,0"/>
+                                         Foreground="{DynamicResource PrimaryText}" TextWrapping="Wrap" Margin="0,0,10,0"/>
                                 <Button Grid.Column="1" Content="复制/Copy" Style="{StaticResource FlatButton}" Padding="8,4" FontSize="11" Click="CopyPath_Click" VerticalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
 
                         <!-- 中心文件路径 -->
                         <StackPanel x:Name="PanelCentralPath" Margin="0,0,0,10" Visibility="Collapsed">
-                            <TextBlock Text="中心模型路径" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                            <TextBlock Text="中心模型路径" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -181,13 +181,13 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="TxtCentralPath" Text="加载中..." FontSize="13"
                                          Background="Transparent" BorderThickness="0" IsReadOnly="True"
-                                         Foreground="#3A3028" TextWrapping="Wrap" Margin="0,0,10,0"/>
+                                         Foreground="{DynamicResource PrimaryText}" TextWrapping="Wrap" Margin="0,0,10,0"/>
                                 <Button Grid.Column="1" Content="复制/Copy" Style="{StaticResource FlatButton}" Padding="8,4" FontSize="11" Click="CopyCentralPath_Click" VerticalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
 
                         <!-- 分割线 -->
-                        <Rectangle Fill="#D5C8B8" Height="1" Margin="0,4,0,10"/>
+                        <Rectangle Fill="{DynamicResource WindowBorder}" Height="1" Margin="0,4,0,10"/>
 
                         <!-- 文件大小和修改时间 -->
                         <Grid Margin="0,0,0,0">
@@ -198,17 +198,17 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="当前文件大小" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="当前文件大小" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtFileSize" Text="0 MB" FontSize="14"
-                                           FontWeight="Medium" Foreground="#3A3028"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource PrimaryText}"/>
                             </StackPanel>
 
-                            <Rectangle Grid.Column="1" Fill="#D5C8B8" Width="1"/>
+                            <Rectangle Grid.Column="1" Fill="{DynamicResource WindowBorder}" Width="1"/>
 
                             <StackPanel Grid.Column="2" Margin="15,0,0,0">
-                                <TextBlock Text="最后修改时间" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="最后修改时间" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtLastModified" Text="-" FontSize="14"
-                                           FontWeight="Medium" Foreground="#3A3028"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource PrimaryText}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -217,9 +217,9 @@
                 <!-- Card 2: 瘦身预估 -->
                 <TextBlock Text="瘦身预估 (Purge Estimation)"
                            FontSize="14" FontWeight="SemiBold"
-                           Foreground="#A0734A" Margin="0,0,0,8"/>
-                <Border Background="#F0EAE0" CornerRadius="8"
-                        BorderThickness="1" BorderBrush="#D5C8B8" Padding="15">
+                           Foreground="{DynamicResource AccentColor}" Margin="0,0,0,8"/>
+                <Border Background="{DynamicResource PanelBg}" CornerRadius="8"
+                        BorderThickness="1" BorderBrush="{DynamicResource WindowBorder}" Padding="15">
                     <Border.Effect>
                         <DropShadowEffect Color="#000000" Opacity="0.05" BlurRadius="5" ShadowDepth="2"/>
                     </Border.Effect>
@@ -232,21 +232,21 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="可清理的未使用图元数" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="可清理的未使用图元数" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtUnusedCount" Text="加载中..." FontSize="14"
                                            FontWeight="Medium" Foreground="#C08030"/>
                             </StackPanel>
 
-                            <Rectangle Grid.Column="1" Fill="#D5C8B8" Width="1"/>
+                            <Rectangle Grid.Column="1" Fill="{DynamicResource WindowBorder}" Width="1"/>
 
                             <StackPanel Grid.Column="2" Margin="15,0,0,0">
-                                <TextBlock Text="当前大小" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="当前大小" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtCurrentSizeCard2" Text="-" FontSize="14"
-                                           FontWeight="Medium" Foreground="#3A3028"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource PrimaryText}"/>
                             </StackPanel>
                         </Grid>
 
-                        <Rectangle Fill="#D5C8B8" Height="1" Margin="0,0,0,10"/>
+                        <Rectangle Fill="{DynamicResource WindowBorder}" Height="1" Margin="0,0,0,10"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -256,15 +256,15 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="清理后预计大小" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="清理后预计大小" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtPurgedSize" Text="-" FontSize="14"
                                            FontWeight="Medium" Foreground="#5A7A3A"/>
                             </StackPanel>
 
-                            <Rectangle Grid.Column="1" Fill="#D5C8B8" Width="1"/>
+                            <Rectangle Grid.Column="1" Fill="{DynamicResource WindowBorder}" Width="1"/>
 
                             <StackPanel Grid.Column="2" Margin="15,0,0,0">
-                                <TextBlock Text="预计可节省空间" FontSize="11" Foreground="#8A7A68" Margin="0,0,0,4"/>
+                                <TextBlock Text="预计可节省空间" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtSavedSize" Text="-" FontSize="14"
                                            FontWeight="Medium" Foreground="#5A7A3A"/>
                             </StackPanel>
@@ -275,14 +275,14 @@
         </ScrollViewer>
 
         <!-- 底部操作栏 -->
-        <Border Grid.Row="2" Background="#EDE6DA" BorderThickness="0,1,0,0" BorderBrush="#D5C8B8">
+        <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource WindowBorder}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="TxtStatus" Text="就绪"
-                           VerticalAlignment="Center" FontSize="12" Foreground="#8A7A68"/>
+                           VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource SecondaryText}"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="BtnCalculatePurge" Content="计算清理后大小" Style="{StaticResource AccentButton}"
                             Click="BtnCalculatePurge_Click" Margin="0,0,10,0"/>

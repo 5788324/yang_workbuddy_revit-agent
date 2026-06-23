@@ -3,17 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="基于面族 → 常规模型族 转换工具" Width="750" Height="520"
         WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip"
-        Background="#FAF6F0" FontFamily="Microsoft YaHei"
+        Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei"
         WindowStyle="None" AllowsTransparency="True"
         BorderBrush="#C4A882" BorderThickness="1">
 
     <Window.Resources>
-        <SolidColorBrush x:Key="WindowBg" Color="#FAF6F0"/>
+        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
         <SolidColorBrush x:Key="PanelBg" Color="#F5EDE3"/>
         <SolidColorBrush x:Key="WindowBorder" Color="#C4A882"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="#3A3028"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="#8A7A68"/>
-        <SolidColorBrush x:Key="AccentColor" Color="#A0734A"/>
+        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
+        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
+        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColor}"/>
         <SolidColorBrush x:Key="BtnBg" Color="#E8DDD0"/>
         <SolidColorBrush x:Key="BtnHoverBg" Color="#D4C4B0"/>
         <SolidColorBrush x:Key="SuccessColor" Color="#5C8B4C"/>

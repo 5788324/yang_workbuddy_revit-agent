@@ -37,6 +37,7 @@ namespace YangTools.Revit.UI
         public DistributeTextWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -16,6 +16,7 @@ namespace YangTools.Revit.UI
         public MicroToolWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             LoadProjects();
         }
 

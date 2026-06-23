@@ -7,15 +7,15 @@
         Loaded="Window_Loaded" MouseDown="Window_MouseDown">
     <Window.Resources>
         <!-- Colors -->
-        <SolidColorBrush x:Key="WindowBgBrush" Color="#FAF6F0" />
-        <SolidColorBrush x:Key="WindowBorderBrush" Color="#D5C8B8" />
-        <SolidColorBrush x:Key="CardBgBrush" Color="#F0EAE0" />
-        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#3A3028" />
-        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#8A7A68" />
-        <SolidColorBrush x:Key="AccentBrush" Color="#A0734A" />
-        <SolidColorBrush x:Key="ButtonBgBrush" Color="#E8DFD0" />
-        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#C8B8A0" />
-        <SolidColorBrush x:Key="BottomBarBgBrush" Color="#EDE6DA" />
+        <SolidColorBrush x:Key="WindowBgBrush" Color="{DynamicResource WindowBg}" />
+        <SolidColorBrush x:Key="WindowBorderBrush" Color="{DynamicResource WindowBorder}" />
+        <SolidColorBrush x:Key="CardBgBrush" Color="{DynamicResource PanelBg}" />
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource PrimaryText}" />
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource SecondaryText}" />
+        <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}" />
+        <SolidColorBrush x:Key="ButtonBgBrush" Color="{DynamicResource BtnBg}" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="{DynamicResource BtnBorder}" />
+        <SolidColorBrush x:Key="BottomBarBgBrush" Color="{DynamicResource BottomBarBg}" />
 
         <Style x:Key="StandardButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource ButtonBgBrush}"/>
@@ -32,7 +32,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -52,7 +52,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -72,7 +72,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#C05040"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource DangerBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -102,8 +102,8 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0"/>
-                        <GradientStop Color="#C4A67A" Offset="1"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>

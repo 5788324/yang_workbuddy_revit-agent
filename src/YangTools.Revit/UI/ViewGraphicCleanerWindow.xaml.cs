@@ -20,6 +20,7 @@ namespace YangTools.Revit.UI
         public ViewGraphicCleanerWindow(Document doc)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _doc = doc;
             _allViews = new ObservableCollection<CleanerViewItem>();
             _filteredViews = new ObservableCollection<CleanerViewItem>();

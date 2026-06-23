@@ -26,6 +26,7 @@ namespace YangTools.Revit.UI
         public DimTextOverrideWindow(int selectedCount)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
 
             OverrideText = string.Empty;
             IsClear = false;

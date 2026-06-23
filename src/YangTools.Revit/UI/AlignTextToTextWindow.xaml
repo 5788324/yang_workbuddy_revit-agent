@@ -5,7 +5,7 @@
         AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
         Background="Transparent">
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4" MouseLeftButtonDown="Window_MouseLeftButtonDown">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -17,8 +17,8 @@
             <Border CornerRadius="3,3,0,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0"/>
-                        <GradientStop Color="#C4A67A" Offset="1"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -33,7 +33,7 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C05040"/>
+                                        <Setter Property="Background" Value="{DynamicResource DangerBg}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -43,19 +43,19 @@
             </Border>
 
             <!-- Content -->
-            <StackPanel Grid.Row="1" Margin="20" Background="#F0EAE0">
-                <CheckBox x:Name="chkAlignX" Content="对齐 X 坐标 (垂直对齐)" Foreground="#3A3028" IsChecked="True" Margin="0,0,0,10"/>
-                <CheckBox x:Name="chkAlignY" Content="对齐 Y 坐标 (水平对齐)" Foreground="#3A3028" IsChecked="False" Margin="0,0,0,10"/>
-                <CheckBox x:Name="chkAlignRot" Content="对齐旋转角度" Foreground="#3A3028" IsChecked="True" Margin="0,0,0,0"/>
+            <StackPanel Grid.Row="1" Margin="20" Background="{DynamicResource PanelBg}">
+                <CheckBox x:Name="chkAlignX" Content="对齐 X 坐标 (垂直对齐)" Foreground="{DynamicResource PrimaryText}" IsChecked="True" Margin="0,0,0,10"/>
+                <CheckBox x:Name="chkAlignY" Content="对齐 Y 坐标 (水平对齐)" Foreground="{DynamicResource PrimaryText}" IsChecked="False" Margin="0,0,0,10"/>
+                <CheckBox x:Name="chkAlignRot" Content="对齐旋转角度" Foreground="{DynamicResource PrimaryText}" IsChecked="True" Margin="0,0,0,0"/>
             </StackPanel>
 
             <!-- Bottom Bar -->
-            <Border Grid.Row="2" Background="#EDE6DA" BorderBrush="#C8B8A0" BorderThickness="0,1,0,0" CornerRadius="0,0,3,3">
+            <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,1,0,0" CornerRadius="0,0,3,3">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
                     <Button Content="取消" Width="70" Height="28" Margin="0,0,10,0" Click="BtnCancel_Click"
-                            Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028"/>
+                            Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}"/>
                     <Button Content="确定" Width="70" Height="28" Click="BtnOk_Click"
-                            Background="#A0734A" BorderBrush="#8A5E38" Foreground="#FFFFFF" FontWeight="Bold"/>
+                            Background="{DynamicResource AccentColor}" BorderBrush="{DynamicResource AccentHover}" Foreground="#FFFFFF" FontWeight="Bold"/>
                 </StackPanel>
             </Border>
         </Grid>

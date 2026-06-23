@@ -22,6 +22,7 @@ namespace YangTools.Revit.UI
         public LinearPlacementWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
 
             _handler = new RevitEventHandler();

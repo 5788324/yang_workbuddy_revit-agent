@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="视图过滤器深度分析" Height="600" Width="800"
         WindowStartupLocation="CenterOwner"
-        Background="#FAF6F0" FontFamily="Microsoft YaHei">
+        Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei">
     
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Margin="0,0,0,15">
-            <TextBlock x:Name="FilterNameText" Text="过滤器: [Name]" FontSize="18" FontWeight="Bold" Foreground="#3A3028"/>
-            <TextBlock x:Name="FilterSummaryText" Text="正在分析..." FontSize="12" Foreground="#8A7A68" Margin="0,5,0,0"/>
+            <TextBlock x:Name="FilterNameText" Text="过滤器: [Name]" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+            <TextBlock x:Name="FilterSummaryText" Text="正在分析..." FontSize="12" Foreground="{DynamicResource SecondaryText}" Margin="0,5,0,0"/>
         </StackPanel>
         
         <Grid Grid.Row="1">
@@ -32,25 +32,25 @@
             </Grid.ColumnDefinitions>
             
             <!-- Categories -->
-            <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="#E8DFD0" Padding="8,5">
-                        <TextBlock Text="A. 控制的族类别 (Categories)" FontWeight="Bold" Foreground="#3A3028"/>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
+                        <TextBlock Text="A. 控制的族类别 (Categories)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <ListBox x:Name="CategoriesListBox" BorderThickness="0" Background="Transparent" Margin="5"/>
                 </DockPanel>
             </Border>
             
             <!-- Elements -->
-            <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="#E8DFD0" Padding="8,5">
-                        <TextBlock Text="B. 匹配的模型元素 (Elements)" FontWeight="Bold" Foreground="#3A3028"/>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
+                        <TextBlock Text="B. 匹配的模型元素 (Elements)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <DataGrid x:Name="ElementsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                               HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
                               RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
-                              HorizontalGridLinesBrush="#E8DFD0" VerticalGridLinesBrush="#E8DFD0">
+                              HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
                             <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*"/>
@@ -61,20 +61,20 @@
             </Border>
             
             <!-- Views -->
-            <Border Grid.Column="4" Background="#FFFFFF" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="4" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="#E8DFD0" Padding="8,5">
-                        <TextBlock Text="C. 使用此过滤器的视图与样板" FontWeight="Bold" Foreground="#3A3028"/>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
+                        <TextBlock Text="C. 使用此过滤器的视图与样板" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <ListBox x:Name="ViewsListBox" BorderThickness="0" Background="Transparent" Margin="5"/>
                 </DockPanel>
             </Border>
             
             <!-- Rules -->
-            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="#FFFFFF" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="#E8DFD0" Padding="8,5">
-                        <TextBlock Text="D. 过滤器规则 (Filter Rules)" FontWeight="Bold" Foreground="#3A3028"/>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
+                        <TextBlock Text="D. 过滤器规则 (Filter Rules)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <TextBox x:Name="FilterRulesTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Transparent" BorderThickness="0" Margin="5"/>
                 </DockPanel>
@@ -82,7 +82,7 @@
         </Grid>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button Content="关闭 (Close)" Width="80" Height="30" Background="#A0734A" Foreground="White" BorderThickness="0" Cursor="Hand" Click="Close_Click">
+            <Button Content="关闭 (Close)" Width="80" Height="30" Background="{DynamicResource AccentColor}" Foreground="White" BorderThickness="0" Cursor="Hand" Click="Close_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" CornerRadius="4">

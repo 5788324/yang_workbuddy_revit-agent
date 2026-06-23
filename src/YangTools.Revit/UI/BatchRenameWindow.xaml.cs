@@ -13,6 +13,7 @@ namespace YangTools.Revit.UI
         public BatchRenameWindow()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

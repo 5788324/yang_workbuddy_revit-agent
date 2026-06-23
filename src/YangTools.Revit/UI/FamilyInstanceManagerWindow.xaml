@@ -26,8 +26,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
                         <StackPanel>
-                            <Border Background="#E8DFD0" BorderBrush="#C8B8A0" BorderThickness="0,1,0,1" Padding="10,5">
-                                <TextBlock FontWeight="Bold" Foreground="#3A3028">
+                            <Border Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,1,0,1" Padding="10,5">
+                                <TextBlock FontWeight="Bold" Foreground="{DynamicResource PrimaryText}">
                                     <Run Text="类型: " />
                                     <Run Text="{Binding Name, Mode=OneWay}" />
                                     <Run Text=" (" />
@@ -70,10 +70,10 @@
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent" CornerRadius="15">
-                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 10,10 L 20,20 M 20,10 L 10,20" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bg" Property="Background" Value="#C05040"/></Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bg" Property="Background" Value="{DynamicResource DangerBg}"/></Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
@@ -218,7 +218,7 @@
                     <Button ToolTip="导出 Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
                         <TextBlock Text="&#xEDE1;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                     </Button>
-                    <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="#A0734A">
+                    <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                         <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                     </Button>
                     <Button ToolTip="删除实例 (Delete Instances)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="#D32F2F">

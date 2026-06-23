@@ -5,22 +5,22 @@
         Height="340"
         Width="480"
         WindowStartupLocation="CenterScreen"
-        Background="#FAF6F0"
-        Foreground="#3A3028"
+        Background="{DynamicResource WindowBg}"
+        Foreground="{DynamicResource PrimaryText}"
         FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
         AllowsTransparency="True"
         WindowStyle="None"
         BorderThickness="1"
-        BorderBrush="#D5C8B8"
+        BorderBrush="{DynamicResource WindowBorder}"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
         <!-- 普通按钮样式 -->
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Padding" Value="20,8"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -37,7 +37,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#DDD0C0"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#B0A088"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
@@ -51,7 +51,7 @@
 
         <!-- 强调按钮样式（主操作按钮） -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="20,8"/>
@@ -70,7 +70,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#7A5030"/>
@@ -98,7 +98,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#C05040"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DangerBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -118,8 +118,8 @@
         <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                    <GradientStop Color="#C4A67A" Offset="1.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="18,0">
@@ -154,14 +154,14 @@
                 </Border>
 
                 <!-- 替换文本输入区域 -->
-                <TextBlock Text="替换文本：" FontSize="13" Foreground="#3A3028" FontWeight="Medium" Margin="0,0,0,6"/>
+                <TextBlock Text="替换文本：" FontSize="13" Foreground="{DynamicResource PrimaryText}" FontWeight="Medium" Margin="0,0,0,6"/>
                 <TextBox x:Name="TxtOverride"
                          Height="36"
                          FontSize="14"
                          Padding="10,6"
-                         Background="#F5F0E8"
-                         Foreground="#3A3028"
-                         BorderBrush="#C8B8A0"
+                         Background="{DynamicResource GridHover}"
+                         Foreground="{DynamicResource PrimaryText}"
+                         BorderBrush="{DynamicResource BtnBorder}"
                          BorderThickness="1"
                          VerticalContentAlignment="Center"
                          Margin="0,0,0,12"/>
@@ -170,7 +170,7 @@
                 <CheckBox x:Name="ChkClear"
                           Content="清除覆盖文本（恢复为原始数值显示）"
                           FontSize="13"
-                          Foreground="#3A3028"
+                          Foreground="{DynamicResource PrimaryText}"
                           Margin="0,0,0,14"
                           Checked="ChkClear_Checked"
                           Unchecked="ChkClear_Unchecked"/>
@@ -178,13 +178,13 @@
                 <!-- 提示文字 -->
                 <TextBlock Text="提示：输入数字字符串或任意文字，将替换标注中显示的数值。"
                            FontSize="11.5"
-                           Foreground="#8A7A68"
+                           Foreground="{DynamicResource SecondaryText}"
                            TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
 
         <!-- 3. 底部操作栏 -->
-        <Border Grid.Row="2" Background="#EDE6DA" BorderThickness="0,1,0,0" BorderBrush="#C8B8A0">
+        <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BtnBorder}">
             <Grid Margin="24,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

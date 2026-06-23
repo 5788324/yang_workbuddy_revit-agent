@@ -23,6 +23,7 @@ namespace YangTools.Revit.UI
         public TextModifierWindow(ExternalCommandData commandData)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _commandData = commandData;
             _uiDoc = commandData.Application.ActiveUIDocument;
             _doc = _uiDoc.Document;

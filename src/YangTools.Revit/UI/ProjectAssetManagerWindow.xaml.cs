@@ -40,6 +40,7 @@ namespace YangTools.Revit.UI
         public ProjectAssetManagerWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             this.DataContext = this;
             _uiapp = uiapp;
             _doc = _uiapp.ActiveUIDocument.Document;

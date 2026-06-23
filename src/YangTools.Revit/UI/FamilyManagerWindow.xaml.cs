@@ -31,6 +31,7 @@ namespace YangTools.Revit.UI
         public FamilyManagerWindow(UIApplication uiapp)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
             _doc = uiapp.ActiveUIDocument.Document;
 

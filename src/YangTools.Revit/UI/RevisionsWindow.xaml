@@ -7,14 +7,14 @@
 
     <Window.Resources>
         <!-- Changan Theme Resources -->
-        <SolidColorBrush x:Key="WindowBg" Color="#FAF6F0"/>
-        <SolidColorBrush x:Key="WindowBorder" Color="#D5C8B8"/>
-        <SolidColorBrush x:Key="PanelBg" Color="#F0EAE0"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="#3A3028"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="#8A7A68"/>
-        <SolidColorBrush x:Key="BtnBg" Color="#E8DFD0"/>
-        <SolidColorBrush x:Key="BtnBorder" Color="#C8B8A0"/>
-        <SolidColorBrush x:Key="BtnHover" Color="#DDD0C0"/>
+        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
+        <SolidColorBrush x:Key="WindowBorder" Color="{DynamicResource WindowBorder}"/>
+        <SolidColorBrush x:Key="PanelBg" Color="{DynamicResource PanelBg}"/>
+        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
+        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
+        <SolidColorBrush x:Key="BtnBg" Color="{DynamicResource BtnBg}"/>
+        <SolidColorBrush x:Key="BtnBorder" Color="{DynamicResource BtnBorder}"/>
+        <SolidColorBrush x:Key="BtnHover" Color="{DynamicResource BtnHover}"/>
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource BtnBg}"/>
@@ -56,8 +56,8 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0" />
-                        <GradientStop Color="#C4A67A" Offset="1.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <TextBlock Text="选择修订 (Select Revisions)" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="SemiBold"/>

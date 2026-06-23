@@ -13,6 +13,7 @@ namespace YangTools.Revit.UI
         public NewProjectDialog()
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

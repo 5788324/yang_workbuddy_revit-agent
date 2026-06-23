@@ -9,7 +9,7 @@
     <Window.Resources>
         <!-- Styles for Chang'an theme -->
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
         </Style>
         
         <Style x:Key="TitleText" TargetType="{x:Type TextBlock}">
@@ -19,7 +19,7 @@
         </Style>
 
         <Style x:Key="ActionButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="15,8"/>
@@ -31,7 +31,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#8A5E38"/>
+                                <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -40,9 +40,9 @@
         </Style>
         
         <Style x:Key="RegularButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Template">
@@ -53,7 +53,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#DDD0C0"/>
+                                <Setter Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -63,11 +63,11 @@
 
         <!-- CheckBox Style -->
         <Style TargetType="{x:Type CheckBox}">
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
         </Style>
     </Window.Resources>
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="8">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="8">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -80,8 +80,8 @@
             <Border Grid.Row="0" CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0" />
-                        <GradientStop Color="#C4A67A" Offset="1.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0.0" />
+                        <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -90,11 +90,11 @@
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent" CornerRadius="0,7,0,0">
-                                    <Path Data="M 12,12 L 28,28 M 28,12 L 12,28" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 12,12 L 28,28 M 28,12 L 12,28" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="bg" Property="Background" Value="#C05040"/>
+                                        <Setter TargetName="bg" Property="Background" Value="{DynamicResource DangerBg}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -104,7 +104,7 @@
             </Border>
 
             <!-- Toolbar -->
-            <Border Grid.Row="1" Background="#F0EAE0" Padding="15,10" BorderBrush="#C8B8A0" BorderThickness="0,0,0,1">
+            <Border Grid.Row="1" Background="{DynamicResource PanelBg}" Padding="15,10" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,0,0,1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -121,9 +121,9 @@
                     <Button Grid.Column="4" Content="计算选中视图预估数量" Style="{StaticResource RegularButton}" Click="CalculateSelected_Click"/>
                     
                     <!-- Search box -->
-                    <Border Grid.Column="6" Background="#F5F0E8" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4">
+                    <Border Grid.Column="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4">
                         <Grid>
-                            <TextBlock x:Name="SearchPlaceholder" Text="搜索视图名称..." Foreground="#8A7A68" Margin="10,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                            <TextBlock x:Name="SearchPlaceholder" Text="搜索视图名称..." Foreground="{DynamicResource SecondaryText}" Margin="10,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
                             <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0" Margin="5,0" VerticalContentAlignment="Center" TextChanged="SearchBox_TextChanged"/>
                         </Grid>
                     </Border>
@@ -145,9 +145,9 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="1" Text="视图名称" FontWeight="Bold" Foreground="#8A7A68" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="视图类型" FontWeight="Bold" Foreground="#8A7A68" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="被覆盖元素预估数量" FontWeight="Bold" Foreground="#8A7A68" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="视图名称" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="视图类型" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="被覆盖元素预估数量" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
                 </Grid>
                 
                 <!-- ListBox -->
@@ -160,12 +160,12 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                        <Border x:Name="Bd" Background="#F0EAE0" CornerRadius="4">
+                                        <Border x:Name="Bd" Background="{DynamicResource PanelBg}" CornerRadius="4">
                                             <ContentPresenter Margin="{TemplateBinding Padding}"/>
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="Bd" Property="Background" Value="#E8DFD0"/>
+                                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource BtnBg}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -184,7 +184,7 @@
                                 </Grid.ColumnDefinitions>
                                 <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="{Binding ViewName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding ViewName}"/>
-                                <TextBlock Grid.Column="2" Text="{Binding ViewTypeName}" VerticalAlignment="Center" Foreground="#8A7A68"/>
+                                <TextBlock Grid.Column="2" Text="{Binding ViewTypeName}" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryText}"/>
                                 <TextBlock Grid.Column="3" Text="{Binding OverrideCount}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                             </Grid>
                         </DataTemplate>
@@ -193,9 +193,9 @@
             </Grid>
 
             <!-- Bottom Bar -->
-            <Border Grid.Row="3" Background="#EDE6DA" CornerRadius="0,0,7,7" BorderBrush="#C8B8A0" BorderThickness="0,1,0,0" Padding="15,0">
+            <Border Grid.Row="3" Background="{DynamicResource BottomBarBg}" CornerRadius="0,0,7,7" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,1,0,0" Padding="15,0">
                 <Grid>
-                    <TextBlock x:Name="StatusText" Text="准备就绪" VerticalAlignment="Center" Foreground="#8A7A68"/>
+                    <TextBlock x:Name="StatusText" Text="准备就绪" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryText}"/>
                     <Button Content="执行清理" Style="{StaticResource ActionButton}" HorizontalAlignment="Right" Width="120" Click="ExecuteClean_Click"/>
                 </Grid>
             </Border>

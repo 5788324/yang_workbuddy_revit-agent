@@ -21,6 +21,7 @@ namespace YangTools.Revit.UI
         public EntityGeneratorWindow(UIApplication uiapp, List<FamilyInstance> instances)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
             _instances = instances;
             _doc = uiapp.ActiveUIDocument.Document;
@@ -397,11 +398,13 @@ namespace YangTools.Revit.UI
                             // Insert exactly at XY zero point
                             FamilyInstance newInst = _doc.Create.NewFamilyInstance(XYZ.Zero, symbol, targetLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
 
-                            // Set Base Offset
+                            // Set Base Offset — 模板族的几何已经下移 minZ（底部对齐族原点）
+                            // 实例放置在 targetLevel 上，需要正偏移使几何回到原标高
                             double offset = minZ - targetLevel.Elevation;
                             Parameter offsetParam = newInst.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM) 
-                                                    ?? newInst.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_OFFSET_PARAM);
-                            if (offsetParam != null)
+                                                    ?? newInst.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_OFFSET_PARAM)
+                                                    ?? newInst.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
+                            if (offsetParam != null && !offsetParam.IsReadOnly)
                             {
                                 offsetParam.Set(offset);
                             }

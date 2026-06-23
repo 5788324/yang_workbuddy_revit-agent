@@ -12,15 +12,15 @@
                 <Setter Property="Background">
                     <Setter.Value>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#8B6D4C" Offset="0"/>
-                            <GradientStop Color="#C4A67A" Offset="1"/>
+                            <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                            <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Style>
 
             <Style TargetType="{x:Type ComboBoxItem}">
-                <Setter Property="Foreground" Value="#3A3028"/>
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Padding" Value="10,7"/>
                 <Setter Property="FontSize" Value="13"/>
@@ -32,7 +32,7 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsHighlighted" Value="True">
-                                    <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                    <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                     <Setter Property="Foreground" Value="#FFFFFF"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
@@ -47,7 +47,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border Background="#FAF6F0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="8">
+    <Border Background="{DynamicResource WindowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="8">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
@@ -67,7 +67,7 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#C05040"/>
+                                        <Setter TargetName="border" Property="Background" Value="{DynamicResource DangerBg}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -86,54 +86,54 @@
 
                 <!-- Source View -->
                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                    <TextBlock Text="源视图:" Foreground="#8A7A68" FontSize="14" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="CmbSourceView" Height="30" Background="#F5F0E8" BorderBrush="#C8B8A0" FontSize="13" SelectionChanged="CmbSourceView_SelectionChanged">
+                    <TextBlock Text="源视图:" Foreground="{DynamicResource SecondaryText}" FontSize="14" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="CmbSourceView" Height="30" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" FontSize="13" SelectionChanged="CmbSourceView_SelectionChanged">
                         <!-- Items source will be populated in code behind -->
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Foreground="#3A3028"/>
+                                <TextBlock Text="{Binding Name}" Foreground="{DynamicResource PrimaryText}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
 
                 <!-- Copy Options -->
-                <Border Grid.Column="1" Background="#F0EAE0" BorderBrush="#D5C8B8" BorderThickness="1" CornerRadius="4" Margin="10,0,10,0" Padding="15">
+                <Border Grid.Column="1" Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4" Margin="10,0,10,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="复制选项:" Foreground="#8A7A68" FontSize="14" Margin="0,0,0,10" FontWeight="Bold"/>
-                        <CheckBox x:Name="ChkModelCategories" Content="模型类别" IsChecked="True" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkAnnotationCategories" Content="注释类别" IsChecked="True" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkAnalyticalCategories" Content="分析模型类别" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkImportCategories" Content="导入的类别" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkFilters" Content="过滤器" IsChecked="True" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkWorksets" Content="工作集" Foreground="#3A3028" Margin="0,5"/>
-                        <CheckBox x:Name="ChkRvtLinks" Content="Revit链接" Foreground="#3A3028" Margin="0,5"/>
+                        <TextBlock Text="复制选项:" Foreground="{DynamicResource SecondaryText}" FontSize="14" Margin="0,0,0,10" FontWeight="Bold"/>
+                        <CheckBox x:Name="ChkModelCategories" Content="模型类别" IsChecked="True" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkAnnotationCategories" Content="注释类别" IsChecked="True" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkAnalyticalCategories" Content="分析模型类别" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkImportCategories" Content="导入的类别" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkFilters" Content="过滤器" IsChecked="True" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkWorksets" Content="工作集" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
+                        <CheckBox x:Name="ChkRvtLinks" Content="Revit链接" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Target Views -->
                 <StackPanel Grid.Column="2" Margin="10,0,0,0">
-                    <TextBlock Text="目标视图:" Foreground="#8A7A68" FontSize="14" Margin="0,0,0,5"/>
-                    <Border Background="#F5F0E8" BorderBrush="#C8B8A0" BorderThickness="1" CornerRadius="4" Height="320">
+                    <TextBlock Text="目标视图:" Foreground="{DynamicResource SecondaryText}" FontSize="14" Margin="0,0,0,5"/>
+                    <Border Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4" Height="320">
                         <ListBox x:Name="LstTargetViews" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Foreground="#3A3028" Margin="0,5"/>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Foreground="{DynamicResource PrimaryText}" Margin="0,5"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Border>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Button Content="全选" Width="60" Height="25" Margin="0,0,10,0" Click="SelectAll_Click" Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028"/>
-                        <Button Content="全不选" Width="60" Height="25" Click="SelectNone_Click" Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028"/>
+                        <Button Content="全选" Width="60" Height="25" Margin="0,0,10,0" Click="SelectAll_Click" Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}"/>
+                        <Button Content="全不选" Width="60" Height="25" Click="SelectNone_Click" Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
 
             <!-- Bottom Bar -->
-            <Border Grid.Row="2" Background="#EDE6DA" BorderBrush="#D5C8B8" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7">
+            <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
-                    <Button Content="取消" Width="100" Height="35" Margin="0,0,15,0" Click="CloseButton_Click" Background="#E8DFD0" BorderBrush="#C8B8A0" Foreground="#3A3028" Cursor="Hand">
+                    <Button Content="取消" Width="100" Height="35" Margin="0,0,15,0" Click="CloseButton_Click" Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">
@@ -142,7 +142,7 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <Button Content="拷贝" Width="100" Height="35" Click="CopyButton_Click" Background="#A0734A" BorderBrush="Transparent" Foreground="#FFFFFF" FontWeight="Bold" Cursor="Hand">
+                    <Button Content="拷贝" Width="100" Height="35" Click="CopyButton_Click" Background="{DynamicResource AccentColor}" BorderBrush="Transparent" Foreground="#FFFFFF" FontWeight="Bold" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">
@@ -150,7 +150,7 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                                        <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

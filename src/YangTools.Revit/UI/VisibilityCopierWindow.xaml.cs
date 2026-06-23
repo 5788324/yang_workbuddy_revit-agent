@@ -55,6 +55,7 @@ namespace YangTools.Revit.UI
         public VisibilityCopierWindow(Document doc)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _doc = doc;
             AllViews = new ObservableCollection<ViewItem>();
             TargetViews = new ObservableCollection<ViewItem>();

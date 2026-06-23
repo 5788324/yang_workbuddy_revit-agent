@@ -35,6 +35,7 @@ namespace YangTools.Revit.UI
         public ChineseCheckWindow(Document doc, UIDocument uiDoc)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _doc = doc;
             _uiDoc = uiDoc;
 

@@ -4,23 +4,23 @@
         Title="项目中文检查"
         Height="650" Width="850"
         WindowStartupLocation="CenterScreen"
-        Background="#FAF6F0"
-        Foreground="#3A3028"
+        Background="{DynamicResource WindowBg}"
+        Foreground="{DynamicResource PrimaryText}"
         FontFamily="Microsoft YaHei UI, Microsoft YaHei, Segoe UI"
         AllowsTransparency="True"
         WindowStyle="None"
         BorderThickness="1"
-        BorderBrush="#D5C8B8"
+        BorderBrush="{DynamicResource WindowBorder}"
         MouseDown="Window_MouseDown">
 
     <Window.Resources>
 
         <!-- 普通按钮 -->
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E8DFD0"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="Padding" Value="14,7"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -37,8 +37,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#DDD0C0"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#A0734A"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
@@ -56,7 +56,7 @@
 
         <!-- 强调按钮（铜色） -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#A0734A"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -76,7 +76,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#8A5E38"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="#7A5030"/>
@@ -101,7 +101,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#C05040"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource DangerBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -111,10 +111,10 @@
 
         <!-- ListBox 样式 -->
         <Style x:Key="CheckListBox" TargetType="{x:Type ListBox}">
-            <Setter Property="Background" Value="#F5F0E8"/>
-            <Setter Property="BorderBrush" Value="#C8B8A0"/>
+            <Setter Property="Background" Value="{DynamicResource GridHover}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="#3A3028"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="SelectionMode" Value="Extended"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -133,10 +133,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#E8DFD0"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource BtnBg}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#A0734A"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -159,8 +159,8 @@
         <Border Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0"/>
-                    <GradientStop Color="#C4A67A" Offset="1"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarStart}" Offset="0"/>
+                    <GradientStop Color="{DynamicResource Color_TitleBarEnd}" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="18,0">
@@ -189,8 +189,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- 左上：族/族类型/材质/注释 -->
-            <Border Grid.Column="0" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
-                    BorderBrush="#C8B8A0" BorderThickness="1">
+            <Border Grid.Column="0" Background="{DynamicResource PanelBg}" CornerRadius="6" Padding="10,8"
+                    BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -198,7 +198,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="族、族类型、材质、注释 —— 存在中文："
-                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                               FontSize="12" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,6"/>
                     <ListBox Grid.Row="1" x:Name="ListFamilyTypes"
                              Style="{StaticResource CheckListBox}"/>
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
@@ -211,8 +211,8 @@
             </Border>
 
             <!-- 右上：族实例参数 -->
-            <Border Grid.Column="2" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
-                    BorderBrush="#C8B8A0" BorderThickness="1">
+            <Border Grid.Column="2" Background="{DynamicResource PanelBg}" CornerRadius="6" Padding="10,8"
+                    BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -220,7 +220,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="族实例 —— 存在中文参数："
-                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                               FontSize="12" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,6"/>
                     <ListBox Grid.Row="1" x:Name="ListFamilyInstances"
                              Style="{StaticResource CheckListBox}"/>
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
@@ -242,8 +242,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- 左下：项目参数 -->
-            <Border Grid.Column="0" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
-                    BorderBrush="#C8B8A0" BorderThickness="1">
+            <Border Grid.Column="0" Background="{DynamicResource PanelBg}" CornerRadius="6" Padding="10,8"
+                    BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -251,7 +251,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="项目参数 —— 存在中文："
-                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                               FontSize="12" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,6"/>
                     <ListBox Grid.Row="1" x:Name="ListProjectParams"
                              Style="{StaticResource CheckListBox}"/>
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
@@ -264,8 +264,8 @@
             </Border>
 
             <!-- 右下：项目环境（视图名称等） -->
-            <Border Grid.Column="2" Background="#F0EAE0" CornerRadius="6" Padding="10,8"
-                    BorderBrush="#C8B8A0" BorderThickness="1">
+            <Border Grid.Column="2" Background="{DynamicResource PanelBg}" CornerRadius="6" Padding="10,8"
+                    BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -273,7 +273,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="项目环境（视图名称等）："
-                               FontSize="12" FontWeight="Bold" Foreground="#8A7A68" Margin="0,0,0,6"/>
+                               FontSize="12" FontWeight="Bold" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,6"/>
                     <ListBox Grid.Row="1" x:Name="ListProjectEnv"
                              Style="{StaticResource CheckListBox}"/>
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
@@ -287,15 +287,15 @@
         </Grid>
 
         <!-- ===== 底部操作栏 ===== -->
-        <Border Grid.Row="3" Background="#EDE6DA"
-                BorderThickness="0,1,0,0" BorderBrush="#C8B8A0">
+        <Border Grid.Row="3" Background="{DynamicResource BottomBarBg}"
+                BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BtnBorder}">
             <Grid Margin="14,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="#8A7A68"
+                <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource SecondaryText}"
                            TextWrapping="Wrap" Margin="0,0,10,0"
                            Text="检查内容：所有族(含系统族)的族名、族类型名、族类别名、族参数名/值，以及项目中所有文字注释、视图名称是否包含中文。"/>
 

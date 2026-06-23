@@ -32,6 +32,7 @@ namespace YangTools.Revit.UI
         public BooleanGeometryWindow(UIApplication uiapp, BooleanGeometryState state)
         {
             InitializeComponent();
+            ThemeHelper.ApplyToWindow(this);
             _uiapp = uiapp;
             _doc = uiapp.ActiveUIDocument.Document;
             State = state;
