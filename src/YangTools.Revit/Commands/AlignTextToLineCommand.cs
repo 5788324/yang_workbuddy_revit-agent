@@ -114,7 +114,6 @@ public class AlignTextToLineCommand : IExternalCommand
 
 	private double GetTextNoteAngle(TextNote textNote)
 	{
-		//IL_0021: Unknown result type (might be due to invalid IL or missing references)
 		XYZ baseDirection = ((TextElement)textNote).BaseDirection;
 		double num = XYZ.BasisX.AngleTo(new XYZ(baseDirection.X, baseDirection.Y, 0.0).Normalize());
 		if (baseDirection.Y < 0.0)

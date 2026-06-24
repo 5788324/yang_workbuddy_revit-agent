@@ -18,6 +18,12 @@ namespace YangTools.Revit.Commands
         {
             try
             {
+                if (commandData.Application.ActiveUIDocument == null)
+                {
+                    TaskDialog.Show("提示", "请先打开一个项目文档。");
+                    return Result.Cancelled;
+                }
+
                 var uiApp = commandData.Application;
                 var doc = uiApp.ActiveUIDocument.Document;
 

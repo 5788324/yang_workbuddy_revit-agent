@@ -83,8 +83,8 @@ namespace YangTools.Revit.Commands
                     }
 
                     string prefix = match.Groups[1].Value;
-                    double heightMeters = double.Parse(match.Groups[2].Value);
-                    double diameterMm = double.Parse(match.Groups[3].Value);
+                    double heightMeters = double.Parse(match.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture);
+                    double diameterMm = double.Parse(match.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture);
 
                     double heightFeet = heightMeters * 3.280839895013123;
                     double diameterFeet = diameterMm * 3.280839895013123 / 1000.0;
@@ -138,8 +138,7 @@ namespace YangTools.Revit.Commands
             }
             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
             {
-                // Return Succeeded instead of Cancelled so that already committed transactions in the loop are not rolled back by Revit.
-                return Result.Succeeded;
+                return Result.Cancelled;
             }
             catch (Exception ex)
             {

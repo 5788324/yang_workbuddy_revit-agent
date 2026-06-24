@@ -15,28 +15,23 @@ public class SampleWindowCommand : IExternalCommand
 {
 	public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 	{
-		//IL_005d: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0046: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0017: Unknown result type (might be due to invalid IL or missing references)
-		//IL_001e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0060: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
 			if (commandData.Application.ActiveUIDocument == null)
 			{
-				TaskDialog.Show("YangTools", "未检测到任何处于打开或活动状态的项目文档！");
-				return (Result)1;
+			TaskDialog.Show("YangTools", "未检测到任何处于打开或活动状态的项目文档！");
+			return Result.Cancelled;
 			}
 			AssistantWindow assistantWindow = new AssistantWindow();
 			IntPtr mainWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
 			new WindowInteropHelper(assistantWindow).Owner = mainWindowHandle;
-			assistantWindow.ShowDialog();
-			return (Result)0;
+		assistantWindow.ShowDialog();
+		return Result.Succeeded;
 		}
 		catch (Exception ex)
 		{
-			message = "执行界面程序出错：" + ex.Message;
-			return (Result)(-1);
+		message = "执行界面程序出错：" + ex.Message;
+		return Result.Failed;
 		}
 	}
 }

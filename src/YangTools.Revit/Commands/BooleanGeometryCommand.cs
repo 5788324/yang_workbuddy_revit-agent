@@ -85,6 +85,12 @@ namespace YangTools.Revit.Commands
                     }
                 }
 
+                if (state.MainInst.Count == 0)
+                {
+                    TaskDialog.Show("提示", "请先选择主体实例。");
+                    return Result.Cancelled;
+                }
+
                 var mainFi = state.MainInst[0];
                 Document? famDoc = null;
                 string? tempFile = null;

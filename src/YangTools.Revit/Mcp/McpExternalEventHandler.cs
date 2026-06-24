@@ -126,9 +126,9 @@ namespace YangTools.Revit.Mcp
                         
                         if (actionSuccess)
                         {
-                            // 使用统一的安全审查弹窗
-                            TransactionHelper.ShowSuccessAndCommit(tg, "AI 审查确认 (MCP Review)", 
-                                $"执行结果:\n{resultMsg}", uiapp.ActiveUIDocument);
+                            // 使用统一的安全审查弹窗（MCP 调用不弹窗，结果通过返回值回传）
+                            TransactionHelper.ShowSuccessAndCommit(tg, "AI 审查确认 (MCP Review)",
+                                $"执行结果:\n{resultMsg}", uiapp.ActiveUIDocument, showDialog: false);
                                 
                             tcs.SetResult($"Execution completed. Result: {resultMsg}. Group Status: {tg.GetStatus()}");
                         }

@@ -6,7 +6,6 @@ public static class OverrideGraphicSettingsExtensions
 {
 	public static bool HasOverrides(this OverrideGraphicSettings s)
 	{
-		//IL_0006: Unknown result type (might be due to invalid IL or missing references)
 		if (s == null)
 		{
 			return false;

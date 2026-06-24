@@ -158,13 +158,6 @@ public class LevelModifierCommand : IExternalCommand
 
 	private void CopyInstanceParameters(Element source, Element target, Parameter levelParam, Parameter offsetParam)
 	{
-		//IL_0017: Unknown result type (might be due to invalid IL or missing references)
-		//IL_001d: Expected O, but got Unknown
-		//IL_007a: Unknown result type (might be due to invalid IL or missing references)
-		//IL_007f: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0080: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0082: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0098: Expected I4, but got Unknown
 		foreach (Parameter parameter in source.Parameters)
 		{
 			Parameter val = parameter;
@@ -197,14 +190,6 @@ public class LevelModifierCommand : IExternalCommand
 
 	private Parameter GetLevelParameter(Element elem)
 	{
-		//IL_0019: Unknown result type (might be due to invalid IL or missing references)
-		//IL_001b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0026: Unknown result type (might be due to invalid IL or missing references)
-		//IL_002c: Invalid comparison between Unknown and I4
-		//IL_0053: Unknown result type (might be due to invalid IL or missing references)
-		//IL_005a: Expected O, but got Unknown
-		//IL_005c: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0062: Invalid comparison between Unknown and I4
 		BuiltInParameter[] array2 = new BuiltInParameter[] {
             BuiltInParameter.FAMILY_LEVEL_PARAM,
             BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM,
@@ -249,26 +234,6 @@ public class LevelModifierCommand : IExternalCommand
 
 	private Parameter GetOffsetParameter(Element elem, Parameter levelParam)
 	{
-		//IL_0023: Unknown result type (might be due to invalid IL or missing references)
-		//IL_002c: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0033: Invalid comparison between Unknown and I8
-		//IL_0052: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0059: Invalid comparison between Unknown and I8
-		//IL_0035: Unknown result type (might be due to invalid IL or missing references)
-		//IL_003c: Invalid comparison between Unknown and I8
-		//IL_0157: Unknown result type (might be due to invalid IL or missing references)
-		//IL_015d: Invalid comparison between Unknown and I4
-		//IL_005b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0062: Invalid comparison between Unknown and I8
-		//IL_003e: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0045: Invalid comparison between Unknown and I8
-		//IL_0064: Unknown result type (might be due to invalid IL or missing references)
-		//IL_006b: Invalid comparison between Unknown and I8
-		//IL_0047: Unknown result type (might be due to invalid IL or missing references)
-		//IL_004e: Invalid comparison between Unknown and I8
-		//IL_00c4: Unknown result type (might be due to invalid IL or missing references)
-		//IL_00d6: Unknown result type (might be due to invalid IL or missing references)
-		//IL_00e1: Invalid comparison between Unknown and I8
 		if (levelParam != null && levelParam.Id.GetIdValue() < 0)
 		{
 			BuiltInParameter val = (BuiltInParameter)(int)levelParam.Id.GetIdValue();

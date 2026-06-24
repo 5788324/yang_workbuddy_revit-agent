@@ -15,6 +15,12 @@ namespace YangTools.Revit.Commands;
 		{
 			try
 			{
+				if (commandData.Application.ActiveUIDocument == null)
+				{
+					TaskDialog.Show("提示", "请先打开一个项目文档。");
+					return Result.Cancelled;
+				}
+
 				UIApplication application = commandData.Application;
 				ViewGraphicCleanerWindow viewGraphicCleanerWindow = new ViewGraphicCleanerWindow(application.ActiveUIDocument.Document);
 				new WindowInteropHelper(viewGraphicCleanerWindow).Owner = application.MainWindowHandle;

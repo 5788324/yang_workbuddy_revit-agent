@@ -10,6 +10,36 @@ namespace YangTools.Revit.Commands
 {
     public class MicroToolEngine
     {
+        /// <summary>
+        /// 专门用于存放 MicroTool 临时 DLL 的目录。
+        /// 启动时清理旧文件，避免 %TEMP% 下临时文件无限堆积。
+        /// </summary>
+        private static readonly string TempDir = Path.Combine(Path.GetTempPath(), "YangTools_Micro");
+
+        static MicroToolEngine()
+        {
+            try
+            {
+                if (Directory.Exists(TempDir))
+                {
+                    // 清理上次会话遗留的临时 DLL；被占用无法删除的文件跳过。
+                    foreach (var f in Directory.EnumerateFiles(TempDir, "*.dll"))
+                    {
+                        try { File.Delete(f); }
+                        catch { /* 文件被占用或无权限，跳过 */ }
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(TempDir);
+                }
+            }
+            catch
+            {
+                // 启动清理失败不应阻塞引擎功能
+            }
+        }
+
         public static string GetMicroProjectsFolder()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YangTools", "MicroProjects");
@@ -69,10 +99,9 @@ namespace YangTools.Revit.Commands
             try
             {
                 // 修复 WPF 加载失败: 使用 Shadow Copy 取代单纯的 byte[] Load
-                string tempDir = Path.Combine(Path.GetTempPath(), "YangTools_Micro");
-                if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
-                string tempFile = Path.Combine(tempDir, Guid.NewGuid().ToString("N") + "_" + Path.GetFileName(dllPath));
-                
+                if (!Directory.Exists(TempDir)) Directory.CreateDirectory(TempDir);
+                string tempFile = Path.Combine(TempDir, Guid.NewGuid().ToString("N") + "_" + Path.GetFileName(dllPath));
+
                 byte[] bytes = File.ReadAllBytes(dllPath);
                 File.WriteAllBytes(tempFile, bytes);
                 Assembly assembly = Assembly.LoadFrom(tempFile);

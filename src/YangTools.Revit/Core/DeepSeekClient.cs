@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ namespace YangTools.Revit.Core
 {
     public class DeepSeekClient
     {
-        private readonly HttpClient _httpClient;
+        private static readonly HttpClient _httpClient = new HttpClient();
         private readonly string _apiKey;
         private readonly string _baseUrl;
         private readonly string _modelName;
@@ -20,8 +21,7 @@ namespace YangTools.Revit.Core
             _apiKey = apiKey;
             _baseUrl = string.IsNullOrWhiteSpace(baseUrl) ? "https://api.deepseek.com/chat/completions" : baseUrl;
             _modelName = string.IsNullOrWhiteSpace(modelName) ? "deepseek-chat" : modelName;
-            _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
             _httpClient.Timeout = TimeSpan.FromSeconds(120);
         }
 

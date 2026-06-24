@@ -15,30 +15,25 @@ public class ChineseCheckCommand : IExternalCommand
 {
 	public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 	{
-		//IL_0066: Unknown result type (might be due to invalid IL or missing references)
-		//IL_004f: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0019: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0020: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0069: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
 			UIDocument activeUIDocument = commandData.Application.ActiveUIDocument;
 			if (activeUIDocument == null)
 			{
-				TaskDialog.Show("YangTools", "未检测到任何处于打开或活动状态的项目文档！");
-				return (Result)1;
+			TaskDialog.Show("YangTools", "未检测到任何处于打开或活动状态的项目文档！");
+			return Result.Cancelled;
 			}
 			ChineseCheckWindow chineseCheckWindow = new ChineseCheckWindow(activeUIDocument.Document, activeUIDocument);
 			IntPtr mainWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
 			new WindowInteropHelper(chineseCheckWindow).Owner = mainWindowHandle;
-			chineseCheckWindow.ShowDialog();
-			return (Result)0;
+		chineseCheckWindow.ShowDialog();
+		return Result.Succeeded;
 		}
 		catch (Exception ex)
 		{
 			TaskDialog.Show("错误", $"操作失败。\n错误信息: {ex.Message}");
-			message = "中文检查执行出错：" + ex.Message;
-			return (Result)(-1);
+		message = "中文检查执行出错：" + ex.Message;
+		return Result.Failed;
 		}
 	}
 }

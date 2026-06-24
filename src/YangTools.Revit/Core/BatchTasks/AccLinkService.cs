@@ -68,12 +68,5 @@ namespace YangTools.Revit.Core.BatchTasks
                 return $"Revit 链接失败 [{item.Name}]: {ex.Message}";
             }
         }
-
-        public static void ProcessGui(Document doc, CloudLinkItem item)
-        {
-            var err = Process(doc, item);
-            if (err != null)
-                System.Diagnostics.Debug.WriteLine(err);
-        }
     }
 }

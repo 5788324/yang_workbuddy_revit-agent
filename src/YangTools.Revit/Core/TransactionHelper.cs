@@ -8,7 +8,8 @@ namespace YangTools.Revit.Core
         /// <summary>
         /// 弹窗提示成功，并提供撤销功能。
         /// </summary>
-        public static void ShowSuccessAndCommit(Transaction t, string title, string message, UIDocument uidoc = null)
+        /// <param name="showDialog">是否弹出 TaskDialog 提示。MCP 等无 UI 调用方应传 false。</param>
+        public static void ShowSuccessAndCommit(Transaction t, string title, string message, UIDocument uidoc = null, bool showDialog = true)
         {
             if (t.GetStatus() != TransactionStatus.Started) return;
 
@@ -19,12 +20,18 @@ namespace YangTools.Revit.Core
             }
 
             t.Commit();
+
+            if (showDialog)
+            {
+                TaskDialog.Show(title, message);
+            }
         }
 
         /// <summary>
         /// 弹窗提示成功，并提供撤销功能 (针对 TransactionGroup)。
         /// </summary>
-        public static void ShowSuccessAndCommit(TransactionGroup tg, string title, string message, UIDocument uidoc = null)
+        /// <param name="showDialog">是否弹出 TaskDialog 提示。MCP 等无 UI 调用方应传 false。</param>
+        public static void ShowSuccessAndCommit(TransactionGroup tg, string title, string message, UIDocument uidoc = null, bool showDialog = true)
         {
             if (tg.GetStatus() != TransactionStatus.Started) return;
 
@@ -58,6 +65,11 @@ namespace YangTools.Revit.Core
                 {
                     tg.RollBack();
                 }
+            }
+
+            if (showDialog)
+            {
+                TaskDialog.Show(title, message);
             }
         }
     }

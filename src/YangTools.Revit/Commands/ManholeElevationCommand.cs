@@ -49,7 +49,7 @@ namespace YangTools.Revit.Commands
                         continue;
                     }
 
-                    double elevationMeters = double.Parse(match.Groups[2].Value);
+                    double elevationMeters = double.Parse(match.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture);
                     double elevationFeet = elevationMeters * 3.280839895013123;
 
                     using (Transaction t = new Transaction(doc, "管井标高修改"))
@@ -84,8 +84,7 @@ namespace YangTools.Revit.Commands
             }
             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
             {
-                // Return Succeeded instead of Cancelled so that already committed transactions in the loop are not rolled back by Revit.
-                return Result.Succeeded;
+                return Result.Cancelled;
             }
             catch (Exception ex)
             {
