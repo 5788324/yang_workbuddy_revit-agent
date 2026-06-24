@@ -32,10 +32,10 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#B0A088"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#D0C4B0"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -45,7 +45,7 @@
 
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="20,8"/>
             <Setter Property="FontSize" Value="13"/>
@@ -62,7 +62,7 @@
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#7A5030"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -122,7 +122,7 @@
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -149,7 +149,7 @@
 
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="文本修改器" FontWeight="Bold" FontSize="17" Foreground="#FFFFFF"/>
-                    <TextBlock Text="查找替换与批量格式化文本" FontSize="11" Foreground="#E8D8C4" Margin="0,2,0,0"/>
+                    <TextBlock Text="查找替换与批量格式化文本" FontSize="11" Foreground="{DynamicResource TitleText}" Margin="0,2,0,0"/>
                 </StackPanel>
 
                 <Button Grid.Column="1" Width="30" Height="30" Content="×" FontSize="18" FontWeight="Bold" Style="{StaticResource CloseButtonStyle}" Click="CloseButton_Click"/>
@@ -244,7 +244,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <TextBlock x:Name="TxtStatus" VerticalAlignment="Center" Foreground="#5A7A3A" FontSize="13" FontWeight="Medium"/>
+                <TextBlock x:Name="TxtStatus" VerticalAlignment="Center" Foreground="{DynamicResource SuccessColor}" FontSize="13" FontWeight="Medium"/>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button Content="取  消" Style="{StaticResource FlatButton}" Click="CloseButton_Click" Margin="0,0,10,0"/>

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="YangTools.Revit.UI.ProjectInfoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="项目统计信息"
+        Title="文件信息"
         Height="700" Width="600"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource WindowBg}"
@@ -40,7 +40,7 @@
                                 <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="bd" Property="Opacity" Value="0.6"/>
@@ -74,7 +74,7 @@
                                 <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#704A28"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="bd" Property="Opacity" Value="0.6"/>
@@ -103,7 +103,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="项目信息" FontWeight="Bold" FontSize="18" Foreground="#FFFFFF"/>
-                    <TextBlock Text=" |  文件统计与清理预测" FontSize="13" Foreground="#E8D8C4" Margin="8,3,0,0"/>
+                    <TextBlock Text=" |  文件信息与清理预测" FontSize="13" Foreground="{DynamicResource TitleText}" Margin="8,3,0,0"/>
                 </StackPanel>
                 <Button Grid.Column="1" Width="32" Height="32"
                         Content="✕" FontSize="15" FontWeight="Bold"
@@ -228,7 +228,7 @@
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="可清理的未使用图元数" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtUnusedCount" Text="加载中..." FontSize="14"
-                                           FontWeight="Medium" Foreground="#C08030"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource WarningColor}"/>
                             </StackPanel>
 
                             <Rectangle Grid.Column="1" Fill="{DynamicResource WindowBorder}" Width="1"/>
@@ -252,7 +252,7 @@
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="清理后预计大小" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtPurgedSize" Text="-" FontSize="14"
-                                           FontWeight="Medium" Foreground="#5A7A3A"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource SuccessColor}"/>
                             </StackPanel>
 
                             <Rectangle Grid.Column="1" Fill="{DynamicResource WindowBorder}" Width="1"/>
@@ -260,7 +260,7 @@
                             <StackPanel Grid.Column="2" Margin="15,0,0,0">
                                 <TextBlock Text="预计可节省空间" FontSize="11" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                                 <TextBlock x:Name="TxtSavedSize" Text="-" FontSize="14"
-                                           FontWeight="Medium" Foreground="#5A7A3A"/>
+                                           FontWeight="Medium" Foreground="{DynamicResource SuccessColor}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

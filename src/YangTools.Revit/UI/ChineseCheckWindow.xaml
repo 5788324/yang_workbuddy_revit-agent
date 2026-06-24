@@ -41,12 +41,12 @@
                                 <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnPressed}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#B0A898"/>
-                                <Setter TargetName="bd" Property="Background" Value="#EDE8E0"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#D8D0C0"/>
+                                <Setter Property="Foreground" Value="{DynamicResource DisabledText}"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource SidePanelBg}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -57,7 +57,7 @@
         <!-- 强调按钮（铜色） -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Padding" Value="18,7"/>
@@ -79,7 +79,7 @@
                                 <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#7A5030"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -137,7 +137,7 @@
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -165,7 +165,7 @@
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="项目中文检查" FontWeight="Bold" FontSize="17" Foreground="#FFFFFF"/>
                     <TextBlock Text="  |  扫描族、参数、注释中的中文字符" FontSize="12"
-                               Foreground="#E8D8C4" Margin="6,3,0,0" VerticalAlignment="Bottom"/>
+                               Foreground="{DynamicResource TitleText}" Margin="6,3,0,0" VerticalAlignment="Bottom"/>
                 </StackPanel>
                 <Button Grid.Column="1" Width="32" Height="32"
                         Content="✕" FontSize="15" FontWeight="Bold"

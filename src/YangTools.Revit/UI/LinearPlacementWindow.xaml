@@ -6,22 +6,14 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" Topmost="True">
 
     <Window.Resources>
-        <!-- Changan Theme Resources -->
-        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
-        <SolidColorBrush x:Key="WindowBorder" Color="{DynamicResource WindowBorder}"/>
-        <SolidColorBrush x:Key="PanelBg" Color="{DynamicResource PanelBg}"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
-        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColor}"/>
-
         <!-- TextBox Style -->
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="Padding" Value="5,4"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -36,14 +28,14 @@
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="{DynamicResource InputBg}"/>
         </Style>
 
         <!-- Button Style -->
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
@@ -153,7 +145,7 @@
                     <StackPanel Margin="0,0,0,15">
                         <TextBlock Text="旋转偏移 (Rotation Offset, 度):" Foreground="{StaticResource SecondaryText}" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding RotationOffset, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="注: 默认沿线(0)，想垂直线填90或-90" Foreground="#A0A0A0" FontSize="11" Margin="0,2,0,0"/>
+                        <TextBlock Text="注: 默认沿线(0)，想垂直线填90或-90" Foreground="{DynamicResource SecondaryText}" FontSize="11" Margin="0,2,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

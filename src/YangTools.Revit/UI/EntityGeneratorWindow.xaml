@@ -41,7 +41,7 @@
                                 <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -52,7 +52,7 @@
         <!-- 强调色按钮 -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="18,8"/>
             <Setter Property="FontSize" Value="13"/>
@@ -71,7 +71,7 @@
                                 <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#704A28"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -97,7 +97,7 @@
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentHover}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -123,7 +123,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="实体生成(Loft)" FontWeight="Bold" FontSize="18" Foreground="#FFFFFF"/>
-                    <TextBlock Text=" |  将闭合曲线实例放样生成三维实体" FontSize="13" Foreground="#E8D8C4" Margin="8,3,0,0"/>
+                    <TextBlock Text=" |  将闭合曲线实例放样生成三维实体" FontSize="13" Foreground="{DynamicResource TitleText}" Margin="8,3,0,0"/>
                 </StackPanel>
                 <Button Grid.Column="1" Width="32" Height="32"
                         Content="✕" FontSize="15" FontWeight="Bold"
@@ -197,7 +197,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="TxtStatus" Text="准备就绪" VerticalAlignment="Center" FontSize="12" Foreground="#5A7A3A"/>
+                <TextBlock x:Name="TxtStatus" Text="准备就绪" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource SuccessColor}"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button Content="取消" Style="{StaticResource FlatButton}" Click="CloseButton_Click" Margin="0,0,10,0"/>
                     <Button Content="生成" Style="{StaticResource AccentButton}" Click="BtnGenerate_Click"/>

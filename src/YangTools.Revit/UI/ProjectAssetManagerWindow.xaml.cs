@@ -39,6 +39,7 @@ namespace YangTools.Revit.UI
 
         public ProjectAssetManagerWindow(UIApplication uiapp)
         {
+            _currentTabName = "Views"; // 防止 InitializeComponent 中 TabControl SelectionChanged 重复触发 LoadTab
             InitializeComponent();
             ThemeHelper.ApplyToWindow(this);
             this.DataContext = this;
@@ -754,7 +755,7 @@ namespace YangTools.Revit.UI
                     _assetCollectionView.Refresh();
                     StatusText.Text = $"加载了 {AssetList.Count} 个对象";
                 });
-            });
+            }, operationName: "加载数据", showSuccess: false);
             _externalEvent.Raise();
         }
 
@@ -896,7 +897,7 @@ namespace YangTools.Revit.UI
                         {
                             Dispatcher.Invoke(() => TaskDialog.Show("Error", "Could not rename Line Style: " + ex.Message));
                         }
-                    });
+                    }, operationName: "编辑线型名称");
                     _externalEvent.Raise();
                 }
                 else if (bindingPath == "LineWeight")
@@ -924,7 +925,7 @@ namespace YangTools.Revit.UI
                             {
                                 Dispatcher.Invoke(() => TaskDialog.Show("Error", "Could not set Line Weight: " + ex.Message));
                             }
-                        });
+                        }, operationName: "编辑线宽");
                         _externalEvent.Raise();
                     }
                     else
@@ -974,7 +975,7 @@ namespace YangTools.Revit.UI
                                 t.Commit();
                             }
                         }
-                    });
+                    }, operationName: "编辑填充区域名称");
                     _externalEvent.Raise();
                 }
                 else if (bindingPath == "IsMasking" && cb != null)
@@ -993,7 +994,7 @@ namespace YangTools.Revit.UI
                                 t.Commit();
                             }
                         }
-                    });
+                    }, operationName: "编辑遮罩设置");
                     _externalEvent.Raise();
                 }
             }
@@ -1030,7 +1031,7 @@ namespace YangTools.Revit.UI
                         }
                     }
                 }
-            });
+            }, operationName: "更改线型图案");
             _externalEvent.Raise();
         }
 
@@ -1063,7 +1064,7 @@ namespace YangTools.Revit.UI
                         }
                     }
                 }
-            });
+            }, operationName: "更改填充图案");
             _externalEvent.Raise();
         }
 
@@ -1118,7 +1119,7 @@ namespace YangTools.Revit.UI
                     t.Commit();
                 }
                 Dispatcher.Invoke(() => LoadLineStyles());
-            });
+            }, operationName: "复制线型");
             _externalEvent.Raise();
         }
 
@@ -1158,7 +1159,7 @@ namespace YangTools.Revit.UI
                     }
                     Dispatcher.Invoke(() => LoadFilledRegions());
                 }
-            });
+            }, operationName: "复制填充区域");
             _externalEvent.Raise();
         }
 
@@ -1190,7 +1191,7 @@ namespace YangTools.Revit.UI
                             t.Commit();
                         }
                     }
-                });
+                }, operationName: "更改线颜色");
                 _externalEvent.Raise();
             }
         }
@@ -1226,7 +1227,7 @@ namespace YangTools.Revit.UI
                             t.Commit();
                         }
                     }
-                });
+                }, operationName: "更改填充颜色");
                 _externalEvent.Raise();
             }
         }
@@ -1262,7 +1263,7 @@ namespace YangTools.Revit.UI
                                         try { paramByName.Set(newVal); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                         t.Commit();
                                     }
-                                });
+                                }, operationName: "编辑项目信息");
                                 _externalEvent.Raise();
                             }
                         }
@@ -1309,7 +1310,7 @@ namespace YangTools.Revit.UI
                             });
                         }
                         catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
-                    });
+                    }, operationName: "编辑资产名称");
                     _externalEvent.Raise();
                 }
                 else if (bindingPath.StartsWith("Parameters[") && bindingPath.EndsWith("].Value") && bindingPath.Length > 19)
@@ -1363,7 +1364,7 @@ namespace YangTools.Revit.UI
                             });
                         }
                         catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
-                    });
+                    }, operationName: "编辑参数值");
                     _externalEvent.Raise();
                 }
             }
@@ -1534,7 +1535,7 @@ namespace YangTools.Revit.UI
                     {
                         Dispatcher.Invoke(() => TaskDialog.Show("Error", "Import failed: " + ex.Message));
                     }
-                });
+                }, operationName: "导入Excel同步", showSuccess: false);
                 _externalEvent.Raise();
             }
         }
@@ -1568,7 +1569,7 @@ namespace YangTools.Revit.UI
                 {
                     Dispatcher.Invoke(() => TaskDialog.Show("Error", "Could not select: " + ex.Message));
                 }
-            });
+            }, operationName: "在视图中选择");
             _externalEvent.Raise();
         }
 
@@ -1749,39 +1750,8 @@ namespace YangTools.Revit.UI
                 {
                     Dispatcher.Invoke(() => TaskDialog.Show("Error", "Delete failed: " + ex.Message));
                 }
-            });
+            }, operationName: "删除图元", showSuccess: false);
             _externalEvent.Raise();
-        }
-
-        private void PurgeUnused_Click(object sender, RoutedEventArgs e)
-        {
-            _handler.SetAction(app =>
-            {
-                try
-                {
-                    // For Purge Unused, using native PostCommand is the most robust way in Revit currently.
-                    var commandId = RevitCommandId.LookupPostableCommandId(PostableCommand.PurgeUnused);
-                    if (commandId != null && app.CanPostCommand(commandId))
-                    {
-                        app.PostCommand(commandId);
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(() => TaskDialog.Show("提示", "当前版本不支持调用该命令。"));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Dispatcher.Invoke(() => TaskDialog.Show("Error", "Purge failed: " + ex.Message));
-                }
-            });
-            _externalEvent.Raise();
-        }
-
-        private void FindAndReplaceStyle_Click(object sender, RoutedEventArgs e)
-        {
-            // Placeholder for Find & Replace logic for styles.
-            TaskDialog.Show("提示", "查找并替换功能正在开发中...");
         }
 
         private void BatchRename_Click(object sender, RoutedEventArgs e)
@@ -1855,23 +1825,10 @@ namespace YangTools.Revit.UI
                     {
                         Dispatcher.Invoke(() => TaskDialog.Show("Error", "Batch rename failed: " + ex.Message));
                     }
-                });
+                }, operationName: "批量重命名", showSuccess: false);
                 _externalEvent.Raise();
             }
         }
-        private void HideSelectedRows_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItems = AssetDataGrid.SelectedItems.Cast<AssetItemViewModel>().ToList();
-            foreach (var item in selectedItems) item.IsRowVisible = false;
-            _assetCollectionView?.Refresh();
-        }
-
-        private void RestoreHiddenRows_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in AssetList) item.IsRowVisible = true;
-            _assetCollectionView?.Refresh();
-        }
-
         private void HideCurrentColumn_Click(object sender, RoutedEventArgs e)
         {
             var cellInfo = AssetDataGrid.CurrentCell;

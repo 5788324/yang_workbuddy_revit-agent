@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
             
             <!-- Categories -->
-            <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="0" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
                         <TextBlock Text="A. 控制的族类别 (Categories)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
@@ -42,14 +42,14 @@
             </Border>
             
             <!-- Elements -->
-            <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="2" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
                         <TextBlock Text="B. 匹配的模型元素 (Elements)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <DataGrid x:Name="ElementsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                               HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
-                              RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                              RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}"
                               HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
@@ -61,7 +61,7 @@
             </Border>
             
             <!-- Views -->
-            <Border Grid.Column="4" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Column="4" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
                         <TextBlock Text="C. 使用此过滤器的视图与样板" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
@@ -71,7 +71,7 @@
             </Border>
             
             <!-- Rules -->
-            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="#FFFFFF" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
                         <TextBlock Text="D. 过滤器规则 (Filter Rules)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>

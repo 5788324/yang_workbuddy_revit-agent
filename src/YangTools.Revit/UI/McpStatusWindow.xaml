@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MCP Server Status" Height="360" Width="550"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Background="#F9F9F9">
+        Background="{DynamicResource WindowBg}">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,25 +16,25 @@
         <!-- Status Header -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,15">
             <Ellipse Width="12" Height="12" Fill="LimeGreen" Margin="0,0,10,0"/>
-            <TextBlock Text="MCP 服务正在运行 (Running)" FontSize="16" FontWeight="Bold" Foreground="#333"/>
+            <TextBlock Text="MCP 服务正在运行 (Running)" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
         </StackPanel>
 
         <!-- URL Info -->
         <StackPanel Grid.Row="1" Margin="0,0,0,10">
-            <TextBlock Text="连接地址 (Server URL):" FontWeight="SemiBold" Foreground="#555"/>
-            <TextBox Text="http://localhost:8081/mcp/" IsReadOnly="True" Background="White" Padding="5" Margin="0,5,0,0" BorderBrush="#DDD" />
+            <TextBlock Text="连接地址 (Server URL):" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryText}"/>
+            <TextBox Text="http://localhost:8081/mcp/" IsReadOnly="True" Background="{DynamicResource InputBg}" Padding="5" Margin="0,5,0,0" BorderBrush="{DynamicResource InputBorder}" />
         </StackPanel>
 
         <!-- Auth Info -->
         <StackPanel Grid.Row="2" Margin="0,0,0,15">
-            <TextBlock Text="认证密钥 (Secret Key):" FontWeight="SemiBold" Foreground="#555"/>
+            <TextBlock Text="认证密钥 (Secret Key):" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryText}"/>
             <TextBlock Text="无 (免认证，任意本地客户端均可连接)" Foreground="Gray" Margin="0,5,0,0"/>
         </StackPanel>
 
         <!-- Client Guide -->
         <StackPanel Grid.Row="3" Margin="0,0,0,10">
-            <TextBlock Text="接入示例 (POST Request Payload):" FontWeight="SemiBold" Foreground="#555" Margin="0,0,0,5"/>
-            <TextBox TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Background="#2D2D2D" Foreground="#E0E0E0" FontFamily="Consolas" Padding="10" BorderThickness="0">
+            <TextBlock Text="接入示例 (POST Request Payload):" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Background="{DynamicResource InputBg}" Foreground="{DynamicResource InputText}" FontFamily="Consolas" Padding="10" BorderThickness="0">
 {
   "command": "eval_python",
   "args": {
@@ -45,6 +45,6 @@
         </StackPanel>
 
         <!-- Close Button -->
-        <Button Content="关闭" Grid.Row="4" Width="80" Height="28" HorizontalAlignment="Right" Click="BtnClose_Click" Background="#E0E0E0" BorderThickness="0" Cursor="Hand"/>
+        <Button Content="关闭" Grid.Row="4" Width="80" Height="28" HorizontalAlignment="Right" Click="BtnClose_Click" Background="{DynamicResource BtnBg}" BorderThickness="0" Cursor="Hand"/>
     </Grid>
 </Window>

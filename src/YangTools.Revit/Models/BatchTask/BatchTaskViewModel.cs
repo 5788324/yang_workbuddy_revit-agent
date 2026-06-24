@@ -160,7 +160,7 @@ namespace YangTools.Revit.Models.BatchTask
         private string? _selectedIfc3DView;
         public string? SelectedIfc3DView { get => _selectedIfc3DView; set { _selectedIfc3DView = value; OnPropertyChanged(); } }
 
-        public List<string> AvailableIfcVersions { get; } = new() { "IFC 2x3", "IFC 4" };
+        public List<string> AvailableIfcVersions { get; } = new() { "IFC 4", "IFC 4 DTV", "IFC 4 RV", "IFC 2x3", "IFC 2x3 CV 2.0", "IFC 2x2", "IFC BCA", "IFC COBie", "IFC Rail" };
         private string _selectedIfcVersion = "IFC 4";
         public string SelectedIfcVersion { get => _selectedIfcVersion; set { _selectedIfcVersion = value; OnPropertyChanged(); } }
 

@@ -5,19 +5,10 @@
         WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip"
         Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei"
         WindowStyle="None" AllowsTransparency="True"
-        BorderBrush="#C4A882" BorderThickness="1">
+        BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1">
 
     <Window.Resources>
-        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
-        <SolidColorBrush x:Key="PanelBg" Color="#F5EDE3"/>
-        <SolidColorBrush x:Key="WindowBorder" Color="#C4A882"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
-        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColor}"/>
-        <SolidColorBrush x:Key="BtnBg" Color="#E8DDD0"/>
-        <SolidColorBrush x:Key="BtnHoverBg" Color="#D4C4B0"/>
-        <SolidColorBrush x:Key="SuccessColor" Color="#5C8B4C"/>
-        <SolidColorBrush x:Key="WarningColor" Color="#C4784A"/>
+        <SolidColorBrush x:Key="BtnHoverLocal" Color="#D4C4B0"/>
 
         <Style x:Key="ActionButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource AccentColor}"/>
@@ -33,7 +24,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#8A5F3A"/>
+                                <Setter Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.5"/>
@@ -58,7 +49,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource BtnHoverBg}"/>
+                                <Setter Property="Background" Value="{StaticResource BtnHoverLocal}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -77,7 +68,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar -->
-        <Border Grid.Row="0" Background="{StaticResource AccentColor}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Padding="12,8">
+        <Border Grid.Row="0" Background="{DynamicResource TitleBarGradient}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Padding="12,8">
             <Grid>
                 <TextBlock Text="基于面族 → 常规模型族 转换工具" FontSize="15" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
                 <Button HorizontalAlignment="Right" Click="CloseButton_Click" Background="Transparent" BorderThickness="0" Foreground="White" Padding="5,2" Cursor="Hand" FontSize="14" Content="✕"/>
@@ -101,7 +92,7 @@
                   SelectionMode="Extended" GridLinesVisibility="Horizontal"
                   HeadersVisibility="Column" IsReadOnly="True"
                   Background="White" BorderBrush="{StaticResource WindowBorder}" BorderThickness="1"
-                  RowBackground="White" AlternatingRowBackground="#F8F4EE">
+                  RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="选择" Width="50">
                     <DataGridTemplateColumn.CellTemplate>

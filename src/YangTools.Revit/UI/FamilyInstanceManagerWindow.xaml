@@ -54,17 +54,11 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#5C8B4C" Offset="0"/>
-                        <GradientStop Color="#7AC4A6" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
                         <TextBlock Text="族实例管理" Foreground="#FFFFFF" FontSize="16" FontWeight="Bold"/>
-                        <TextBlock Text=" Instance Manager" Foreground="#D8E8C4" FontSize="14" Margin="5,2,0,0"/>
+                        <TextBlock Text=" Instance Manager" Foreground="{DynamicResource TitleText}" FontSize="14" Margin="5,2,0,0"/>
                     </StackPanel>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="30" Height="30" Background="Transparent" BorderThickness="0" Click="CloseButton_Click" Padding="0">
                         <Button.Template>
@@ -134,7 +128,7 @@
                                 <TextBlock Grid.Column="2" Text="搜索: " VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}" Margin="15,0,5,0"/>
                                 <TextBox Grid.Column="3" x:Name="SearchBox" Margin="5,0" Padding="5" TextChanged="SearchChanged" VerticalAlignment="Center"/>
                                 
-                                <Button Grid.Column="4" Content="选择图元 (Select Elements)" Click="SelectElements_Click" Margin="15,0,0,0" Padding="10,5" Background="#5C8B4C" Foreground="White" BorderThickness="0" ToolTip="隐藏窗口，在视图中选取图元进行管理"/>
+                                <Button Grid.Column="4" Content="选择图元 (Select Elements)" Click="SelectElements_Click" Margin="15,0,0,0" Padding="10,5" Background="{DynamicResource SuccessColor}" Foreground="{DynamicResource TitleText}" BorderThickness="0" ToolTip="隐藏窗口，在视图中选取图元进行管理"/>
                             </Grid>
                         </Border>
 
@@ -209,7 +203,7 @@
             <!-- Bottom Toolbar -->
             <Border Grid.Row="3" Background="{StaticResource PanelBg}" BorderBrush="{StaticResource WindowBorder}" BorderThickness="0,1,0,0" Padding="10,5">
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button ToolTip="在视图中选择 (Select in View)" Style="{StaticResource IconButton}" Click="SelectInView_Click" Foreground="#2196F3">
+                    <Button ToolTip="在视图中选择 (Select in View)" Style="{StaticResource IconButton}" Click="SelectInView_Click" Foreground="{DynamicResource InfoColor}">
                         <TextBlock Text="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                     </Button>
                     <Button ToolTip="重置参数列 (Reset Columns)" Style="{StaticResource IconButton}" Click="ResetColumns_Click">
@@ -221,7 +215,7 @@
                     <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                         <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                     </Button>
-                    <Button ToolTip="删除实例 (Delete Instances)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="#D32F2F">
+                    <Button ToolTip="删除实例 (Delete Instances)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="{DynamicResource DangerBg}">
                         <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                     </Button>
                 </WrapPanel>

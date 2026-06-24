@@ -54,7 +54,7 @@
                                 <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#F8F3EC"/>
+                                <Setter Property="Background" Value="{DynamicResource PanelBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -114,11 +114,11 @@
                             <Button Style="{StaticResource IconButton}" Tag="&#xE710;" Content="添加参数列" Click="AddParameterColumn_Click" ToolTip="添加图纸自定义参数"/>
                             <Button Style="{StaticResource IconButton}" Tag="&#xE896;" Content="导出 Excel" Click="ExportSheetExcel_Click" ToolTip="导出图纸数据"/>
                             <Button Style="{StaticResource IconButton}" Tag="&#xE8B5;" Content="导入建图/更新" Click="ImportSheetExcel_Click" ToolTip="导入Excel，存在则更新参数，不存在则自动建图纸"/>
-                            <Button Style="{StaticResource IconButton}" Tag="&#xE74D;" Content="删除图纸" Click="DeleteSheets_Click" Foreground="#A03020" ToolTip="删除选中的图纸"/>
+                            <Button Style="{StaticResource IconButton}" Tag="&#xE74D;" Content="删除图纸" Click="DeleteSheets_Click" Foreground="{DynamicResource DangerBg}" ToolTip="删除选中的图纸"/>
                             <Button Style="{StaticResource IconButton}" Tag="&#xE72C;" Content="刷新" Click="Refresh_Click" ToolTip="重新加载图纸"/>
                         </StackPanel>
                         
-                        <DataGrid x:Name="SheetsDataGrid" Grid.Row="1" GridLinesVisibility="All" HorizontalGridLinesBrush="#E6E6E6" VerticalGridLinesBrush="#E6E6E6" RowHeight="32">
+                        <DataGrid x:Name="SheetsDataGrid" Grid.Row="1" GridLinesVisibility="All" HorizontalGridLinesBrush="{DynamicResource GridLine}" VerticalGridLinesBrush="{DynamicResource GridLine}" RowHeight="32">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="#" Binding="{Binding Index}" Width="40" IsReadOnly="True" />
                                 <DataGridTextColumn Header="图号 (Sheet Number)" Binding="{Binding SheetNumber, UpdateSourceTrigger=LostFocus}" Width="150"/>

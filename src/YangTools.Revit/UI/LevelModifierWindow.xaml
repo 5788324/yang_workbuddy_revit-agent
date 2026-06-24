@@ -36,7 +36,7 @@
 
         <Style TargetType="{x:Type Button}" x:Key="PrimaryButtonStyle">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="15,5"/>
@@ -78,7 +78,7 @@
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource GridSelected}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>

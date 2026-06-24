@@ -40,12 +40,12 @@
                                 <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#D0C0A8"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnBg}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#B0A898"/>
-                                <Setter TargetName="bd" Property="Background" Value="#EDE8E0"/>
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#D8D0C0"/>
+                                <Setter Property="Foreground" Value="{DynamicResource BtnHover}"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource PanelBg}"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource PanelBg}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -75,11 +75,11 @@
                                 <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#704A28"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="{DynamicResource BtnBorder}"/>
-                                <Setter TargetName="bd" Property="Background" Value="#C8B090"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -107,7 +107,7 @@
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentHover}"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -134,7 +134,7 @@
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Text="从 CAD 粘贴" FontWeight="Bold" FontSize="17" Foreground="#FFFFFF"/>
                     <TextBlock Text=" |  AutoCAD → Revit 几何导入" FontSize="12"
-                               Foreground="#E8D8C4" Margin="8,3,0,0" VerticalAlignment="Bottom"/>
+                               Foreground="{DynamicResource TitleText}" Margin="8,3,0,0" VerticalAlignment="Bottom"/>
                 </StackPanel>
                 <Button Grid.Column="1" Width="32" Height="32"
                         Content="✕" FontSize="15" FontWeight="Bold"
@@ -212,7 +212,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="导入单位：" VerticalAlignment="Center"
-                           FontSize="13" Foreground="#5A5040"/>
+                           FontSize="13" Foreground="{DynamicResource SecondaryText}"/>
                 <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboUnits" SelectedIndex="1"
@@ -236,7 +236,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="颜色模式：" VerticalAlignment="Center"
-                           FontSize="13" Foreground="#5A5040"/>
+                           FontSize="13" Foreground="{DynamicResource SecondaryText}"/>
                 <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboColors" SelectedIndex="0"
@@ -256,7 +256,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="定位方式：" VerticalAlignment="Center"
-                           FontSize="13" Foreground="#5A5040"/>
+                           FontSize="13" Foreground="{DynamicResource SecondaryText}"/>
                 <Border Grid.Column="1" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"
                         BorderThickness="1" CornerRadius="5">
                     <ComboBox x:Name="CboPlacement" SelectedIndex="0"
@@ -277,7 +277,7 @@
                 <CheckBox x:Name="ChkThisViewOnly" Grid.Column="1"
                           Content="仅当前视口复制 (This View Only)"
                           IsChecked="True"
-                          Foreground="#5A5040" FontSize="13" VerticalAlignment="Center"/>
+                          Foreground="{DynamicResource SecondaryText}" FontSize="13" VerticalAlignment="Center"/>
             </Grid>
         </StackPanel>
 

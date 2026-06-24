@@ -131,7 +131,7 @@ namespace YangTools.Revit.UI
                                 }
                             } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
-                    });
+                    }, operationName: "修改图纸信息", showSuccess: false);
                     _externalEvent.Raise();
                 };
 
@@ -155,7 +155,7 @@ namespace YangTools.Revit.UI
                                     }
                                 } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                             }
-                        });
+                        }, operationName: "修改图纸参数", showSuccess: false);
                         _externalEvent.Raise();
                     };
                     vm.Parameters[paramName] = pItem;
@@ -319,7 +319,7 @@ namespace YangTools.Revit.UI
                 {
                     Dispatcher.Invoke(() => TaskDialog.Show("错误", "删除失败: " + ex.Message));
                 }
-            });
+            }, operationName: "删除图纸", showSuccess: true);
             _externalEvent.Raise();
         }
 
@@ -363,7 +363,7 @@ namespace YangTools.Revit.UI
                     {
                         Dispatcher.Invoke(() => TaskDialog.Show("错误", "无法更新修订: " + ex.Message));
                     }
-                });
+                }, operationName: "更新修订", showSuccess: true);
                 _externalEvent.Raise();
             }
         }
@@ -484,7 +484,6 @@ namespace YangTools.Revit.UI
 
                         Dispatcher.Invoke(() =>
                         {
-                            TaskDialog.Show("提示", $"成功处理了 {successCount} 行数据！其中新建了 {createdCount} 张图纸。");
                             LoadSheets();
                         });
                     }
@@ -492,7 +491,7 @@ namespace YangTools.Revit.UI
                     {
                         Dispatcher.Invoke(() => TaskDialog.Show("错误", "Import failed: " + ex.Message));
                     }
-                });
+                }, operationName: "导入图纸参数", showSuccess: true);
                 _externalEvent.Raise();
             }
         }
@@ -606,7 +605,7 @@ namespace YangTools.Revit.UI
                         {
                             Dispatcher.Invoke(() => TaskDialog.Show("错误", "Change type failed: " + ex.Message));
                         }
-                    });
+                    }, operationName: "更换图框类型", showSuccess: false);
                     _externalEvent.Raise();
                 }
             }
@@ -697,7 +696,6 @@ namespace YangTools.Revit.UI
 
                         Dispatcher.Invoke(() =>
                         {
-                            TaskDialog.Show("提示", $"成功更新了 {successCount} 个图框的参数！");
                             LoadTitleblocks();
                         });
                     }
@@ -705,7 +703,7 @@ namespace YangTools.Revit.UI
                     {
                         Dispatcher.Invoke(() => TaskDialog.Show("错误", "Import failed: " + ex.Message));
                     }
-                });
+                }, operationName: "导入图框参数", showSuccess: true);
                 _externalEvent.Raise();
             }
         }
@@ -721,7 +719,7 @@ namespace YangTools.Revit.UI
                 var uidoc = app.ActiveUIDocument;
                 uidoc.Selection.SetElementIds(ids);
                 uidoc.ShowElements(ids);
-            });
+            }, operationName: "在视图中定位图框", showSuccess: true);
             _externalEvent.Raise();
         }
 
@@ -741,7 +739,10 @@ namespace YangTools.Revit.UI
                 var header = contextMenu.PlacementTarget as System.Windows.Controls.Primitives.DataGridColumnHeader;
                 if (header != null && header.Column != null)
                 {
-                    // 不要隐藏前三个基础列（序号/图号/图名/图框类型等核心列可以考虑保护，但为了灵活，允许隐藏所有）
+                    // 保护核心列：禁止隐藏 序号/图号/图名/图框类型
+                    string headerText = header.Column.Header?.ToString() ?? "";
+                    if (headerText == "#" || headerText.Contains("序号") || headerText.Contains("图号") || headerText.Contains("图名") || headerText.Contains("图框"))
+                        return;
                     header.Column.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }

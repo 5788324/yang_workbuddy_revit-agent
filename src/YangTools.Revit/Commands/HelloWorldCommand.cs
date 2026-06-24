@@ -3,6 +3,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.UI;
 
 namespace YangTools.Revit.Commands
 {
@@ -20,10 +21,9 @@ namespace YangTools.Revit.Commands
         {
             try
             {
-                TaskDialog.Show(
-                    "YangTools", 
-                    "您好！Revit 插件已成功动态加载，多版本兼容环境正常运行！\n\n当前操作系统类型：Windows");
-
+                var window = new AssistantWindow(selectedTabIndex: 3);
+                new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
+                window.ShowDialog();
                 return Result.Succeeded;
             }
             catch (Exception ex)

@@ -21,11 +21,11 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
                                 <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource GridSelected}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -83,7 +83,7 @@
                     <Button Content="取消" Width="70" Height="28" Margin="0,0,10,0" Click="BtnCancel_Click"
                             Background="{DynamicResource BtnBg}" BorderBrush="{DynamicResource BtnBorder}" Foreground="{DynamicResource PrimaryText}"/>
                     <Button Content="确定" Width="70" Height="28" Click="BtnOk_Click"
-                            Background="{DynamicResource AccentColor}" BorderBrush="{DynamicResource AccentHover}" Foreground="#FFFFFF" FontWeight="Bold"/>
+                            Background="{DynamicResource AccentColor}" BorderBrush="{DynamicResource AccentHover}" Foreground="{DynamicResource TitleText}" FontWeight="Bold"/>
                 </StackPanel>
             </Border>
         </Grid>

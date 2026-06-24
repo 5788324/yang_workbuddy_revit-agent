@@ -11,15 +11,16 @@ namespace YangTools.Revit.Core
     /// </summary>
     public class RevitEventHandler : IExternalEventHandler
     {
-        private System.Collections.Concurrent.ConcurrentQueue<(Action<UIApplication> action, string name)> _queue 
-            = new System.Collections.Concurrent.ConcurrentQueue<(Action<UIApplication>, string)>();
+        private System.Collections.Concurrent.ConcurrentQueue<(Action<UIApplication> action, string name, bool showSuccess)> _queue 
+            = new System.Collections.Concurrent.ConcurrentQueue<(Action<UIApplication>, string, bool)>();
 
         /// <summary>
         /// Sets the action to be executed on the next Raise() call.
         /// </summary>
-        public void SetAction(Action<UIApplication> action, string operationName = "YangTools 操作")
+        /// <param name="showSuccess">是否在操作成功后弹出 TaskDialog 提示。数据加载等自动操作应传 false。</param>
+        public void SetAction(Action<UIApplication> action, string operationName = "YangTools 操作", bool showSuccess = true)
         {
-            _queue.Enqueue((action, operationName));
+            _queue.Enqueue((action, operationName, showSuccess));
         }
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace YangTools.Revit.Core
             {
                 var currentAction = item.action;
                 var currentName = item.name;
+                var showSuccess = item.showSuccess;
 
                 if (doc != null && !doc.IsReadOnly)
                 {
@@ -42,7 +44,7 @@ namespace YangTools.Revit.Core
                         {
                             tg.Start();
                             currentAction.Invoke(app);
-                            TransactionHelper.ShowSuccessAndCommit(tg, "成功", $"{currentName} 执行成功。", app.ActiveUIDocument);
+                            TransactionHelper.ShowSuccessAndCommit(tg, "成功", $"{currentName} 执行成功。", app.ActiveUIDocument, showSuccess);
                         }
                         catch (OperationCanceledException)
                         {

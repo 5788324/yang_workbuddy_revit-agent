@@ -15,7 +15,7 @@ namespace YangTools.Revit.Commands
         {
             try
             {
-                var window = new McpStatusWindow();
+                var window = new AssistantWindow(selectedTabIndex: 4);
                 new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
                 window.ShowDialog();
                 return Result.Succeeded;

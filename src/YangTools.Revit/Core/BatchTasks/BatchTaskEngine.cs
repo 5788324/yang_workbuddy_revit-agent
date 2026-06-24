@@ -69,9 +69,14 @@ namespace YangTools.Revit.Core.BatchTasks
                     try
                     {
                         IFCExportOptions opt = new IFCExportOptions();
-                        opt.FileVersion = viewModel.SelectedIfcVersion == "IFC 4" ? IFCVersion.IFC4 : IFCVersion.IFC2x3;
+                        opt.FileVersion = GetIFCVersion(viewModel.SelectedIfcVersion);
                         opt.FilterViewId = view3D.Id;
-                        doc.Export(rootFolder, viewModel.IfcFileName ?? doc.Title, opt);
+                        using (Transaction t = new Transaction(doc, "导出 IFC"))
+                        {
+                            t.Start();
+                            doc.Export(rootFolder, viewModel.IfcFileName ?? doc.Title, opt);
+                            t.Commit();
+                        }
                     }
                     catch (Exception ex) { errors.Add($"IFC 导出失败: {ex.Message}"); }
                 }
@@ -151,6 +156,26 @@ namespace YangTools.Revit.Core.BatchTasks
             }
             return new FilteredElementCollector(doc).OfClass(typeof(View3D)).Cast<View3D>()
                 .FirstOrDefault(v => v.Name == viewName && !v.IsTemplate);
+        }
+
+        private static IFCVersion GetIFCVersion(string? versionName)
+        {
+            if (string.IsNullOrEmpty(versionName))
+                return IFCVersion.IFC4;
+
+            switch (versionName)
+            {
+                case "IFC 2x2": return IFCVersion.IFC2x2;
+                case "IFC 2x3": return IFCVersion.IFC2x3;
+                case "IFC 2x3 CV 2.0": return IFCVersion.IFC2x3CV2;
+                case "IFC BCA": return IFCVersion.IFCBCA;
+                case "IFC COBie": return IFCVersion.IFCCOBIE;
+                case "IFC Rail": return IFCVersion.IFCRail;
+                case "IFC 4": return IFCVersion.IFC4;
+                case "IFC 4 DTV": return IFCVersion.IFC4DTV;
+                case "IFC 4 RV": return IFCVersion.IFC4RV;
+                default: return IFCVersion.IFC4;
+            }
         }
 
         private static List<ElementId> GetViewIds(Document doc, string? viewSetName)

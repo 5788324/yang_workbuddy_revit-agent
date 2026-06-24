@@ -6,16 +6,6 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        <!-- Changan Theme Resources -->
-        <SolidColorBrush x:Key="WindowBg" Color="{DynamicResource WindowBg}"/>
-        <SolidColorBrush x:Key="WindowBorder" Color="{DynamicResource WindowBorder}"/>
-        <SolidColorBrush x:Key="PanelBg" Color="{DynamicResource PanelBg}"/>
-        <SolidColorBrush x:Key="PrimaryText" Color="{DynamicResource PrimaryText}"/>
-        <SolidColorBrush x:Key="SecondaryText" Color="{DynamicResource SecondaryText}"/>
-        <SolidColorBrush x:Key="BtnBg" Color="{DynamicResource BtnBg}"/>
-        <SolidColorBrush x:Key="BtnBorder" Color="{DynamicResource BtnBorder}"/>
-        <SolidColorBrush x:Key="BtnHover" Color="{DynamicResource BtnHover}"/>
-
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource BtnBg}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BtnBorder}"/>

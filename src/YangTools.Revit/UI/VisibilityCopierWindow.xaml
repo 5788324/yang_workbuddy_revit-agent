@@ -26,11 +26,11 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsHighlighted" Value="True">
                                     <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
-                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="itemBd" Property="Background" Value="#7A5535"/>
-                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                    <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource GridSelected}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -135,7 +135,7 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <Button Content="拷贝" Width="100" Height="35" Click="CopyButton_Click" Background="{DynamicResource AccentColor}" BorderBrush="Transparent" Foreground="#FFFFFF" FontWeight="Bold" Cursor="Hand">
+                    <Button Content="拷贝" Width="100" Height="35" Click="CopyButton_Click" Background="{DynamicResource AccentColor}" BorderBrush="Transparent" Foreground="{DynamicResource TitleText}" FontWeight="Bold" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">

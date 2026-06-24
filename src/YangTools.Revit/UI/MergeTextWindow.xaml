@@ -38,7 +38,7 @@
         <Style x:Key="PrimaryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardButton}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">

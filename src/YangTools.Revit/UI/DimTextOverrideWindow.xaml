@@ -38,10 +38,10 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#B0A088"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource BtnBorder}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#D0C4B0"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -73,7 +73,7 @@
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#7A5030"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentHover}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -124,7 +124,7 @@
 
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="标注文本替换" FontWeight="Bold" FontSize="17" Foreground="#FFFFFF"/>
-                    <TextBlock Text="自定义标注显示内容" FontSize="11" Foreground="#E8D8C4" Margin="0,2,0,0"/>
+                    <TextBlock Text="自定义标注显示内容" FontSize="11" Foreground="{DynamicResource TitleText}" Margin="0,2,0,0"/>
                 </StackPanel>
 
                 <!-- 关闭按钮 -->
@@ -143,8 +143,8 @@
         <Grid Grid.Row="1" Margin="24,18,24,10">
             <StackPanel>
                 <!-- 已选标注数量提示 -->
-                <Border Background="#E8F0D8" BorderBrush="#A0C070" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,16">
-                    <TextBlock x:Name="TxtSelectedCount" Text="已选中 0 个标注" FontSize="13" Foreground="#5A7A3A" FontWeight="Medium"/>
+                <Border Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,0,0,16">
+                    <TextBlock x:Name="TxtSelectedCount" Text="已选中 0 个标注" FontSize="13" Foreground="{DynamicResource SuccessColor}" FontWeight="Medium"/>
                 </Border>
 
                 <!-- 替换文本输入区域 -->

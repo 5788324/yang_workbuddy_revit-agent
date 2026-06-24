@@ -32,7 +32,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#EAE0D5"/>
+                                <Setter Property="Background" Value="{DynamicResource PanelBg}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource WindowBorder}"/>
@@ -184,7 +184,7 @@
                             <Button ToolTip="批量重命名 (Batch Rename)" Style="{StaticResource IconButton}" Click="BatchRename_Click">
                                 <TextBlock Text="&#xE8AC;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
-                            <Button ToolTip="导出 RFA (Export RFA)" Style="{StaticResource IconButton}" Click="ExportRfa_Click" Foreground="#5C8B4C">
+                            <Button ToolTip="导出 RFA (Export RFA)" Style="{StaticResource IconButton}" Click="ExportRfa_Click" Foreground="{DynamicResource SuccessColor}">
                                 <TextBlock Text="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
                             <Button ToolTip="导出 Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
@@ -193,7 +193,7 @@
                             <Button ToolTip="导入 Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                                 <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
-                            <Button ToolTip="删除类型/族 (Delete)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="#D32F2F">
+                            <Button ToolTip="删除类型/族 (Delete)" Style="{StaticResource IconButton}" Click="Delete_Click" Foreground="{DynamicResource DangerBg}">
                                 <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                             </Button>
                         </WrapPanel>

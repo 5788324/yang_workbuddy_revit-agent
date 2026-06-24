@@ -64,7 +64,7 @@
 
         <Style x:Key="IconButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#5A4A38"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="8"/>
             <Setter Property="Margin" Value="2"/>
@@ -161,13 +161,13 @@
                 <TabControl x:Name="MainTabControl" Grid.Row="0" Background="Transparent" BorderThickness="0" SelectionChanged="MainTabControl_SelectionChanged">
                     <TabItem Header="视图与排版" Tag="Views"/>
                     <TabItem Header="材质管理" Tag="Materials"/>
-                    <TabItem Header="工作集" Tag="Worksets"/>
+                    <TabItem Header="工作集" Tag="Worksets" ToolTip="此功能可用 Revit 原生'工作集'对话框替代"/>
                     <TabItem Header="视图过滤器" Tag="Filters"/>
                     <TabItem Header="填充图案" Tag="FilledRegions"/>
                     <TabItem Header="线型管理" Tag="LineStyles"/>
                     <TabItem Header="系统配置" Tag="System"/>
-                    <TabItem Header="项目链接" Tag="ProjectLinks"/>
-                    <TabItem Header="编组管理" Tag="Groups"/>
+                    <TabItem Header="项目链接" Tag="ProjectLinks" ToolTip="此功能可用 Revit 原生'管理链接'对话框替代"/>
+                    <TabItem Header="编组管理" Tag="Groups" ToolTip="此功能可用 Revit 原生'编组'功能替代"/>
                 </TabControl>
 
                 <Grid Grid.Row="1" Margin="0,10,0,0">
@@ -197,19 +197,16 @@
                     </Border>
 
                     <!-- Center/Right: DataGrid -->
-                    <Border Grid.Column="2" Background="#FFFFFF" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4">
+                    <Border Grid.Column="2" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4">
                         <Grid>
                             <DataGrid x:Name="AssetDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" 
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
-                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}"
                                       HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}"
                                       CellEditEnding="AssetDataGrid_CellEditEnding">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="隐藏选中行 (Hide Selected Rows)" Click="HideSelectedRows_Click"/>
                                         <MenuItem Header="隐藏当前列 (Hide Current Column)" Click="HideCurrentColumn_Click"/>
-                                        <Separator/>
-                                        <MenuItem Header="恢复所有隐藏行 (Restore Hidden Rows)" Click="RestoreHiddenRows_Click"/>
                                         <MenuItem Header="恢复所有隐藏列 (Restore Hidden Columns)" Click="RestoreHiddenColumns_Click"/>
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
@@ -221,7 +218,7 @@
 
                             <DataGrid x:Name="FilledRegionDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
-                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}"
                                       HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="35"
                                       CellEditEnding="FilledRegionDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
@@ -230,7 +227,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Click="FilledRegionColor_Click" Tag="Fore" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改前景色">
-                                                    <Border Width="30" Height="20" Background="{Binding ForeColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                    <Border Width="30" Height="20" Background="{Binding ForeColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -254,7 +251,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Click="FilledRegionColor_Click" Tag="Back" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改背景色">
-                                                    <Border Width="30" Height="20" Background="{Binding BackColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                    <Border Width="30" Height="20" Background="{Binding BackColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -280,7 +277,7 @@
 
                             <DataGrid x:Name="LineStyleDataGrid" Visibility="Collapsed" AutoGenerateColumns="False" CanUserAddRows="False" 
                                       HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
-                                      RowBackground="#FFFFFF" AlternatingRowBackground="#F9F6F0"
+                                      RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}"
                                       HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="30"
                                       CellEditEnding="LineStyleDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
@@ -302,7 +299,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Click="LineStyleColor_Click" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="点击修改颜色">
-                                                    <Border Width="30" Height="15" Background="{Binding ColorBrush}" BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="2"/>
+                                                    <Border Width="30" Height="15" Background="{Binding ColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -336,14 +333,11 @@
                         <TextBlock x:Name="StatusText" Text="就绪" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <WrapPanel x:Name="DefaultActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5">
-                        <Button x:Name="AnalyzeFilterBtn" ToolTip="深度分析过滤器 (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="#2196F3">
+                        <Button x:Name="AnalyzeFilterBtn" ToolTip="深度分析过滤器 (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="{DynamicResource InfoColor}">
                             <TextBlock Text="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button ToolTip="删除勾选 (Delete Checked)" Style="{StaticResource IconButton}" Click="DeleteSelected_Click" Foreground="#D32F2F">
+                        <Button ToolTip="删除勾选 (Delete Checked)" Style="{StaticResource IconButton}" Click="DeleteSelected_Click" Foreground="{DynamicResource DangerBg}">
                             <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
-                        </Button>
-                        <Button ToolTip="清理未使用 (Purge Unused)" Style="{StaticResource IconButton}" Click="PurgeUnused_Click" Foreground="#D32F2F">
-                            <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
                         <Button ToolTip="批量重命名 (Batch Rename)" Style="{StaticResource IconButton}" Click="BatchRename_Click">
                             <TextBlock Text="&#xE8AC;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
@@ -362,9 +356,6 @@
                         </Button>
                     </WrapPanel>
                     <WrapPanel x:Name="DuplicateActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5" Visibility="Collapsed">
-                        <Button ToolTip="查找并替换所有图元 (Find &amp; Replace)" Style="{StaticResource IconButton}" Click="FindAndReplaceStyle_Click">
-                            <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
-                        </Button>
                         <Button ToolTip="新建副本 (Duplicate)" Style="{StaticResource IconButton}" Click="DuplicateAsset_Click">
                             <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>

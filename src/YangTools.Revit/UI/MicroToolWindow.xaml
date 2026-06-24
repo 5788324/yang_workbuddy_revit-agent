@@ -131,7 +131,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock x:Name="ProjectPathText" Grid.Row="0" Foreground="#8A7A6A" TextWrapping="Wrap" Margin="5,5,5,10" FontSize="11" Text="项目路径: "/>
+                        <TextBlock x:Name="ProjectPathText" Grid.Row="0" Foreground="{DynamicResource SecondaryText}" TextWrapping="Wrap" Margin="5,5,5,10" FontSize="11" Text="项目路径: "/>
                         <ListBox x:Name="ToolsListBox" Grid.Row="1" DisplayMemberPath="Name" MouseDoubleClick="ToolsListBox_MouseDoubleClick" Margin="5"/>
                     </Grid>
                 </GroupBox>

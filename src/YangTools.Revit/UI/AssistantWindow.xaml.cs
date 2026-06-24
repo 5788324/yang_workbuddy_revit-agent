@@ -46,13 +46,15 @@ namespace YangTools.Revit.UI
         private Dictionary<string, List<CommandSettingItem>> _panelSettings = new();
         private List<ThemeOptionItem> _themeOptions = new();
 
-        public AssistantWindow()
+        public AssistantWindow(int selectedTabIndex = 0)
         {
             InitializeComponent();
             ThemeHelper.ApplyToWindow(this);
             LoadThemeOptions();
             LoadPanelSettings();
             SetGreeting();
+            if (selectedTabIndex >= 0 && selectedTabIndex < MainTabControl.Items.Count)
+                MainTabControl.SelectedIndex = selectedTabIndex;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -181,6 +183,12 @@ namespace YangTools.Revit.UI
         {
             SavePanelSettings();
             this.Close();
+        }
+
+        private void BtnSavePanel_Click(object sender, RoutedEventArgs e)
+        {
+            SavePanelSettings();
+            System.Windows.MessageBox.Show("面板设置已保存。请重启 Revit 后生效。", "YangTools", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
