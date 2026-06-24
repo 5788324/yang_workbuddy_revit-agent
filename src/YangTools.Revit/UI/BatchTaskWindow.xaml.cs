@@ -13,64 +13,64 @@ namespace YangTools.Revit.UI
 {
     public partial class BatchTaskWindow : Window
     {
-        private Document _doc;
+        private UIApplication _uiApp;
         private BatchTaskViewModel _viewModel;
 
-        public BatchTaskWindow(Document doc)
+        public BatchTaskWindow(UIApplication uiApp)
         {
             InitializeComponent();
             ThemeHelper.ApplyToWindow(this);
-            _doc = doc;
-            
-            _viewModel = new BatchTaskViewModel(doc);
+            _uiApp = uiApp;
+            _viewModel = new BatchTaskViewModel(uiApp);
             this.DataContext = _viewModel;
+        }
+
+        private void BtnAddDocument_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Revit Models (*.rvt)|*.rvt|All Files (*.*)|*.*",
+                Multiselect = true,
+                Title = "添加要处理的 Revit 模型（支持 Desktop Connector 云路径）"
+            };
+            if (dlg.ShowDialog() == true)
+                foreach (var file in dlg.FileNames)
+                    _viewModel.AddDocument(file);
         }
 
         private void BtnAddFile_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Filter = "Revit & CAD Files (*.rvt;*.dwg;*.dxf)|*.rvt;*.dwg;*.dxf|Revit Models (*.rvt)|*.rvt|CAD Files (*.dwg;*.dxf)|*.dwg;*.dxf|All Files (*.*)|*.*";
-            dlg.Multiselect = true;
-            
-            if (dlg.ShowDialog() == true)
+            var dlg = new Microsoft.Win32.OpenFileDialog
             {
+                Filter = "Revit & CAD (*.rvt;*.dwg;*.dxf)|*.rvt;*.dwg;*.dxf",
+                Multiselect = true,
+                Title = "添加要链接的文件"
+            };
+            if (dlg.ShowDialog() == true)
                 foreach (var file in dlg.FileNames)
-                {
                     _viewModel.Links.Add(new LinkItem { FilePath = file });
-                }
-            }
         }
 
         private void BtnRemoveLink_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.DataContext is LinkItem item)
-            {
                 _viewModel.Links.Remove(item);
-            }
         }
 
         private void BtnBrowseOutput_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                ValidateNames = false,
-                CheckFileExists = false,
-                CheckPathExists = true,
+                ValidateNames = false, CheckFileExists = false, CheckPathExists = true,
                 FileName = "选择此文件夹"
             };
-
             if (!string.IsNullOrWhiteSpace(_viewModel.OutputFolder) && System.IO.Directory.Exists(_viewModel.OutputFolder))
-            {
                 dialog.InitialDirectory = _viewModel.OutputFolder;
-            }
-            
             if (dialog.ShowDialog() == true)
             {
                 string folder = System.IO.Path.GetDirectoryName(dialog.FileName);
                 if (!string.IsNullOrEmpty(folder))
-                {
                     _viewModel.OutputFolder = folder;
-                }
             }
         }
 
@@ -82,27 +82,62 @@ namespace YangTools.Revit.UI
                 return;
             }
 
-            TxtProgress.Text = "正在后台执行任务，请稍候...";
+            TxtProgress.Text = "正在执行，请稍候...";
             FlushUI();
 
             try
             {
-                var errors = BatchTaskEngine.RunBatch(_doc, _viewModel, (msg) =>
-                {
-                    TxtProgress.Text = msg;
-                    FlushUI();
-                });
+                var allErrors = new List<string>();
+                var docs = _viewModel.Documents.Where(d => d.Enabled).ToList();
 
-                if (errors.Count == 0)
+                foreach (var docInfo in docs)
+                {
+                    Document targetDoc;
+                    if (docInfo.IsCurrentDocument)
+                    {
+                        targetDoc = _uiApp.ActiveUIDocument.Document;
+                    }
+                    else
+                    {
+                        // 打开外部模型
+                        var modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(docInfo.FilePath);
+                        var openOptions = new OpenOptions { DetachFromCentralOption = DetachFromCentralOption.DetachAndPreserveWorksets };
+                        targetDoc = _uiApp.Application.OpenDocumentFile(modelPath, openOptions);
+                    }
+
+                    try
+                    {
+                        string docLabel = docInfo.IsCurrentDocument ? "当前文档" : System.IO.Path.GetFileNameWithoutExtension(docInfo.FilePath);
+                        TxtProgress.Text = $"处理: {docLabel}...";
+
+                        var errors = BatchTaskEngine.RunBatch(targetDoc, _viewModel, (msg) =>
+                        {
+                            TxtProgress.Text = $"[{docLabel}] {msg}";
+                            FlushUI();
+                        });
+
+                        allErrors.AddRange(errors.Select(e => $"[{docLabel}] {e}"));
+                    }
+                    finally
+                    {
+                        // 关闭外部打开的文档（不保存）
+                        if (!docInfo.IsCurrentDocument && !targetDoc.IsModifiable)
+                        {
+                            try { targetDoc.Close(false); } catch { }
+                        }
+                    }
+                }
+
+                if (allErrors.Count == 0)
                 {
                     TxtProgress.Text = "批处理全部完成！";
                     MessageBox.Show("所有任务已执行完毕！", "完成", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    TxtProgress.Text = $"批处理完成，{errors.Count} 个错误";
-                    MessageBox.Show($"部分任务失败:\n\n{string.Join("\n", errors.Take(10))}" +
-                                    (errors.Count > 10 ? $"\n\n...及其他 {errors.Count - 10} 个错误" : ""),
+                    TxtProgress.Text = $"完成，{allErrors.Count} 个错误";
+                    MessageBox.Show($"部分任务失败:\n\n{string.Join("\n", allErrors.Take(10))}" +
+                                    (allErrors.Count > 10 ? $"\n\n...及其他 {allErrors.Count - 10} 个错误" : ""),
                                     "完成（有错误）", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }

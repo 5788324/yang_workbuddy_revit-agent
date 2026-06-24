@@ -12,7 +12,7 @@ namespace YangTools.Revit.Commands
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var window = new BatchTaskWindow(commandData.Application.ActiveUIDocument.Document);
+            var window = new BatchTaskWindow(commandData.Application);
             new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
             window.ShowDialog();
             

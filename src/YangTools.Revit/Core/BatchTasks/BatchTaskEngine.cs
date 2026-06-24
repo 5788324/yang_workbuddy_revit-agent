@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 using Autodesk.Revit.DB;
 using YangTools.Revit.Models.BatchTask;
 
@@ -17,96 +17,158 @@ namespace YangTools.Revit.Core.BatchTasks
             var errors = new List<string>();
             string rootFolder = viewModel.OutputFolder;
             if (string.IsNullOrWhiteSpace(rootFolder))
-                rootFolder = @"C:\YangTools\BatchExport";
+                rootFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "YangTools_BatchExport");
             Directory.CreateDirectory(rootFolder);
 
-            // 1. AccuLink (Revit 云端链接)
+            // 1. 链接管理 (仅对当前文档执行)
             if (viewModel.Links.Count > 0)
             {
                 foreach (var link in viewModel.Links)
                 {
-                    progressCallback?.Invoke($"正在链接: {link.FileName}");
-
+                    progressCallback?.Invoke($"链接: {link.FileName}");
                     if (link.IsRevit)
                     {
-                        var cfg = new CloudLinkItem
-                        {
-                            Name = link.FileName, Path = link.FilePath,
-                            SkipIfExists = true, Pinned = true
-                        };
-                        string? err = AccLinkService.Process(doc, cfg);
+                        var err = AccLinkService.Process(doc, new CloudLinkItem
+                        { Name = link.FileName, Path = link.FilePath, SkipIfExists = true, Pinned = true });
                         if (err != null) errors.Add(err);
                     }
                     else if (link.IsCad)
                     {
-                        var cfg = new CadLinkItem
-                        {
-                            Name = link.FileName, Path = link.FilePath,
-                            SkipIfExists = true, Pinned = true
-                        };
-                        string? err = CadLinkService.Process(doc, cfg);
+                        var err = CadLinkService.Process(doc, new CadLinkItem
+                        { Name = link.FileName, Path = link.FilePath, SkipIfExists = true, Pinned = true });
                         if (err != null) errors.Add(err);
                     }
                 }
             }
 
-            // 2. NWC 导出
+            // 2. NWC (三维视图导出)
             if (viewModel.EnableNwc)
             {
-                progressCallback?.Invoke("正在导出 NWC...");
-                var result = ExportService.ExportNwc(doc, new NwcExportConfig
+                progressCallback?.Invoke("导出 NWC...");
+                var view3D = FindView3D(doc, viewModel.SelectedNwc3DView);
+                if (view3D != null)
                 {
-                    FileName = viewModel.NwcFileName,
-                    OutputFolder = rootFolder,
-                    ViewSetName = viewModel.NwcViewSetName
-                });
-                if (!result.Success) errors.Add(result.ErrorMessage ?? "NWC 导出失败");
+                    try
+                    {
+                        var options = new NavisworksExportOptions { ExportScope = NavisworksExportScope.View, ViewId = view3D.Id };
+                        string outName = viewModel.NwcFileName ?? doc.Title;
+                        doc.Export(rootFolder, outName, options);
+                    }
+                    catch (Exception ex) { errors.Add($"NWC 导出失败: {ex.Message}"); }
+                }
+                else { errors.Add($"NWC: 找不到三维视图 '{viewModel.SelectedNwc3DView}'"); }
             }
 
-            // 3. PDF 导出
-            if (viewModel.EnablePdf)
-            {
-                progressCallback?.Invoke("正在导出 PDF...");
-                var result = ExportService.ExportPdf(doc, new PdfExportConfig
-                {
-                    FileName = viewModel.PdfFileName,
-                    OutputFolder = rootFolder,
-                    ViewSetName = viewModel.SelectedPdfViewSheetSet,
-                    SetupName = viewModel.SelectedPdfSetup,
-                    Combine = viewModel.PdfCombine
-                });
-                if (!result.Success) errors.Add(result.ErrorMessage ?? "PDF 导出失败");
-            }
-
-            // 4. IFC 导出
+            // 3. IFC (三维视图导出)
             if (viewModel.EnableIfc)
             {
-                progressCallback?.Invoke("正在导出 IFC...");
-                var result = ExportService.ExportIfc(doc, new IfcExportConfig
+                progressCallback?.Invoke("导出 IFC...");
+                var view3D = FindView3D(doc, viewModel.SelectedIfc3DView);
+                if (view3D != null)
                 {
-                    FileName = viewModel.IfcFileName,
-                    OutputFolder = rootFolder,
-                    IfcVersion = viewModel.SelectedIfcVersion,
-                    ViewSetName = viewModel.IfcViewSetName
-                });
-                if (!result.Success) errors.Add(result.ErrorMessage ?? "IFC 导出失败");
+                    try
+                    {
+                        IFCExportOptions opt = new IFCExportOptions();
+                        opt.FileVersion = viewModel.SelectedIfcVersion == "IFC 4" ? IFCVersion.IFC4 : IFCVersion.IFC2x3;
+                        opt.FilterViewId = view3D.Id;
+                        doc.Export(rootFolder, viewModel.IfcFileName ?? doc.Title, opt);
+                    }
+                    catch (Exception ex) { errors.Add($"IFC 导出失败: {ex.Message}"); }
+                }
+                else { errors.Add($"IFC: 找不到三维视图 '{viewModel.SelectedIfc3DView}'"); }
             }
 
-            // 5. DWG 导出
+            // 4. DWG
             if (viewModel.EnableDwg)
             {
-                progressCallback?.Invoke("正在导出 CAD (DWG)...");
-                var result = ExportService.ExportCad(doc, new CadExportConfig
+                progressCallback?.Invoke("导出 DWG...");
+                var viewIds = GetViewIds(doc, viewModel.SelectedDwgViewSheetSet);
+                if (viewIds.Count > 0)
                 {
-                    FileName = viewModel.DwgFileName,
-                    OutputFolder = rootFolder,
-                    ViewSetName = viewModel.SelectedDwgViewSheetSet,
-                    ExportSetupName = viewModel.SelectedDwgSetup
-                });
-                if (!result.Success) errors.Add(result.ErrorMessage ?? "DWG 导出失败");
+                    try
+                    {
+                        DWGExportOptions opt;
+                        if (!string.IsNullOrEmpty(viewModel.SelectedDwgSetup) && viewModel.SelectedDwgSetup != "<默认内置设置>")
+                        {
+                            var dwgSettings = new FilteredElementCollector(doc).OfClass(typeof(ExportDWGSettings))
+                                .Cast<ExportDWGSettings>().FirstOrDefault(s => s.Name == viewModel.SelectedDwgSetup);
+                            opt = dwgSettings?.GetDWGExportOptions() ?? new DWGExportOptions();
+                        }
+                        else opt = new DWGExportOptions();
+
+                        // 单图纸 = 直接文件名；多图纸 = 导出设置决定命名
+                        if (viewIds.Count == 1)
+                            doc.Export(rootFolder, viewModel.DwgFileName ?? doc.Title, viewIds, opt);
+                        else
+                            doc.Export(rootFolder, viewModel.DwgFileName ?? doc.Title, viewIds, opt);
+                    }
+                    catch (Exception ex) { errors.Add($"DWG 导出失败: {ex.Message}"); }
+                }
+                else { errors.Add($"DWG: 视图集为空"); }
+            }
+
+            // 5. PDF
+            if (viewModel.EnablePdf)
+            {
+                progressCallback?.Invoke("导出 PDF...");
+                var viewIds = GetViewIds(doc, viewModel.SelectedPdfViewSheetSet);
+                if (viewIds.Count > 0)
+                {
+                    try
+                    {
+#if REVIT2024_OR_GREATER
+                        PDFExportOptions opt;
+                        if (!string.IsNullOrEmpty(viewModel.SelectedPdfSetup) && viewModel.SelectedPdfSetup != "<默认内置设置>")
+                        {
+                            var pdfSettings = new FilteredElementCollector(doc).OfClass(typeof(ExportPDFSettings))
+                                .Cast<ExportPDFSettings>().FirstOrDefault(s => s.Name == viewModel.SelectedPdfSetup);
+                            opt = pdfSettings?.GetOptions() ?? new PDFExportOptions();
+                        }
+                        else opt = new PDFExportOptions();
+
+                        opt.FileName = viewModel.PdfFileName ?? doc.Title;
+                        opt.Combine = viewModel.PdfCombine;
+                        doc.Export(rootFolder, viewIds, opt);
+#else
+                        errors.Add("PDF 导出仅支持 Revit 2024+");
+#endif
+                    }
+                    catch (Exception ex) { errors.Add($"PDF 导出失败: {ex.Message}"); }
+                }
+                else { errors.Add($"PDF: 视图集为空"); }
             }
 
             return errors;
+        }
+
+        private static View3D? FindView3D(Document doc, string? viewName)
+        {
+            if (string.IsNullOrEmpty(viewName) || viewName == "<当前视图>")
+            {
+                if (doc.ActiveView is View3D av) return av;
+                return new FilteredElementCollector(doc).OfClass(typeof(View3D)).Cast<View3D>()
+                    .FirstOrDefault(v => !v.IsTemplate);
+            }
+            return new FilteredElementCollector(doc).OfClass(typeof(View3D)).Cast<View3D>()
+                .FirstOrDefault(v => v.Name == viewName && !v.IsTemplate);
+        }
+
+        private static List<ElementId> GetViewIds(Document doc, string? viewSetName)
+        {
+            var ids = new List<ElementId>();
+            if (string.IsNullOrEmpty(viewSetName) || viewSetName == "<当前视图>")
+            {
+                ids.Add(doc.ActiveView.Id);
+                return ids;
+            }
+            var viewSet = new FilteredElementCollector(doc).OfClass(typeof(ViewSheetSet))
+                .Cast<ViewSheetSet>().FirstOrDefault(s => s.Name == viewSetName);
+            if (viewSet != null)
+                foreach (Autodesk.Revit.DB.View view in viewSet.Views)
+                    ids.Add(view.Id);
+            else
+                ids.Add(doc.ActiveView.Id);
+            return ids;
         }
     }
 }
