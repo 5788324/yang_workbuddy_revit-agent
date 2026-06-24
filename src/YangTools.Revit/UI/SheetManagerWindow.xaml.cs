@@ -129,7 +129,7 @@ namespace YangTools.Revit.UI
                                     else if (prop == "SheetName" && sheet.Name != newVal) sheet.Name = newVal;
                                     t.Commit();
                                 }
-                            } catch { }
+                            } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                     });
                     _externalEvent.Raise();
@@ -153,7 +153,7 @@ namespace YangTools.Revit.UI
                                         if (param != null && !param.IsReadOnly) param.Set(newVal);
                                         t.Commit();
                                     }
-                                } catch { }
+                                } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                             }
                         });
                         _externalEvent.Raise();
@@ -283,7 +283,7 @@ namespace YangTools.Revit.UI
                                         string catName = el.Category?.Name ?? el.GetType().Name;
                                         extraDetails.AppendLine($"- [{catName}] {el.Name}");
                                     }
-                                } catch {}
+                                } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                             }
                             if (extraIds.Count > 15) extraDetails.AppendLine($"... 及其他 {extraIds.Count - 15} 个图元");
 
@@ -474,7 +474,7 @@ namespace YangTools.Revit.UI
                                                 case StorageType.Integer: if (int.TryParse(kvp.Value.ToString(), out int iVal)) p.Set(iVal); break;
                                                 case StorageType.Double: if (double.TryParse(kvp.Value.ToString(), out double dVal)) p.Set(dVal); break;
                                             }
-                                        } catch { }
+                                        } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                 }
                                 successCount++;
@@ -686,7 +686,7 @@ namespace YangTools.Revit.UI
                                                     case StorageType.Integer: if (int.TryParse(kvp.Value.ToString(), out int iVal)) p.Set(iVal); break;
                                                     case StorageType.Double: if (double.TryParse(kvp.Value.ToString(), out double dVal)) p.Set(dVal); break;
                                                 }
-                                            } catch { }
+                                            } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] SheetManagerWindow.xaml.cs: {0}", ex.Message); }
                                         }
                                     }
                                     successCount++;

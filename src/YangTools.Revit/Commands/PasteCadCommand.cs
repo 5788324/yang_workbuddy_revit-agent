@@ -104,9 +104,7 @@ public class PasteCadCommand : IExternalCommand
 						File.Delete(text);
 					}
 				}
-				catch
-				{
-				}
+				catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] PasteCadCommand.cs: {0}", ex.Message); }
 			}
 		}
 		catch (Exception ex2)

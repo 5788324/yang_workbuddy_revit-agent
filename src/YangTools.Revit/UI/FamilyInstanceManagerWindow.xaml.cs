@@ -86,7 +86,7 @@ namespace YangTools.Revit.UI
                 FamilyFilterComboBox.ItemsSource = familiesWithInstances;
                 FamilyFilterComboBox.DisplayMemberPath = "DisplayName";
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void PopulateSystemCategoryFilter()
@@ -203,7 +203,7 @@ namespace YangTools.Revit.UI
                 string text = string.Join("\n", validParams);
                 System.IO.File.WriteAllText(_configPath, text);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void CreateDynamicColumns()
@@ -234,11 +234,11 @@ namespace YangTools.Revit.UI
                                 string name = param.Definition?.Name;
                                 if (!string.IsNullOrEmpty(name)) dict[name] = param.IsReadOnly;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                         break; // Only need one instance to get the parameter list
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 }
                 availableParams = dict.Select(kv => new AvailableParamItem { Name = kv.Key, IsReadOnly = kv.Value })
                     .OrderBy(x => x.Name).ToList();
@@ -287,7 +287,7 @@ namespace YangTools.Revit.UI
                             LoadData();
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 };
 
                 col.Header = combo;
@@ -364,11 +364,11 @@ namespace YangTools.Revit.UI
                                 string name = param.Definition?.Name;
                                 if (!string.IsNullOrEmpty(name)) dict[name] = param.IsReadOnly;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                         break; 
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 }
                 availableParams = dict.Select(kv => new AvailableParamItem { Name = kv.Key, IsReadOnly = kv.Value })
                     .OrderBy(x => x.Name).ToList();
@@ -416,7 +416,7 @@ namespace YangTools.Revit.UI
                             LoadSystemData();
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 };
 
                 col.Header = combo;
@@ -549,14 +549,14 @@ namespace YangTools.Revit.UI
                                 }
                                 vm.Parameters[pName] = pvm;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                         AllItems.Add(vm);
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
 
             _collectionView = CollectionViewSource.GetDefaultView(AllItems);
             _collectionView.GroupDescriptions.Clear();
@@ -618,14 +618,14 @@ namespace YangTools.Revit.UI
                                 }
                                 vm.Parameters[pName] = pvm;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                         SystemAllItems.Add(vm);
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
 
             _systemCollectionView = CollectionViewSource.GetDefaultView(SystemAllItems);
             _systemCollectionView.GroupDescriptions.Clear();
@@ -698,7 +698,7 @@ namespace YangTools.Revit.UI
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
 
                 LoadData();
                 CreateDynamicColumns();
@@ -827,7 +827,7 @@ namespace YangTools.Revit.UI
                                                     case StorageType.Integer: if (int.TryParse(kvp.Value.ToString(), out int iVal)) p.Set(iVal); break;
                                                     case StorageType.Double: if (double.TryParse(kvp.Value.ToString(), out double dVal)) p.Set(dVal); break;
                                                 }
-                                            } catch { }
+                                            } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                                         }
                                     }
                                     successCount++;
@@ -903,7 +903,7 @@ namespace YangTools.Revit.UI
                                     else if (param.StorageType == StorageType.Integer && int.TryParse(newValue, out int i)) param.Set(i);
                                     else if (param.StorageType != StorageType.ElementId)
                                     {
-                                        try { param.SetValueString(newValue); } catch { }
+                                        try { param.SetValueString(newValue); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                     t.Commit();
                                     success = true;
@@ -919,12 +919,12 @@ namespace YangTools.Revit.UI
                                 else pvm.Value = oldValue;
                             });
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                     });
                     _externalEvent.Raise();
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void SystemDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -1016,7 +1016,7 @@ namespace YangTools.Revit.UI
                                         string catName = el.Category?.Name ?? el.GetType().Name;
                                         extraDetails.AppendLine($"- [{catName}] {el.Name}");
                                     }
-                                } catch {}
+                                } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyInstanceManagerWindow.xaml.cs: {0}", ex.Message); }
                             }
                             if (extraIds.Count > 15) extraDetails.AppendLine($"... 及其他 {extraIds.Count - 15} 个图元");
 

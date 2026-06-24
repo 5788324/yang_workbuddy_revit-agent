@@ -74,7 +74,7 @@ namespace YangTools.Revit.UI
                     FamilyList.Add(vm);
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
 
             _familyCollectionView = CollectionViewSource.GetDefaultView(FamilyList);
             _familyCollectionView.GroupDescriptions.Clear();
@@ -174,7 +174,7 @@ namespace YangTools.Revit.UI
                 string text = string.Join("\n", validParams);
                 System.IO.File.WriteAllText(_configPath, text);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void CreateDynamicColumns()
@@ -208,7 +208,7 @@ namespace YangTools.Revit.UI
                                         string name = param.Definition?.Name;
                                         if (!string.IsNullOrEmpty(name)) dict[name] = param.IsReadOnly;
                                     }
-                                    catch { }
+                                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                 }
                             }
                         }
@@ -260,7 +260,7 @@ namespace YangTools.Revit.UI
                             LoadTypeData();
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                 };
 
                 col.Header = combo;
@@ -347,13 +347,13 @@ namespace YangTools.Revit.UI
                                 }
                                 vm.Parameters[pName] = pvm;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                         TypeList.Add(vm);
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
 
             TypeDataGrid.ItemsSource = TypeList;
         }
@@ -429,7 +429,7 @@ namespace YangTools.Revit.UI
                                 else vm.TypeName = oldTypeName;
                             });
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                     });
                     _externalEvent.Raise();
                 }
@@ -463,7 +463,7 @@ namespace YangTools.Revit.UI
                                     else if (param.StorageType == StorageType.Integer && int.TryParse(newValue, out int i)) param.Set(i);
                                     else if (param.StorageType != StorageType.ElementId)
                                     {
-                                        try { param.SetValueString(newValue); } catch { }
+                                        try { param.SetValueString(newValue); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                     t.Commit();
                                     success = true;
@@ -479,12 +479,12 @@ namespace YangTools.Revit.UI
                                 else pvm.Value = oldValue;
                             });
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                     });
                     _externalEvent.Raise();
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void ResetColumns_Click(object sender, RoutedEventArgs e)
@@ -558,7 +558,7 @@ namespace YangTools.Revit.UI
                                         string newName = row["类型名称 (Type)"].ToString();
                                         if (elem.Name != newName && !string.IsNullOrWhiteSpace(newName))
                                         {
-                                            try { elem.Name = newName; } catch { }
+                                            try { elem.Name = newName; } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                         }
                                     }
 
@@ -577,7 +577,7 @@ namespace YangTools.Revit.UI
                                                     case StorageType.Integer: if (int.TryParse(kvp.Value.ToString(), out int iVal)) p.Set(iVal); break;
                                                     case StorageType.Double: if (double.TryParse(kvp.Value.ToString(), out double dVal)) p.Set(dVal); break;
                                                 }
-                                            } catch { }
+                                            } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                         }
                                     }
                                     successCount++;
@@ -648,7 +648,7 @@ namespace YangTools.Revit.UI
                                             elem.Name = newName;
                                             count++;
                                         }
-                                    } catch { }
+                                    } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                 }
                             }
                             
@@ -671,7 +671,7 @@ namespace YangTools.Revit.UI
                                             fam.Name = newName;
                                         }
                                     }
-                                    catch { }
+                                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FamilyManagerWindow.xaml.cs: {0}", ex.Message); }
                                 }
                             }
                             

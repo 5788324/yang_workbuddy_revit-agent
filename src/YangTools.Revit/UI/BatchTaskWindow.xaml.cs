@@ -123,7 +123,7 @@ namespace YangTools.Revit.UI
                         // 关闭外部打开的文档（不保存）
                         if (!docInfo.IsCurrentDocument && !targetDoc.IsModifiable)
                         {
-                            try { targetDoc.Close(false); } catch { }
+                            try { targetDoc.Close(false); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] BatchTaskWindow.xaml.cs: {0}", ex.Message); }
                         }
                     }
                 }

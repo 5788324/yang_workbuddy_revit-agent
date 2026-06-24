@@ -109,7 +109,7 @@ namespace YangTools.Revit.Mcp
                 }
                 finally
                 {
-                    try { context?.Response.Close(); } catch { }
+                    try { context?.Response.Close(); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] McpHttpServer.cs: {0}", ex.Message); }
                 }
             }
         }

@@ -40,7 +40,10 @@ namespace YangTools.Revit.UI
                     string templateDir = _uiapp.Application.FamilyTemplatePath;
                     if (string.IsNullOrEmpty(templateDir))
                     {
-                        templateDir = @"C:\ProgramData\Autodesk\RVT 2025\Family Templates\Chinese"; // Safe fallback
+                        string version = _uiapp.Application.VersionNumber;
+                        templateDir = Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                            "Autodesk", $"RVT {version}", "Family Templates", "Chinese");
                     }
 
                     templatePath = Path.Combine(templateDir, "公制常规模型.rft");
@@ -327,7 +330,7 @@ namespace YangTools.Revit.UI
                                         famDoc.OwnerFamily.FamilyCategory = category;
                                     }
                                 }
-                                catch { }
+                                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] EntityGeneratorWindow.xaml.cs: {0}", ex.Message); }
                             }
 
                             // Add parameter "Structural Material" ONLY IF NOT VOID
@@ -350,7 +353,7 @@ namespace YangTools.Revit.UI
                                         { 
                                             famDoc.FamilyManager.AssociateElementParameterToFamilyParameter(formMatParam, matParam); 
                                         } 
-                                        catch { }
+                                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] EntityGeneratorWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                 }
                             }

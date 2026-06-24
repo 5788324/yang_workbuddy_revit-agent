@@ -17,7 +17,7 @@ if "%ERRORLEVEL%"=="0" (
 set "APPDATA_ROAMING=%APPDATA%"
 set "SRC_DIR=%~dp0deploy"
 
-for %%v in (2022 2023 2024) do (
+for %%v in (2021 2022 2023 2024 2025 2026 2027) do (
     if exist "%SRC_DIR%\%%v\YangTools.Revit.addin" (
         set "DEST=%APPDATA_ROAMING%\Autodesk\Revit\Addins\%%v"
         echo [INSTALL] Revit %%v --^> !DEST!

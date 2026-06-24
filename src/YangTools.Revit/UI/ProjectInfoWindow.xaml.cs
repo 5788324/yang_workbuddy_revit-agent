@@ -190,7 +190,7 @@ namespace YangTools.Revit.UI
                     {
                         File.Delete(tempFile);
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectInfoWindow.xaml.cs: {0}", ex.Message); }
                 }
             }
         }

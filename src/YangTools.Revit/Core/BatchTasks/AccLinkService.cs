@@ -41,7 +41,7 @@ namespace YangTools.Revit.Core.BatchTasks
                             if (existingPath != null && existingPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase))
                                 return null; // 已存在
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] AccLinkService.cs: {0}", ex.Message); }
                     }
                 }
 

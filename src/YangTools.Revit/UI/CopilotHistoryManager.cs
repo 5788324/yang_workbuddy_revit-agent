@@ -50,7 +50,7 @@ namespace YangTools.Revit.UI
                     var data = JsonConvert.DeserializeObject<List<CopilotConversation>>(json);
                     if (data != null) Conversations = data;
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] CopilotHistoryManager.cs: {0}", ex.Message); }
             }
         }
 
@@ -61,7 +61,7 @@ namespace YangTools.Revit.UI
                 string json = JsonConvert.SerializeObject(Conversations, Formatting.Indented);
                 File.WriteAllText(_filePath, json);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] CopilotHistoryManager.cs: {0}", ex.Message); }
         }
     }
 }

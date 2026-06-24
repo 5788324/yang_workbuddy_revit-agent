@@ -154,7 +154,7 @@ namespace YangTools.Revit.UI
                                 }
                             }
                         }
-                        catch {}
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                     }
 
                     var unusedIds = new List<ElementId>();
@@ -436,7 +436,7 @@ namespace YangTools.Revit.UI
                 string text = string.Join("\n", validParams);
                 System.IO.File.WriteAllText(_configPath, text);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private List<ElementId> GetElementsForCurrentNode()
@@ -486,7 +486,7 @@ namespace YangTools.Revit.UI
                                 string name = param.Definition?.Name;
                                 if (!string.IsNullOrEmpty(name)) dict[name] = param.IsReadOnly;
                             }
-                            catch { }
+                            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                         }
                     }
                 }
@@ -494,7 +494,7 @@ namespace YangTools.Revit.UI
                 availableParams = dict.Select(kv => new AvailableParamItem { Name = kv.Key, IsReadOnly = kv.Value })
                     .OrderBy(x => x.Name).ToList();
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
 
             if (_currentTabName == "Filters")
             {
@@ -578,7 +578,7 @@ namespace YangTools.Revit.UI
                             LoadData();
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                 };
 
                 col.Header = combo;
@@ -667,7 +667,7 @@ namespace YangTools.Revit.UI
                                 IsRowVisible = true
                             };
                             string val = "";
-                            try { val = p.AsValueString() ?? p.AsString() ?? (p.StorageType == StorageType.Integer ? p.AsInteger().ToString() : ""); } catch { }
+                            try { val = p.AsValueString() ?? p.AsString() ?? (p.StorageType == StorageType.Integer ? p.AsInteger().ToString() : ""); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                             pvm.Parameters["Value"] = new ParameterViewModel { Value = val, IsReadOnly = p.IsReadOnly };
                             tempParams.Add(pvm);
                         }
@@ -731,7 +731,7 @@ namespace YangTools.Revit.UI
                             }
                             vm.Parameters[pName] = pvm;
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                     }
                     
                     if (_currentTabName == "Filters")
@@ -791,7 +791,7 @@ namespace YangTools.Revit.UI
                         if (fids != null && fids.Contains(filter.Id)) return true;
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
             }
             return false;
         }
@@ -810,7 +810,7 @@ namespace YangTools.Revit.UI
                         if (fids != null && fids.Contains(filter.Id)) return true;
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
             }
             return false;
         }
@@ -933,7 +933,7 @@ namespace YangTools.Revit.UI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
 
@@ -970,7 +970,7 @@ namespace YangTools.Revit.UI
                             using (Transaction t = new Transaction(doc, "Rename Filled Region"))
                             {
                                 t.Start();
-                                try { frType.Name = newValue; } catch { }
+                                try { frType.Name = newValue; } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                 t.Commit();
                             }
                         }
@@ -997,7 +997,7 @@ namespace YangTools.Revit.UI
                     _externalEvent.Raise();
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void LinePattern_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1259,7 +1259,7 @@ namespace YangTools.Revit.UI
                                     using (var t = new Transaction(app.ActiveUIDocument.Document, "Edit Project Info"))
                                     {
                                         t.Start();
-                                        try { paramByName.Set(newVal); } catch { }
+                                        try { paramByName.Set(newVal); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                         t.Commit();
                                     }
                                 });
@@ -1308,7 +1308,7 @@ namespace YangTools.Revit.UI
                                 else vm.AssetName = oldName;
                             });
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                     });
                     _externalEvent.Raise();
                 }
@@ -1345,7 +1345,7 @@ namespace YangTools.Revit.UI
                                     else if (param.StorageType == StorageType.Integer && int.TryParse(newValue, out int i)) param.Set(i);
                                     else if (param.StorageType != StorageType.ElementId)
                                     {
-                                        try { param.SetValueString(newValue); } catch { }
+                                        try { param.SetValueString(newValue); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                     t.Commit();
                                     success = true;
@@ -1362,12 +1362,12 @@ namespace YangTools.Revit.UI
                                 else pvm.Value = oldValue;
                             });
                         }
-                        catch { }
+                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                     });
                     _externalEvent.Raise();
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void AnalyzeFilter_Click(object sender, RoutedEventArgs e)
@@ -1487,7 +1487,7 @@ namespace YangTools.Revit.UI
                                         string newName = row["资产名称"].ToString();
                                         if (elem.Name != newName && !string.IsNullOrWhiteSpace(newName))
                                         {
-                                            try { elem.Name = newName; } catch { }
+                                            try { elem.Name = newName; } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                         }
                                     }
 
@@ -1515,7 +1515,7 @@ namespace YangTools.Revit.UI
                                                         param.SetValueString(pVal);
                                                     }
                                                 }
-                                                catch { }
+                                                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                             }
                                         }
                                     }
@@ -1686,7 +1686,7 @@ namespace YangTools.Revit.UI
                                         string catName = el.Category?.Name ?? el.GetType().Name;
                                         extraDetails.AppendLine($"- [{catName}] {el.Name}");
                                     }
-                                } catch {}
+                                } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                             }
                             if (extraIds.Count > 15) extraDetails.AppendLine($"... 及其他 {extraIds.Count - 15} 个图元");
 
@@ -1837,7 +1837,7 @@ namespace YangTools.Revit.UI
                                             elem.Name = newName;
                                             count++;
                                         }
-                                    } catch { }
+                                    } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ProjectAssetManagerWindow.xaml.cs: {0}", ex.Message); }
                                 }
                             }
                             t.Commit();

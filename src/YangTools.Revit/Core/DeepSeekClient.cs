@@ -103,7 +103,7 @@ namespace YangTools.Revit.Core
                                         string debugLogPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "YangTools", "tool_debug.log");
                                         System.IO.File.AppendAllText(debugLogPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ToolCall: {keyword}\nResultLength: {toolResult.Length}\n\n");
                                     }
-                                    catch { }
+                                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] DeepSeekClient.cs: {0}", ex.Message); }
                                 }
                                 catch (Exception ex)
                                 {

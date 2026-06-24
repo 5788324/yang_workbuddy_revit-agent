@@ -83,7 +83,7 @@ namespace YangTools.Revit.UI
             if (File.Exists(path))
             {
                 try { return Newtonsoft.Json.JsonConvert.DeserializeObject<CopilotSettings>(File.ReadAllText(path)); }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] CopilotPanel.xaml.cs: {0}", ex.Message); }
             }
             return new CopilotSettings();
         }
@@ -937,7 +937,7 @@ namespace YangTools.Revit.UI
                         Task.Delay(1500).ContinueWith(_ => Dispatcher.Invoke(() => btn.Content = "📋 复制"));
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] CopilotPanel.xaml.cs: {0}", ex.Message); }
             }
         }
     }

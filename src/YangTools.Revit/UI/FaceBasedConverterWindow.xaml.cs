@@ -44,7 +44,10 @@ namespace YangTools.Revit.UI
                 string templateDir = _uiapp.Application.FamilyTemplatePath;
                 if (string.IsNullOrEmpty(templateDir))
                 {
-                    templateDir = @"C:\ProgramData\Autodesk\RVT " + _uiapp.Application.VersionNumber + @"\Family Templates\Chinese";
+                    string version = _uiapp.Application.VersionNumber;
+                    templateDir = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                        "Autodesk", $"RVT {version}", "Family Templates", "Chinese");
                 }
 
                 string templatePath = Path.Combine(templateDir, "公制常规模型.rft");
@@ -64,7 +67,7 @@ namespace YangTools.Revit.UI
                     TxtTemplatePath.Text = templatePath;
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void ScanFaceBasedFamilies()
@@ -248,7 +251,7 @@ namespace YangTools.Revit.UI
                 var hostParam = fam.get_Parameter(BuiltInParameter.FAMILY_HOSTING_BEHAVIOR);
                 if (hostParam != null) return hostParam.AsInteger() == 5;
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
             return false;
         }
 
@@ -290,7 +293,7 @@ namespace YangTools.Revit.UI
 
                 CollectGeometry(geomElem, tApply, solids, curves);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
             return Tuple.Create(solids, curves);
         }
 
@@ -425,7 +428,7 @@ namespace YangTools.Revit.UI
                         var workPlaneBased = famDoc.OwnerFamily.get_Parameter(BuiltInParameter.FAMILY_WORK_PLANE_BASED);
                         if (workPlaneBased != null && !workPlaneBased.IsReadOnly) workPlaneBased.Set(0);
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
 
                     t.Commit();
                 }
@@ -538,7 +541,7 @@ namespace YangTools.Revit.UI
                                         newSymbol.Name = newTypeName;
                                     }
                                 }
-                                catch { }
+                                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
 
                                 if (!newSymbol.IsActive) newSymbol.Activate();
 
@@ -572,7 +575,7 @@ namespace YangTools.Revit.UI
                                             if (levelId != null && levelId != ElementId.InvalidElementId)
                                                 level = _doc.GetElement(levelId) as Level;
                                         }
-                                        catch { }
+                                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
 
                                         if (level == null)
                                         {
@@ -611,14 +614,14 @@ namespace YangTools.Revit.UI
                                                 newOffset.Set(targetElevation - levelElevation);
                                             }
                                         }
-                                        catch { }
+                                        catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
 
                                         // Copy writable instance parameters
                                         CopyInstanceParameters(oldInst, newInst);
 
                                         totalConverted++;
                                     }
-                                    catch { }
+                                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
                                 }
 
                                 // Delete old instances if requested
@@ -626,7 +629,7 @@ namespace YangTools.Revit.UI
                                 {
                                     foreach (var oldId in typeItem.InstanceIds)
                                     {
-                                        try { _doc.Delete(oldId); } catch { }
+                                        try { _doc.Delete(oldId); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
                                     }
                                 }
 
@@ -704,10 +707,10 @@ namespace YangTools.Revit.UI
                                 break;
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FaceBasedConverterWindow.xaml.cs: {0}", ex.Message); }
         }
 
         // ========== UI Event Handlers ==========

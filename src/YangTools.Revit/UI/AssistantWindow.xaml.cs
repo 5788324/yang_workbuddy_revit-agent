@@ -65,7 +65,7 @@ namespace YangTools.Revit.UI
                     Owner = revitNativeWindowHandle
                 };
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] AssistantWindow.xaml.cs: {0}", ex.Message); }
         }
 
         private void SetGreeting()

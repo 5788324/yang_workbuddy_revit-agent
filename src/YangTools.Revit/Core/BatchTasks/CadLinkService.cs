@@ -41,7 +41,7 @@ namespace YangTools.Revit.Core.BatchTasks
                         if (existingPath != null && existingPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase))
                             return null; // 已存在，跳过
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] CadLinkService.cs: {0}", ex.Message); }
                 }
             }
 

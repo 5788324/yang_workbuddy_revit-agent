@@ -203,7 +203,7 @@ namespace YangTools.Revit.UI
             // 1. Categories
             var categories = doc.Settings.Categories;
             Category importCat = null;
-            try { importCat = categories.get_Item(BuiltInCategory.OST_ImportObjectStyles); } catch {}
+            try { importCat = categories.get_Item(BuiltInCategory.OST_ImportObjectStyles); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] VisibilityCopierWindow.xaml.cs: {0}", ex.Message); }
 
             foreach (Category cat in categories)
             {
@@ -255,7 +255,7 @@ namespace YangTools.Revit.UI
                         var overrides = source.GetCategoryOverrides(cat.Id);
                         target.SetCategoryOverrides(cat.Id, overrides);
                     }
-                    catch { } // Ignore errors for specific categories that might not support overrides
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] VisibilityCopierWindow.xaml.cs: {0}", ex.Message); } // Ignore errors for specific categories that might not support overrides
                 }
             }
 
@@ -279,7 +279,7 @@ namespace YangTools.Revit.UI
 
                     // Optional: remove filters not in source? We skip that to avoid destructive behavior unless strictly required
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] VisibilityCopierWindow.xaml.cs: {0}", ex.Message); }
             }
 
             // 3. Worksets
@@ -294,7 +294,7 @@ namespace YangTools.Revit.UI
                         target.SetWorksetVisibility(ws.Id, visibility);
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] VisibilityCopierWindow.xaml.cs: {0}", ex.Message); }
             }
         }
     }

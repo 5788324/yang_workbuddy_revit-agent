@@ -90,7 +90,7 @@ namespace YangTools.Revit.UI
 
                 _appThemeLoaded = true;
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ThemeHelper.cs: {0}", ex.Message); }
         }
     }
 }

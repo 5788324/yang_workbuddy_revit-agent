@@ -63,7 +63,7 @@ namespace YangTools.Revit.UI
                             var param = _doc.GetElement(paramId) as ParameterElement;
                             if (param != null) pName = param.GetDefinition().Name;
                         }
-                    } catch { }
+                    } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FilterAnalysisWindow.xaml.cs: {0}", ex.Message); }
 
                     string ruleDetails = "规则配置";
                     try 
@@ -92,11 +92,11 @@ namespace YangTools.Revit.UI
                             {
                                 var ruleEl = _doc.GetElement(idr.RuleValue);
                                 if (ruleEl != null) valName = ruleEl.Name;
-                            } catch {}
+                            } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FilterAnalysisWindow.xaml.cs: {0}", ex.Message); }
 
                             ruleDetails = $"{eval} '{valName}'";
                         }
-                    } catch { }
+                    } catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FilterAnalysisWindow.xaml.cs: {0}", ex.Message); }
 
                     ruleStrings.Add($"{prefix}■ {pName} -> {ruleDetails}");
                 }
@@ -171,7 +171,7 @@ namespace YangTools.Revit.UI
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] FilterAnalysisWindow.xaml.cs: {0}", ex.Message); }
             }
             
             viewsList.Sort();

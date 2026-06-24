@@ -150,7 +150,7 @@ namespace YangTools.Revit.Core
                     return config?.ThemeId ?? "light_warm";
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ThemeManager.cs: {0}", ex.Message); }
             return "light_warm";
         }
 
@@ -164,7 +164,7 @@ namespace YangTools.Revit.Core
                 string path = Path.Combine(dir, ThemeConfigFileName);
                 File.WriteAllText(path, JsonConvert.SerializeObject(new ThemeConfig { ThemeId = themeId }));
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("[YangTools] ThemeManager.cs: {0}", ex.Message); }
         }
 
         private class ThemeConfig
