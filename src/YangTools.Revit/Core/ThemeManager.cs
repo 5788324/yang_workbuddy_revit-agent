@@ -43,6 +43,14 @@ namespace YangTools.Revit.Core
                 Uri = "Themes/ProfBlueTheme.xaml",
                 PreviewColor = "#2C5F8A",
                 Description = "专业的蓝灰色调，适合企业环境"
+            },
+            new ThemeInfo
+            {
+                Id = "apple_frost",
+                DisplayName = "🍎 苹果水滴",
+                Uri = "Themes/AppleTheme.xaml",
+                PreviewColor = "#F2F2F7",
+                Description = "毛玻璃质感，圆润轻盈，macOS/iOS 风格"
             }
         };
 
