@@ -17,16 +17,11 @@ public class SampleWindowCommand : IExternalCommand
 	{
 		try
 		{
-			if (commandData.Application.ActiveUIDocument == null)
-			{
-			TaskDialog.Show("YangTools", "未检测到任何处于打开或活动状态的项目文档！");
-			return Result.Cancelled;
-			}
 			AssistantWindow assistantWindow = new AssistantWindow();
 			IntPtr mainWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
 			new WindowInteropHelper(assistantWindow).Owner = mainWindowHandle;
-		assistantWindow.ShowDialog();
-		return Result.Succeeded;
+			assistantWindow.ShowDialog();
+			return Result.Succeeded;
 		}
 		catch (Exception ex)
 		{
