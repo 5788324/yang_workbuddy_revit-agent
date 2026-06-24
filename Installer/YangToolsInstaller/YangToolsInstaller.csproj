@@ -6,13 +6,17 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AssemblyName>YangTools_Installer</AssemblyName>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <Version>2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\src\YangTools.Revit\bin\x64\Release\net48\YangTools.Revit.dll" LogicalName="YangTools.Revit.net48.dll" />
-    <EmbeddedResource Include="..\..\src\YangTools.Revit\bin\x64\Release\net8.0-windows\YangTools.Revit.dll" LogicalName="YangTools.Revit.net8.dll" />
-    <EmbeddedResource Include="..\..\src\YangTools.Revit\YangTools.Revit.addin" LogicalName="YangTools.Revit.addin" />
+    <EmbeddedResource Include="../../deploy.zip" LogicalName="deploy.zip" />
   </ItemGroup>
 
 </Project>
