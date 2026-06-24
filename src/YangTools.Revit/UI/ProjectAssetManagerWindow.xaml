@@ -126,13 +126,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                        <GradientStop Color="#C4A67A" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                    Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <TextBlock Text="项目资产管理器 - Project Asset Manager" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold" FontSize="14"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">

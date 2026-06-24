@@ -14,13 +14,7 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border CornerRadius="3,3,0,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0"/>
-                        <GradientStop Color="#C4A67A" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border CornerRadius="3,3,0,0" Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <TextBlock Text="对齐到文本" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold"/>
                     <Button Content="✕" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" 

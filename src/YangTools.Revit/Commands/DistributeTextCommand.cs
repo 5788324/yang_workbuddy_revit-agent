@@ -20,6 +20,11 @@ public class DistributeTextCommand : IExternalCommand
 	{
 		UIApplication application = commandData.Application;
 		UIDocument activeUIDocument = application.ActiveUIDocument;
+		if (activeUIDocument == null)
+		{
+			TaskDialog.Show("提示", "请先打开一个项目文档。");
+			return Result.Cancelled;
+		}
 		Document doc = activeUIDocument.Document;
 		try
 		{

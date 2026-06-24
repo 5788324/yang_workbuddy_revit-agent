@@ -99,13 +99,7 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border Grid.Row="0" CornerRadius="8,8,0,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0"/>
-                        <GradientStop Color="#C4A67A" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border Grid.Row="0" CornerRadius="8,8,0,0" Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <TextBlock Text="布尔几何" Foreground="#FFFFFF" FontSize="14" FontWeight="Bold" Margin="15,10" VerticalAlignment="Center"/>
                     <Button Style="{StaticResource CloseButtonStyle}" HorizontalAlignment="Right" Click="CloseButton_Click"/>

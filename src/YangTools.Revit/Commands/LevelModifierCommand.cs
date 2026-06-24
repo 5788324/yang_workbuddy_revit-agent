@@ -23,6 +23,11 @@ public class LevelModifierCommand : IExternalCommand
 		try
 		{
 			UIDocument activeUIDocument = commandData.Application.ActiveUIDocument;
+			if (activeUIDocument == null)
+			{
+				TaskDialog.Show("提示", "请先打开一个项目文档。");
+				return Result.Cancelled;
+			}
 			Document document = activeUIDocument.Document;
 			ICollection<ElementId> elementIds = activeUIDocument.Selection.GetElementIds();
 			if (elementIds.Count == 0)

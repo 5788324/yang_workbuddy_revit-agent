@@ -15,25 +15,34 @@ namespace YangTools.Revit.Commands
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var uiapp = commandData.Application;
-
-            if (_window == null)
+            try
             {
-                _window = new LinearPlacementWindow(uiapp);
-                _window.Closed += (s, e) => _window = null;
-                
-                var handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
-                var helper = new System.Windows.Interop.WindowInteropHelper(_window);
-                helper.Owner = handle;
+                var uiapp = commandData.Application;
 
-                _window.Show();
+                if (_window == null)
+                {
+                    _window = new LinearPlacementWindow(uiapp);
+                    _window.Closed += (s, e) => _window = null;
+                    
+                    var handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+                    var helper = new System.Windows.Interop.WindowInteropHelper(_window);
+                    helper.Owner = handle;
+
+                    _window.Show();
+                }
+                else
+                {
+                    _window.Activate();
+                }
+
+                return Result.Succeeded;
             }
-            else
+            catch (Exception ex)
             {
-                _window.Activate();
+                TaskDialog.Show("错误", $"操作失败。\n错误信息: {ex.Message}");
+                message = ex.Message;
+                return Result.Failed;
             }
-
-            return Result.Succeeded;
         }
     }
 }

@@ -77,13 +77,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border Grid.Row="0" CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0" />
-                        <GradientStop Color="#C4A67A" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border Grid.Row="0" CornerRadius="7,7,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                    Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <TextBlock Text="视图图形覆盖清理器" Style="{StaticResource TitleText}" VerticalAlignment="Center" Margin="15,0,0,0"/>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Height="40" Click="CloseButton_Click" Background="Transparent" BorderThickness="0">

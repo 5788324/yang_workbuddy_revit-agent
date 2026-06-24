@@ -19,6 +19,11 @@ namespace YangTools.Revit.Commands
             {
                 var uiapp = commandData.Application;
                 var uidoc = uiapp.ActiveUIDocument;
+                if (uidoc == null)
+                {
+                    TaskDialog.Show("提示", "请先打开一个项目文档。");
+                    return Result.Cancelled;
+                }
                 var doc = uidoc.Document;
 
                 var state = new UI.BooleanGeometryState();

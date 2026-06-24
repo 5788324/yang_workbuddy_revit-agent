@@ -1,3 +1,4 @@
+using System;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -12,10 +13,19 @@ namespace YangTools.Revit.Commands
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var window = new RibbonSettingsWindow();
-            new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
-            window.ShowDialog();
-            return Result.Succeeded;
+            try
+            {
+                var window = new RibbonSettingsWindow();
+                new System.Windows.Interop.WindowInteropHelper(window).Owner = commandData.Application.MainWindowHandle;
+                window.ShowDialog();
+                return Result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("错误", $"操作失败。\n错误信息: {ex.Message}");
+                message = ex.Message;
+                return Result.Failed;
+            }
         }
     }
 }

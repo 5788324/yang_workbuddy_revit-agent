@@ -33,6 +33,11 @@ namespace YangTools.Revit.Commands
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
+            if (uidoc == null)
+            {
+                TaskDialog.Show("提示", "请先打开一个项目文档。");
+                return Result.Cancelled;
+            }
             Document doc = uidoc.Document;
 
             try

@@ -115,13 +115,7 @@
         </Grid.RowDefinitions>
 
         <!-- 1. 顶部渐变标题栏 -->
-        <Border Grid.Row="0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#8B6D4C" Offset="0.0"/>
-                    <GradientStop Color="#C4A67A" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.Background>
+        <Border Grid.Row="0" Background="{DynamicResource TitleBarGradient}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

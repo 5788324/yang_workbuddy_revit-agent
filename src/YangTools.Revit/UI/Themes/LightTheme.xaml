@@ -88,4 +88,10 @@
     <SolidColorBrush x:Key="GridSelected" Color="{DynamicResource Color_GridSelected}"/>
     <SolidColorBrush x:Key="GridHover" Color="{DynamicResource Color_GridHover}"/>
 
+    <!-- Title Bar Gradient -->
+    <LinearGradientBrush x:Key="TitleBarGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#8B6D4C" Offset="0"/>
+        <GradientStop Color="#C4A67A" Offset="1"/>
+    </LinearGradientBrush>
+
 </ResourceDictionary>

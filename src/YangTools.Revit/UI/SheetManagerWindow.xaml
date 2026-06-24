@@ -72,13 +72,8 @@
             </Grid.RowDefinitions>
 
             <!-- Title Bar -->
-            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#8B6D4C" Offset="0.0" />
-                        <GradientStop Color="#C4A67A" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                    Background="{DynamicResource TitleBarGradient}">
                 <Grid>
                     <TextBlock Text="图纸与图框管理 (Sheet &amp; Titleblock Manager)" Foreground="White" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="SemiBold" FontSize="14"/>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="30" Height="30" Padding="0"

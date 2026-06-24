@@ -12,17 +12,26 @@ namespace YangTools.Revit.Commands
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var dpid = new DockablePaneId(new Guid("d5e89a24-9c56-4c31-97b0-13f56d0285a7"));
-            var pane = commandData.Application.GetDockablePane(dpid);
-            if (pane.IsShown())
+            try
             {
-                pane.Hide();
+                var dpid = new DockablePaneId(new Guid("d5e89a24-9c56-4c31-97b0-13f56d0285a7"));
+                var pane = commandData.Application.GetDockablePane(dpid);
+                if (pane.IsShown())
+                {
+                    pane.Hide();
+                }
+                else
+                {
+                    pane.Show();
+                }
+                return Result.Succeeded;
             }
-            else
+            catch (Exception ex)
             {
-                pane.Show();
+                TaskDialog.Show("错误", $"操作失败。\n错误信息: {ex.Message}");
+                message = ex.Message;
+                return Result.Failed;
             }
-            return Result.Succeeded;
         }
     }
 }
