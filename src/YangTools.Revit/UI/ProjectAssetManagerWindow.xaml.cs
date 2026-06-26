@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.Models;
 
 namespace YangTools.Revit.UI
 {
@@ -116,23 +117,6 @@ namespace YangTools.Revit.UI
                     rootNodes.Add(new AssetTreeNode { Name = "ViewSheets (图纸)", Tag = sheets, Type = "ViewCategory" });
                 }
             }
-            else if (tabName == "Materials")
-            {
-                var materials = new FilteredElementCollector(_doc).OfClass(typeof(Material)).Select(m => m.Id).ToList();
-                if(materials.Count > 0) rootNodes.Add(new AssetTreeNode { Name = "Materials (材质)", Tag = materials, Type = "Material" });
-            }
-            else if (tabName == "Worksets")
-            {
-                if (_doc.IsWorkshared)
-                {
-                    var worksets = new FilteredWorksetCollector(_doc).OfKind(WorksetKind.UserWorkset).Select(w => YangTools.Revit.Core.ElementIdExtensions.CreateId(w.Id.GetIdValue())).ToList();
-                    if(worksets.Count > 0) rootNodes.Add(new AssetTreeNode { Name = "User Worksets (用户工作集)", Tag = worksets, Type = "Workset" });
-                }
-                else
-                {
-                    StatusText.Text = "当前文档未开启工作集 (Worksharing not enabled).";
-                }
-            }
             else if (tabName == "Filters")
             {
                 var filters = new FilteredElementCollector(_doc).OfClass(typeof(ParameterFilterElement)).Cast<ParameterFilterElement>().ToList();
@@ -213,20 +197,6 @@ namespace YangTools.Revit.UI
                 var globalParams = new FilteredElementCollector(_doc).OfClass(typeof(GlobalParameter)).Select(p => p.Id).ToList();
                 rootNodes.Add(new AssetTreeNode { Name = "Global Parameters (全局参数)", Tag = globalParams, Type = "System" });
             }
-            else if (tabName == "ProjectLinks")
-            {
-                var revitLinks = new FilteredElementCollector(_doc).OfClass(typeof(RevitLinkType)).Select(r => r.Id).ToList();
-                if(revitLinks.Count > 0) rootNodes.Add(new AssetTreeNode { Name = "Revit Links (Revit链接)", Tag = revitLinks, Type = "Link" });
-                
-                var cadLinks = new FilteredElementCollector(_doc).OfClass(typeof(ImportInstance)).Where(i => ((ImportInstance)i).IsLinked).Select(i => i.Id).ToList();
-                if(cadLinks.Count > 0) rootNodes.Add(new AssetTreeNode { Name = "CAD Links (CAD链接)", Tag = cadLinks, Type = "Link" });
-            }
-            else if (tabName == "Groups")
-            {
-                var groups = new FilteredElementCollector(_doc).OfClass(typeof(GroupType)).Select(g => g.Id).ToList();
-                if(groups.Count > 0) rootNodes.Add(new AssetTreeNode { Name = "Groups (组)", Tag = groups, Type = "Group" });
-            }
-
             if (tabName == "FilledRegions" || tabName == "LineStyles")
             {
                 DefaultActionPanel.Visibility = System.Windows.Visibility.Visible;
@@ -454,11 +424,6 @@ namespace YangTools.Revit.UI
                 var filter = new FamilyInstanceFilter(_doc, symId);
                 ids = new FilteredElementCollector(_doc).WherePasses(filter).Select(e => e.Id).ToList();
             }
-            else if (_selectedNode.Type == "Standard" && _selectedNode.Tag?.ToString() == "Materials")
-            {
-                ids = new FilteredElementCollector(_doc).OfClass(typeof(Material)).Select(e => e.Id).ToList();
-            }
-
             return ids;
         }
 
@@ -1403,73 +1368,64 @@ namespace YangTools.Revit.UI
         private void ExportExcel_Click(object sender, RoutedEventArgs e)
         {
             if (AssetList.Count == 0) return;
-            var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx", FileName = "ProjectAssets.xlsx" };
-            if (dialog.ShowDialog() == true)
+            var filePath = ExcelService.ShowSaveDialog("ProjectAssets.xlsx");
+            if (filePath == null) return;
+
+            var data = new List<Dictionary<string, object>>();
+            foreach (var item in AssetList)
             {
-                try
+                var row = new Dictionary<string, object>();
+                foreach (var column in AssetDataGrid.Columns)
                 {
-                    var data = new List<Dictionary<string, object>>();
-                    foreach (var item in AssetList)
+                    string header = "";
+                    string boundKey = "";
+
+                    if (column.Header is System.Windows.Controls.ComboBox cb)
                     {
-                        var row = new Dictionary<string, object>();
-                        foreach (var column in AssetDataGrid.Columns)
+                        var selected = cb.SelectedItem as AvailableParamItem;
+                        if (selected != null)
                         {
-                            string header = "";
-                            string boundKey = "";
-                            
-                            if (column.Header is System.Windows.Controls.ComboBox cb)
-                            {
-                                var selected = cb.SelectedItem as AvailableParamItem;
-                                if (selected != null) 
-                                {
-                                    header = selected.Name;
-                                    boundKey = selected.Name;
-                                }
-                            }
-                            else if (column.Header is string str)
-                            {
-                                header = str;
-                                if (column is System.Windows.Controls.DataGridTextColumn textCol)
-                                {
-                                    var binding = textCol.Binding as System.Windows.Data.Binding;
-                                    if (binding != null && binding.Path.Path.StartsWith("Parameters["))
-                                    {
-                                        boundKey = binding.Path.Path.Replace("Parameters[", "").Replace("].Value", "");
-                                    }
-                                    else if (binding != null && binding.Path.Path == "AssetIdValue") boundKey = "AssetId";
-                                    else if (binding != null && binding.Path.Path == "AssetName") boundKey = "AssetName";
-                                }
-                            }
-                            
-                            if (string.IsNullOrEmpty(header) || string.IsNullOrEmpty(boundKey)) continue;
-                            
-                            if (boundKey == "AssetId") row[header] = item.AssetId.GetIdValue().ToString();
-                            else if (boundKey == "AssetName") row[header] = item.AssetName;
-                            else row[header] = item.Parameters.ContainsKey(boundKey) ? item.Parameters[boundKey].Value : "";
+                            header = selected.Name;
+                            boundKey = selected.Name;
                         }
-                        data.Add(row);
                     }
-                    MiniExcelLibs.MiniExcel.SaveAs(dialog.FileName, data);
-                    TaskDialog.Show("提示", "导出成功！(Export Successful)");
+                    else if (column.Header is string str)
+                    {
+                        header = str;
+                        if (column is System.Windows.Controls.DataGridTextColumn textCol)
+                        {
+                            var binding = textCol.Binding as System.Windows.Data.Binding;
+                            if (binding != null && binding.Path.Path.StartsWith("Parameters["))
+                            {
+                                boundKey = binding.Path.Path.Replace("Parameters[", "").Replace("].Value", "");
+                            }
+                            else if (binding != null && binding.Path.Path == "AssetIdValue") boundKey = "AssetId";
+                            else if (binding != null && binding.Path.Path == "AssetName") boundKey = "AssetName";
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(header) || string.IsNullOrEmpty(boundKey)) continue;
+
+                    if (boundKey == "AssetId") row[header] = item.AssetId.GetIdValue().ToString();
+                    else if (boundKey == "AssetName") row[header] = item.AssetName;
+                    else row[header] = item.Parameters.ContainsKey(boundKey) ? item.Parameters[boundKey].Value : "";
                 }
-                catch (Exception ex)
-                {
-                    TaskDialog.Show("错误", "导出失败: " + ex.Message);
-                }
+                data.Add(row);
             }
+            ExcelService.ExportToExcel(filePath, data);
         }
 
         private void ImportExcel_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx" };
-            if (dialog.ShowDialog() == true)
+            var filePath = ExcelService.ShowOpenDialog();
+            if (filePath == null) return;
+
+            _handler.SetAction(app =>
             {
-                _handler.SetAction(app =>
+                try
                 {
-                    try
-                    {
-                        var rows = MiniExcelLibs.MiniExcel.Query(dialog.FileName, useHeaderRow: true).Cast<IDictionary<string, object>>();
-                        var doc = app.ActiveUIDocument.Document;
+                    var rows = ExcelService.ReadExcel(filePath);
+                    var doc = app.ActiveUIDocument.Document;
                         int successCount = 0;
 
                         using (Transaction t = new Transaction(doc, "Import Excel Sync"))
@@ -1611,11 +1567,6 @@ namespace YangTools.Revit.UI
                 ids = new FilteredElementCollector(_doc).WherePasses(filter).Select(e => e.Id).ToList();
                 if(ids.Count == 0) ids.Add(symId); // If no instances, at least select the symbol
             }
-            else if (node.Type == "Material" && node.Tag is List<ElementId> matIds)
-            {
-                ids = matIds;
-            }
-
             return ids;
         }
 
@@ -1851,119 +1802,4 @@ namespace YangTools.Revit.UI
         }
     }
 
-    public class AssetItemViewModel : INotifyPropertyChanged
-    {
-        private string _assetName;
-        public string AssetName 
-        { 
-            get => _assetName; 
-            set { _assetName = value; OnPropertyChanged(nameof(AssetName)); } 
-        }
-        
-        public ElementId AssetId { get; set; }
-        public long AssetIdValue => AssetId?.GetIdValue() ?? -1;
-
-        private bool _isRowVisible = true;
-        public bool IsRowVisible
-        {
-            get => _isRowVisible;
-            set { _isRowVisible = value; OnPropertyChanged(nameof(IsRowVisible)); }
-        }
-        
-        public Dictionary<string, ParameterViewModel> Parameters { get; set; } = new Dictionary<string, ParameterViewModel>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
-
-    public class AssetTreeNode : INotifyPropertyChanged
-    {
-        private bool? _isChecked = false;
-
-        public string Name { get; set; }
-        public object Tag { get; set; }
-        public string Type { get; set; }
-        
-        public AssetTreeNode Parent { get; set; }
-
-        public bool? IsChecked
-        {
-            get => _isChecked;
-            set => SetIsChecked(value, true, true);
-        }
-
-        public void SetIsChecked(bool? value, bool updateChildren, bool updateParent)
-        {
-            if (value == _isChecked) return;
-            _isChecked = value;
-
-            if (updateChildren && _isChecked.HasValue)
-            {
-                foreach (var child in Children)
-                {
-                    child.SetIsChecked(_isChecked.Value, true, false);
-                }
-            }
-
-            if (updateParent && Parent != null)
-            {
-                Parent.VerifyCheckState();
-            }
-
-            OnPropertyChanged(nameof(IsChecked));
-        }
-
-        private void VerifyCheckState()
-        {
-            bool? state = null;
-            for (int i = 0; i < Children.Count; ++i)
-            {
-                bool? current = Children[i].IsChecked;
-                if (i == 0) state = current;
-                else if (state != current)
-                {
-                    state = null;
-                    break;
-                }
-            }
-            SetIsChecked(state, false, true);
-        }
-
-        public ObservableCollection<AssetTreeNode> Children { get; set; } = new ObservableCollection<AssetTreeNode>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
-
-    public class PatternComboItem
-    {
-        public ElementId Id { get; set; }
-        public string Name { get; set; }
-        public System.Windows.Media.ImageSource Preview { get; set; }
-    }
-
-    public class LineStyleViewModel : INotifyPropertyChanged
-    {
-        public ElementId Id { get; set; }
-        public string Name { get; set; }
-        public int LineWeight { get; set; }
-        public System.Windows.Media.Brush ColorBrush { get; set; }
-        public ElementId LinePatternId { get; set; }
-        public bool IsBuiltIn { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
-
-    public class FilledRegionViewModel : INotifyPropertyChanged
-    {
-        public ElementId Id { get; set; }
-        public string Name { get; set; }
-        public System.Windows.Media.Brush ForeColorBrush { get; set; }
-        public ElementId ForePatternId { get; set; }
-        public System.Windows.Media.Brush BackColorBrush { get; set; }
-        public ElementId BackPatternId { get; set; }
-        public bool IsMasking { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
 }

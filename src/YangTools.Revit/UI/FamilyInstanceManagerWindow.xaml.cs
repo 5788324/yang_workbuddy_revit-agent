@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.Models;
 
 namespace YangTools.Revit.UI
 {

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.Models;
 
 namespace YangTools.Revit.UI
 {
@@ -1038,31 +1039,10 @@ namespace YangTools.Revit.UI
         protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
     }
 
-    public class ParameterViewModel : INotifyPropertyChanged
-    {
-        private string _value;
-        public string Value { get => _value; set { _value = value; OnPropertyChanged(nameof(Value)); } }
-        
-        private bool _boolValue;
-        public bool BoolValue { get => _boolValue; set { _boolValue = value; OnPropertyChanged(nameof(BoolValue)); } }
-        
-        private bool _isReadOnly;
-        public bool IsReadOnly { get => _isReadOnly; set { _isReadOnly = value; OnPropertyChanged(nameof(IsReadOnly)); } }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
-
     public class CategoryItem
     {
         public string Name { get; set; }
         public ElementId Id { get; set; }
-    }
-
-    public class AvailableParamItem
-    {
-        public string Name { get; set; }
-        public bool IsReadOnly { get; set; }
     }
 
     public class FamilyLoadOptions : IFamilyLoadOptions

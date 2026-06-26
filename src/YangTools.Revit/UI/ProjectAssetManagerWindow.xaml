@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="ÏîÄ¿×Ê²ú¹ÜÀíÆ÷" Height="650" Width="1000"
+        Title="ï¿½ï¿½Ä¿ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" Height="650" Width="1000"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         FontFamily="Microsoft YaHei">
@@ -129,9 +129,9 @@
             <Border Grid.Row="0" CornerRadius="8,8,0,0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
                     Background="{DynamicResource TitleBarGradient}">
                 <Grid>
-                    <TextBlock Text="ÏîÄ¿×Ê²ú¹ÜÀíÆ÷ - Project Asset Manager" Foreground="{DynamicResource TitleText}" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="ï¿½ï¿½Ä¿ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - Project Asset Manager" Foreground="{DynamicResource TitleText}" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold" FontSize="14"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
-                        <TextBlock Text="ËÑË÷: " VerticalAlignment="Center" Foreground="{DynamicResource TitleText}" Margin="0,0,5,0"/>
+                        <TextBlock Text="ï¿½ï¿½ï¿½ï¿½: " VerticalAlignment="Center" Foreground="{DynamicResource TitleText}" Margin="0,0,5,0"/>
                         <TextBox x:Name="SearchBox" Width="150" Margin="0,0,20,0" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged"/>
                         <Button Click="CloseButton_Click" Width="40" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource TitleText}" FontSize="16" Content="?">
                             <Button.Template>
@@ -159,15 +159,11 @@
                 </Grid.RowDefinitions>
 
                 <TabControl x:Name="MainTabControl" Grid.Row="0" Background="Transparent" BorderThickness="0" SelectionChanged="MainTabControl_SelectionChanged">
-                    <TabItem Header="ÊÓÍ¼ÓëÅÅ°æ" Tag="Views"/>
-                    <TabItem Header="²ÄÖÊ¹ÜÀí" Tag="Materials"/>
-                    <TabItem Header="¹¤×÷¼¯" Tag="Worksets" ToolTip="´Ë¹¦ÄÜ¿ÉÓÃ Revit Ô­Éú'¹¤×÷¼¯'¶Ô»°¿òÌæ´ú"/>
-                    <TabItem Header="ÊÓÍ¼¹ýÂËÆ÷" Tag="Filters"/>
-                    <TabItem Header="Ìî³äÍ¼°¸" Tag="FilledRegions"/>
-                    <TabItem Header="ÏßÐÍ¹ÜÀí" Tag="LineStyles"/>
-                    <TabItem Header="ÏµÍ³ÅäÖÃ" Tag="System"/>
-                    <TabItem Header="ÏîÄ¿Á´½Ó" Tag="ProjectLinks" ToolTip="´Ë¹¦ÄÜ¿ÉÓÃ Revit Ô­Éú'¹ÜÀíÁ´½Ó'¶Ô»°¿òÌæ´ú"/>
-                    <TabItem Header="±à×é¹ÜÀí" Tag="Groups" ToolTip="´Ë¹¦ÄÜ¿ÉÓÃ Revit Ô­Éú'±à×é'¹¦ÄÜÌæ´ú"/>
+                    <TabItem Header="è§†å›¾ç»„ç»‡ç‰ˆ" Tag="Views"/>
+                    <TabItem Header="è§†å›¾è¿‡æ»¤" Tag="Filters"/>
+                    <TabItem Header="å¡«å……å›¾æ¡ˆ" Tag="FilledRegions"/>
+                    <TabItem Header="çº¿åž‹å·¥å…·" Tag="LineStyles"/>
+                    <TabItem Header="ç³»ç»Ÿç®¡ç†" Tag="System"/>
                 </TabControl>
 
                 <Grid Grid.Row="1" Margin="0,10,0,0">
@@ -182,7 +178,7 @@
                         <TreeView x:Name="AssetTreeView" Background="Transparent" BorderThickness="0" Margin="5" SelectedItemChanged="AssetTreeView_SelectedItemChanged">
                             <TreeView.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="É¾³ý¹´Ñ¡µÄ½Úµã (Delete Checked Nodes)" Click="DeleteCheckedNodes_Click"/>
+                                    <MenuItem Header="É¾ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Ä½Úµï¿½ (Delete Checked Nodes)" Click="DeleteCheckedNodes_Click"/>
                                 </ContextMenu>
                             </TreeView.ContextMenu>
                             <TreeView.ItemTemplate>
@@ -206,13 +202,13 @@
                                       CellEditEnding="AssetDataGrid_CellEditEnding">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Òþ²Øµ±Ç°ÁÐ (Hide Current Column)" Click="HideCurrentColumn_Click"/>
-                                        <MenuItem Header="»Ö¸´ËùÓÐÒþ²ØÁÐ (Restore Hidden Columns)" Click="RestoreHiddenColumns_Click"/>
+                                        <MenuItem Header="ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½ï¿½ (Hide Current Column)" Click="HideCurrentColumn_Click"/>
+                                        <MenuItem Header="ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Restore Hidden Columns)" Click="RestoreHiddenColumns_Click"/>
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ÔªËØID (ID)" Binding="{Binding AssetIdValue}" IsReadOnly="True" Width="100"/>
-                                    <DataGridTextColumn Header="Ãû³Æ (Name)" Binding="{Binding AssetName, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
+                                    <DataGridTextColumn Header="Ôªï¿½ï¿½ID (ID)" Binding="{Binding AssetIdValue}" IsReadOnly="True" Width="100"/>
+                                    <DataGridTextColumn Header="ï¿½ï¿½ï¿½ï¿½ (Name)" Binding="{Binding AssetName, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -222,17 +218,17 @@
                                       HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="35"
                                       CellEditEnding="FilledRegionDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Ãû³Æ (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
-                                    <DataGridTemplateColumn Header="Ç°¾°É«" Width="80">
+                                    <DataGridTextColumn Header="ï¿½ï¿½ï¿½ï¿½ (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200"/>
+                                    <DataGridTemplateColumn Header="Ç°ï¿½ï¿½É«" Width="80">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Click="FilledRegionColor_Click" Tag="Fore" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="µã»÷ÐÞ¸ÄÇ°¾°É«">
+                                                <Button Click="FilledRegionColor_Click" Tag="Fore" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½Ç°ï¿½ï¿½É«">
                                                     <Border Width="30" Height="20" Background="{Binding ForeColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Ç°¾°Í¼°¸" Width="200">
+                                    <DataGridTemplateColumn Header="Ç°ï¿½ï¿½Í¼ï¿½ï¿½" Width="200">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ComboBox ItemsSource="{Binding Path=DataContext.AvailableFillPatterns, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -247,16 +243,16 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="±³¾°É«" Width="80">
+                                    <DataGridTemplateColumn Header="ï¿½ï¿½ï¿½ï¿½É«" Width="80">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Click="FilledRegionColor_Click" Tag="Back" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="µã»÷ÐÞ¸Ä±³¾°É«">
+                                                <Button Click="FilledRegionColor_Click" Tag="Back" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="ï¿½ï¿½ï¿½ï¿½Þ¸Ä±ï¿½ï¿½ï¿½É«">
                                                     <Border Width="30" Height="20" Background="{Binding BackColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="±³¾°Í¼°¸" Width="200">
+                                    <DataGridTemplateColumn Header="ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½" Width="200">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ComboBox ItemsSource="{Binding Path=DataContext.AvailableFillPatterns, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -271,7 +267,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridCheckBoxColumn Header="ÕÚÕÖ (Masking)" Binding="{Binding IsMasking, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="100"/>
+                                    <DataGridCheckBoxColumn Header="ï¿½ï¿½ï¿½ï¿½ (Masking)" Binding="{Binding IsMasking, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="100"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -281,7 +277,7 @@
                                       HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}" RowHeight="30"
                                       CellEditEnding="LineStyleDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Ãû³Æ (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200">
+                                    <DataGridTextColumn Header="ï¿½ï¿½ï¿½ï¿½ (Name)" Binding="{Binding Name, UpdateSourceTrigger=Explicit}" IsReadOnly="False" Width="200">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -294,17 +290,17 @@
                                             </Style>
                                         </DataGridTextColumn.ElementStyle>
                                     </DataGridTextColumn>
-                                    <DataGridTextColumn Header="Ïß¿í (Width)" Binding="{Binding LineWeight, UpdateSourceTrigger=Explicit}" Width="80"/>
-                                    <DataGridTemplateColumn Header="ÑÕÉ« (Color)" Width="80">
+                                    <DataGridTextColumn Header="ï¿½ß¿ï¿½ (Width)" Binding="{Binding LineWeight, UpdateSourceTrigger=Explicit}" Width="80"/>
+                                    <DataGridTemplateColumn Header="ï¿½ï¿½É« (Color)" Width="80">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Click="LineStyleColor_Click" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="µã»÷ÐÞ¸ÄÑÕÉ«">
+                                                <Button Click="LineStyleColor_Click" Padding="0" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½É«">
                                                     <Border Width="30" Height="15" Background="{Binding ColorBrush}" BorderBrush="{DynamicResource GridLine}" BorderThickness="1" CornerRadius="2"/>
                                                 </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="ÏßÐÍÍ¼°¸" Width="250">
+                                    <DataGridTemplateColumn Header="ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½" Width="250">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ComboBox ItemsSource="{Binding Path=DataContext.AvailableLinePatterns, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -330,33 +326,33 @@
             <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="0,1,0,0">
                 <Grid Margin="15,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock x:Name="StatusText" Text="¾ÍÐ÷" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="StatusText" Text="ï¿½ï¿½ï¿½ï¿½" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <WrapPanel x:Name="DefaultActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5">
-                        <Button x:Name="AnalyzeFilterBtn" ToolTip="Éî¶È·ÖÎö¹ýÂËÆ÷ (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="{DynamicResource InfoColor}">
+                        <Button x:Name="AnalyzeFilterBtn" ToolTip="ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Analyze Filter)" Style="{StaticResource IconButton}" Click="AnalyzeFilter_Click" Visibility="Collapsed" Foreground="{DynamicResource InfoColor}">
                             <TextBlock Text="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button ToolTip="É¾³ý¹´Ñ¡ (Delete Checked)" Style="{StaticResource IconButton}" Click="DeleteSelected_Click" Foreground="{DynamicResource DangerBg}">
+                        <Button ToolTip="É¾ï¿½ï¿½ï¿½ï¿½Ñ¡ (Delete Checked)" Style="{StaticResource IconButton}" Click="DeleteSelected_Click" Foreground="{DynamicResource DangerBg}">
                             <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button ToolTip="ÅúÁ¿ÖØÃüÃû (Batch Rename)" Style="{StaticResource IconButton}" Click="BatchRename_Click">
+                        <Button ToolTip="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Batch Rename)" Style="{StaticResource IconButton}" Click="BatchRename_Click">
                             <TextBlock Text="&#xE8AC;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button ToolTip="ÔÚÊÓÍ¼ÖÐÑ¡Ôñ (Select In View)" Style="{StaticResource IconButton}" Click="SelectInView_Click">
+                        <Button ToolTip="ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ñ¡ï¿½ï¿½ (Select In View)" Style="{StaticResource IconButton}" Click="SelectInView_Click">
                             <TextBlock Text="&#xE890;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button ToolTip="ÖØÖÃ¹ÜÀíÆ÷" Style="{StaticResource IconButton}" Click="ResetColumns_Click">
+                        <Button ToolTip="ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½" Style="{StaticResource IconButton}" Click="ResetColumns_Click">
                             <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button x:Name="ExportBtn" ToolTip="µ¼³ö Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
+                        <Button x:Name="ExportBtn" ToolTip="ï¿½ï¿½ï¿½ï¿½ Excel" Style="{StaticResource IconButton}" Click="ExportExcel_Click">
                             <TextBlock Text="&#xEDE1;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
-                        <Button x:Name="ImportBtn" ToolTip="µ¼Èë Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
+                        <Button x:Name="ImportBtn" ToolTip="ï¿½ï¿½ï¿½ï¿½ Excel" Style="{StaticResource IconButton}" Click="ImportExcel_Click" Foreground="{DynamicResource AccentColor}">
                             <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
                     </WrapPanel>
                     <WrapPanel x:Name="DuplicateActionPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5" Visibility="Collapsed">
-                        <Button ToolTip="ÐÂ½¨¸±±¾ (Duplicate)" Style="{StaticResource IconButton}" Click="DuplicateAsset_Click">
+                        <Button ToolTip="ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ (Duplicate)" Style="{StaticResource IconButton}" Click="DuplicateAsset_Click">
                             <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
                         </Button>
                     </WrapPanel>

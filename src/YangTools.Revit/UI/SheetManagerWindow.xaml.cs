@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.Models;
 
 namespace YangTools.Revit.UI
 {
@@ -371,45 +371,36 @@ namespace YangTools.Revit.UI
         private void ExportSheetExcel_Click(object sender, RoutedEventArgs e)
         {
             if (Sheets.Count == 0) return;
-            var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx", FileName = "Sheets.xlsx" };
-            if (dialog.ShowDialog() == true)
+            var filePath = ExcelService.ShowSaveDialog("Sheets.xlsx");
+            if (filePath == null) return;
+
+            var data = new List<Dictionary<string, object>>();
+            foreach (var item in Sheets)
             {
-                try
+                var row = new Dictionary<string, object>();
+                row["图号 (Sheet Number)"] = item.SheetNumber;
+                row["图名 (Sheet Name)"] = item.SheetName;
+
+                foreach (var col in _addedSheetParameters)
                 {
-                    var data = new List<Dictionary<string, object>>();
-                    foreach (var item in Sheets)
-                    {
-                        var row = new Dictionary<string, object>();
-                        row["图号 (Sheet Number)"] = item.SheetNumber;
-                        row["图名 (Sheet Name)"] = item.SheetName;
-                        
-                        foreach (var col in _addedSheetParameters)
-                        {
-                            if (string.IsNullOrEmpty(col)) continue;
-                            row[col] = item.Parameters.ContainsKey(col) ? item.Parameters[col].Value : "";
-                        }
-                        data.Add(row);
-                    }
-                    MiniExcelLibs.MiniExcel.SaveAs(dialog.FileName, data);
-                    TaskDialog.Show("提示", "导出成功 (Export Successful)");
+                    if (string.IsNullOrEmpty(col)) continue;
+                    row[col] = item.Parameters.ContainsKey(col) ? item.Parameters[col].Value : "";
                 }
-                catch (Exception ex)
-                {
-                    TaskDialog.Show("错误", "导出失败: " + ex.Message);
-                }
+                data.Add(row);
             }
+            ExcelService.ExportToExcel(filePath, data);
         }
 
         private void ImportSheetExcel_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx" };
-            if (dialog.ShowDialog() == true)
-            {
-                _handler.SetAction(app =>
+            var filePath = ExcelService.ShowOpenDialog();
+            if (filePath == null) return;
+
+            _handler.SetAction(app =>
                 {
                     try
                     {
-                        var rows = MiniExcelLibs.MiniExcel.Query(dialog.FileName, useHeaderRow: true).Cast<IDictionary<string, object>>();
+                        var rows = ExcelService.ReadExcel(filePath);
                         var doc = app.ActiveUIDocument.Document;
                         int successCount = 0;
                         int createdCount = 0;
@@ -614,46 +605,37 @@ namespace YangTools.Revit.UI
         private void ExportTitleblockExcel_Click(object sender, RoutedEventArgs e)
         {
             if (Titleblocks.Count == 0) return;
-            var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx", FileName = "Titleblocks.xlsx" };
-            if (dialog.ShowDialog() == true)
+            var filePath = ExcelService.ShowSaveDialog("Titleblocks.xlsx");
+            if (filePath == null) return;
+
+            var data = new List<Dictionary<string, object>>();
+            foreach (var item in Titleblocks)
             {
-                try
+                var row = new Dictionary<string, object>();
+                row["图元ID"] = item.InstanceIdValue.ToString();
+                row["图纸号"] = item.SheetNumber;
+                row["图纸名"] = item.SheetName;
+                row["图框类型"] = item.TypeName;
+
+                foreach (var col in _titleblockParameterColumns)
                 {
-                    var data = new List<Dictionary<string, object>>();
-                    foreach (var item in Titleblocks)
-                    {
-                        var row = new Dictionary<string, object>();
-                        row["图元ID"] = item.InstanceIdValue.ToString();
-                        row["图纸号"] = item.SheetNumber;
-                        row["图纸名"] = item.SheetName;
-                        row["图框类型"] = item.TypeName;
-                        
-                        foreach (var col in _titleblockParameterColumns)
-                        {
-                            row[col] = item.Parameters.ContainsKey(col) ? item.Parameters[col].Value : "";
-                        }
-                        data.Add(row);
-                    }
-                    MiniExcelLibs.MiniExcel.SaveAs(dialog.FileName, data);
-                    TaskDialog.Show("提示", "导出成功 (Export Successful)");
+                    row[col] = item.Parameters.ContainsKey(col) ? item.Parameters[col].Value : "";
                 }
-                catch (Exception ex)
-                {
-                    TaskDialog.Show("错误", "导出失败: " + ex.Message);
-                }
+                data.Add(row);
             }
+            ExcelService.ExportToExcel(filePath, data);
         }
 
         private void ImportTitleblockExcel_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "Excel File (*.xlsx)|*.xlsx" };
-            if (dialog.ShowDialog() == true)
-            {
-                _handler.SetAction(app =>
+            var filePath = ExcelService.ShowOpenDialog();
+            if (filePath == null) return;
+
+            _handler.SetAction(app =>
                 {
                     try
                     {
-                        var rows = MiniExcelLibs.MiniExcel.Query(dialog.FileName, useHeaderRow: true).Cast<IDictionary<string, object>>();
+                        var rows = ExcelService.ReadExcel(filePath);
                         var doc = app.ActiveUIDocument.Document;
                         int successCount = 0;
 
@@ -751,212 +733,4 @@ namespace YangTools.Revit.UI
         #endregion
     }
 
-    public class SheetItemViewModel : INotifyPropertyChanged
-    {
-        private string _sheetNumber;
-        private string _sheetName;
-        private string _revisions;
-
-        public ElementId SheetId { get; set; }
-        
-        public int Index { get; set; }
-
-        public Action<string, string> OnSheetInfoChanged;
-
-        public string SheetNumber 
-        {
-            get => _sheetNumber;
-            set { 
-                if (_sheetNumber != value) {
-                    _sheetNumber = value; 
-                    OnPropertyChanged(nameof(SheetNumber)); 
-                    OnSheetInfoChanged?.Invoke("SheetNumber", value);
-                }
-            }
-        }
-
-        public string SheetName 
-        {
-            get => _sheetName;
-            set { 
-                if (_sheetName != value) {
-                    _sheetName = value; 
-                    OnPropertyChanged(nameof(SheetName)); 
-                    OnSheetInfoChanged?.Invoke("SheetName", value);
-                }
-            }
-        }
-
-        public string Revisions 
-        {
-            get => _revisions;
-            set { _revisions = value; OnPropertyChanged(nameof(Revisions)); }
-        }
-        
-        public Dictionary<string, ParameterItem> Parameters { get; set; } = new Dictionary<string, ParameterItem>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
-
-    public class TitleblockItemViewModel : INotifyPropertyChanged
-    {
-        public ElementId InstanceId { get; set; }
-        public long InstanceIdValue { get; set; }
-        public ElementId SheetId { get; set; }
-        public string SheetNumber { get; set; }
-        public string SheetName { get; set; }
-        
-        private ElementId _typeId;
-        public ElementId TypeId
-        {
-            get => _typeId;
-            set { _typeId = value; OnPropertyChanged(nameof(TypeId)); }
-        }
-        
-        public string TypeName { get; set; }
-        
-        public Dictionary<string, ParameterItem> Parameters { get; set; } = new Dictionary<string, ParameterItem>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
-
-    public class ParameterSelectWindow : Window
-    {
-        private ListBox _listBox;
-        public List<string> SelectedParameters { get; private set; } = new List<string>();
-
-        public ParameterSelectWindow(List<string> parameterNames)
-        {
-            Title = "选择参数 (Select Parameters)";
-            Width = 380;
-            Height = 420;
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            WindowStyle = WindowStyle.None;
-            AllowsTransparency = true;
-            Background = System.Windows.Media.Brushes.Transparent;
-
-            var border = new Border
-            {
-                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("WindowBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(250, 246, 240))),
-                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("WindowBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(213, 200, 184))),
-                BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(4)
-            };
-
-            var grid = new System.Windows.Controls.Grid();
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(45) });
-
-            var titleBar = new Border
-            {
-                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("TitleBarStart") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(139, 109, 76))),
-                CornerRadius = new CornerRadius(4, 4, 0, 0)
-            };
-            var titleText = new TextBlock
-            {
-                Text = "选择参数 (Select Parameters)",
-                Foreground = (System.Windows.Media.Brush)(Application.Current.TryFindResource("TitleText") ?? System.Windows.Media.Brushes.White),
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(10, 0, 0, 0)
-            };
-            titleBar.Child = titleText;
-            grid.Children.Add(titleBar);
-
-            _listBox = new ListBox
-            {
-                Margin = new Thickness(10),
-                SelectionMode = SelectionMode.Multiple,
-                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("PanelBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(245, 240, 232))),
-                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
-            };
-
-            foreach (var name in parameterNames)
-            {
-                var cb = new CheckBox
-                {
-                    Content = name,
-                    Margin = new Thickness(4, 2, 4, 2),
-                    Foreground = (System.Windows.Media.Brush)(Application.Current.TryFindResource("PrimaryText") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 48, 40)))
-                };
-                _listBox.Items.Add(cb);
-            }
-
-            System.Windows.Controls.Grid.SetRow(_listBox, 1);
-            grid.Children.Add(_listBox);
-
-            var btnPanel = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 0, 15, 0)
-            };
-            System.Windows.Controls.Grid.SetRow(btnPanel, 2);
-
-            var okBtn = new Button
-            {
-                Content = "确定 (OK)",
-                Width = 80,
-                Margin = new Thickness(0, 0, 10, 0),
-                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(232, 223, 208))),
-                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
-            };
-            okBtn.Click += (s, ev) =>
-            {
-                foreach (var item in _listBox.Items)
-                {
-                    if (item is CheckBox cb && cb.IsChecked == true)
-                    {
-                        SelectedParameters.Add(cb.Content.ToString());
-                    }
-                }
-                DialogResult = SelectedParameters.Count > 0;
-                Close();
-            };
-            okBtn.IsDefault = true;
-            btnPanel.Children.Add(okBtn);
-
-            var cancelBtn = new Button
-            {
-                Content = "取消 (Cancel)",
-                Width = 80,
-                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(232, 223, 208))),
-                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
-            };
-            cancelBtn.Click += (s, ev) => { DialogResult = false; Close(); };
-            cancelBtn.IsCancel = true;
-            btnPanel.Children.Add(cancelBtn);
-            grid.Children.Add(btnPanel);
-            border.Child = grid;
-            Content = border;
-
-            titleBar.MouseLeftButtonDown += (s, ev) => { if (ev.ChangedButton == MouseButton.Left) this.DragMove(); };
-        }
-    }
-
-    public class ParameterItem : INotifyPropertyChanged
-    {
-        private string _name;
-        private string _value;
-        
-        public Action<string, string> OnValueChanged;
-
-        public string Name { get => _name; set { _name = value; OnPropertyChanged(nameof(Name)); } }
-        public string Value 
-        { 
-            get => _value; 
-            set 
-            { 
-                if (_value != value) {
-                    _value = value; 
-                    OnPropertyChanged(nameof(Value)); 
-                    OnValueChanged?.Invoke(Name, value);
-                }
-            } 
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-    }
 }
