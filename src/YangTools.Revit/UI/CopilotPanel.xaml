@@ -18,7 +18,7 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#CCCCCC" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
+                    <DropShadowEffect Color="{DynamicResource Color_WindowBorder}" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -32,7 +32,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#CCCCCC" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
+                    <DropShadowEffect Color="{DynamicResource Color_WindowBorder}" BlurRadius="3" Direction="270" ShadowDepth="1" Opacity="0.3"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -55,7 +55,7 @@
             <!-- 头部区域 -->
             <Grid Grid.Row="0" Background="{DynamicResource GridRowBg}" Margin="5">
                 <Grid.Effect>
-                    <DropShadowEffect Color="#CCCCCC" BlurRadius="5" Direction="270" ShadowDepth="1" Opacity="0.5"/>
+                    <DropShadowEffect Color="{DynamicResource Color_WindowBorder}" BlurRadius="5" Direction="270" ShadowDepth="1" Opacity="0.5"/>
                 </Grid.Effect>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

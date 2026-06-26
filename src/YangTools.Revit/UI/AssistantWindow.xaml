@@ -40,9 +40,9 @@
             <!-- Title Bar -->
             <Border Grid.Row="0" CornerRadius="8,8,0,0" Background="{DynamicResource TitleBarGradient}">
                 <Grid>
-                    <TextBlock Text="系统设置" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="系统设置" Foreground="{DynamicResource TitleText}" VerticalAlignment="Center" Margin="15,0" FontWeight="Bold" FontSize="14"/>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"
-                            Width="30" Height="24" Content="✕" Foreground="#FFFFFF" BorderThickness="0"
+                            Width="30" Height="24" Content="�? Foreground="{DynamicResource TitleText}" BorderThickness="0"
                             Click="CloseButton_Click" FontSize="14" Cursor="Hand">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
@@ -116,18 +116,18 @@
                 <TabItem Header="面板设置">
                     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <TextBlock Text="Ribbon 面板可见性" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}" FontSize="14" Margin="0,0,0,10"/>
-                            <TextBlock Text="勾选的功能在主面板显示，未勾选的折叠到下拉菜单（重启 Revit 后生效）。" 
+                            <TextBlock Text="Ribbon 面板可见�? FontWeight="Bold" Foreground="{DynamicResource PrimaryText}" FontSize="14" Margin="0,0,0,10"/>
+                            <TextBlock Text="勾选的功能在主面板显示，未勾选的折叠到下拉菜单（重启 Revit 后生效）�? 
                                        Foreground="{DynamicResource SecondaryText}" FontSize="12" Margin="0,0,0,8"/>
                             <TabControl x:Name="PanelTabControl" 
                                         Background="{DynamicResource InputBg}" 
                                         BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1"
                                         MinHeight="200"/>
-                            <Button x:Name="BtnSavePanel" Content="保 存 设 置" Width="140" Height="32" Margin="0,12,0,0"
-                                    Background="{DynamicResource AccentColor}" Foreground="White"
+                            <Button x:Name="BtnSavePanel" Content="�?�?�?�? Width="140" Height="32" Margin="0,12,0,0"
+                                    Background="{DynamicResource AccentColor}" Foreground="{DynamicResource TitleText}"
                                     BorderThickness="0" FontWeight="Bold" Cursor="Hand"
                                     Click="BtnSavePanel_Click"/>
-                            <TextBlock Text="提示：修改面板设置后需要重启 Revit 才会生效。" 
+                            <TextBlock Text="提示：修改面板设置后需要重�?Revit 才会生效�? 
                                        Foreground="{DynamicResource WarningColor}" FontSize="11" Margin="0,6,0,0"/>
                         </StackPanel>
                     </ScrollViewer>
@@ -139,9 +139,9 @@
                         <StackPanel Margin="20" VerticalAlignment="Center">
                             <TextBlock Text="YangTools Revit 个人插件" Foreground="{DynamicResource PrimaryText}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                             <TextBlock x:Name="TxtGreeting" Text="Yang Revit Development Framework" Foreground="{DynamicResource SecondaryText}" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-                            <TextBlock Text="版本：1.0.3" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock Text="版本�?.0.3" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"/>
                             <TextBlock Text="github.com/5788324/yang_workbuddy_revit-agent" Foreground="{DynamicResource AccentColor}" FontSize="11" HorizontalAlignment="Center" Margin="0,5,0,15"/>
-                            <TextBlock Text="免责声明：本插件仅供学习与交流使用。开发者不对因使用本插件引起的任何直接或间接损失承担责任。" Foreground="{DynamicResource SecondaryText}" FontSize="12" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="免责声明：本插件仅供学习与交流使用。开发者不对因使用本插件引起的任何直接或间接损失承担责任�? Foreground="{DynamicResource SecondaryText}" FontSize="12" TextWrapping="Wrap" TextAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -157,8 +157,8 @@
                     </Grid>
                 </TabItem>
 
-                <!-- Tab 3: MCP 状态 -->
-                <TabItem Header="MCP 状态">
+                <!-- Tab 3: MCP 状�?-->
+                <TabItem Header="MCP 状�?>
                     <Grid Margin="10,10,10,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -182,7 +182,7 @@
                         <!-- Auth Info -->
                         <StackPanel Grid.Row="2" Margin="0,0,0,15">
                             <TextBlock Text="认证密钥 (Secret Key):" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryText}"/>
-                            <TextBlock Text="无 (免认证，任意本地客户端均可连接)" Foreground="{DynamicResource SecondaryText}" Margin="0,5,0,0"/>
+                            <TextBlock Text="�?(免认证，任意本地客户端均可连�?" Foreground="{DynamicResource SecondaryText}" Margin="0,5,0,0"/>
                         </StackPanel>
 
                         <!-- Client Guide -->

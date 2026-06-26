@@ -1,7 +1,7 @@
 <Window x:Class="YangTools.Revit.UI.BatchRenameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="批量重命名 (Batch Rename)" Width="400" SizeToContent="Height" MinHeight="260"
+        Title="批量重命�?(Batch Rename)" Width="400" SizeToContent="Height" MinHeight="260"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei"
         WindowStyle="ToolWindow">
@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="添加前缀：" VerticalAlignment="Center"/>
+            <TextBlock Text="添加前缀�? VerticalAlignment="Center"/>
             <TextBox x:Name="PrefixTextBox" Grid.Column="1" Padding="4"/>
         </Grid>
 
@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="添加后缀：" VerticalAlignment="Center"/>
+            <TextBlock Text="添加后缀�? VerticalAlignment="Center"/>
             <TextBox x:Name="SuffixTextBox" Grid.Column="1" Padding="4"/>
         </Grid>
 
@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="查找：" VerticalAlignment="Center"/>
+            <TextBlock Text="查找�? VerticalAlignment="Center"/>
             <TextBox x:Name="FindTextBox" Grid.Column="1" Padding="4"/>
             <TextBlock Text="替换为：" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0"/>
             <TextBox x:Name="ReplaceTextBox" Grid.Column="3" Padding="4"/>
@@ -51,7 +51,7 @@
         <CheckBox x:Name="ApplyToFamilyCheckBox" Grid.Row="4" Content="同时重命名族名称 (Apply to Family Names)" Margin="0,5,0,5" Foreground="{DynamicResource SecondaryText}" VerticalAlignment="Center"/>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="确认 (OK)" Width="80" Padding="5" Margin="0,0,10,0" Background="{DynamicResource AccentColor}" Foreground="White" BorderThickness="0" Click="OkButton_Click"/>
+            <Button Content="确认 (OK)" Width="80" Padding="5" Margin="0,0,10,0" Background="{DynamicResource AccentColor}" Foreground="{DynamicResource TitleText}" BorderThickness="0" Click="OkButton_Click"/>
             <Button Content="取消 (Cancel)" Width="80" Padding="5" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>

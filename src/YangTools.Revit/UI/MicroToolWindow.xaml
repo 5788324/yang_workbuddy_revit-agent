@@ -1,7 +1,7 @@
-ï»¿<Window x:Class="YangTools.Revit.UI.MicroToolWindow"
+<Window x:Class="YangTools.Revit.UI.MicroToolWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="é¡¹ç›®å¾®å·¥å…·" Height="450" Width="600"
+        Title="ÏîÄ¿Î¢¹¤¾ß" Height="450" Width="600"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         WindowStartupLocation="CenterScreen" Topmost="True">
     <Window.Resources>
@@ -41,7 +41,7 @@
         <Style x:Key="PrimaryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardButton}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -63,7 +63,7 @@
         <Style x:Key="DangerButton" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardButton}">
             <Setter Property="Background" Value="{DynamicResource DangerBg}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource DangerBg}"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -96,12 +96,12 @@
             <Border Grid.Row="0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
                     Background="{DynamicResource TitleBarGradient}">
                 <Grid>
-                    <TextBlock Text="é¡¹ç›®å¾®å·¥å…·" Foreground="#FFFFFF" FontWeight="Bold" VerticalAlignment="Center" Margin="15,0"/>
+                    <TextBlock Text="ÏîÄ¿Î¢¹¤¾ß" Foreground="{DynamicResource TitleText}" FontWeight="Bold" VerticalAlignment="Center" Margin="15,0"/>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="40" Height="40" Click="CloseButton_Click" Background="Transparent" BorderThickness="0" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent">
-                                    <Path Data="M 12 12 L 28 28 M 28 12 L 12 28" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 12 12 L 28 28 M 28 12 L 12 28" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -121,17 +121,17 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <GroupBox Header="é¡¹ç›®" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" BorderBrush="{DynamicResource WindowBorder}" Margin="0,0,5,0">
+                <GroupBox Header="ÏîÄ¿" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" BorderBrush="{DynamicResource WindowBorder}" Margin="0,0,5,0">
                     <ListBox x:Name="ProjectsListBox" SelectionChanged="ProjectsListBox_SelectionChanged" DisplayMemberPath="Name" Margin="5"/>
                 </GroupBox>
 
-                <GroupBox Grid.Column="1" Header="å¾®å·¥å…· (DLL)" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" BorderBrush="{DynamicResource WindowBorder}" Margin="5,0,0,0">
+                <GroupBox Grid.Column="1" Header="Î¢¹¤¾ß (DLL)" Foreground="{DynamicResource PrimaryText}" FontWeight="Bold" BorderBrush="{DynamicResource WindowBorder}" Margin="5,0,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock x:Name="ProjectPathText" Grid.Row="0" Foreground="{DynamicResource SecondaryText}" TextWrapping="Wrap" Margin="5,5,5,10" FontSize="11" Text="é¡¹ç›®è·¯å¾„: "/>
+                        <TextBlock x:Name="ProjectPathText" Grid.Row="0" Foreground="{DynamicResource SecondaryText}" TextWrapping="Wrap" Margin="5,5,5,10" FontSize="11" Text="ÏîÄ¿Â·¾¶: "/>
                         <ListBox x:Name="ToolsListBox" Grid.Row="1" DisplayMemberPath="Name" MouseDoubleClick="ToolsListBox_MouseDoubleClick" Margin="5"/>
                     </Grid>
                 </GroupBox>
@@ -141,12 +141,12 @@
             <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="0,1,0,0" Padding="15,10">
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="æ–°å»ºé¡¹ç›®" Click="NewProjectButton_Click" Style="{StaticResource StandardButton}" Margin="0,0,10,0"/>
-                        <Button Content="åˆ é™¤é¡¹ç›®" Click="DeleteProjectButton_Click" Style="{StaticResource DangerButton}"/>
+                        <Button Content="ÐÂ½¨ÏîÄ¿" Click="NewProjectButton_Click" Style="{StaticResource StandardButton}" Margin="0,0,10,0"/>
+                        <Button Content="É¾³ýÏîÄ¿" Click="DeleteProjectButton_Click" Style="{StaticResource DangerButton}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="åˆ é™¤æ’ä»¶" Click="DeletePluginButton_Click" Style="{StaticResource DangerButton}" Margin="0,0,10,0"/>
-                        <Button Content="è¿è¡Œ (Run)" Click="RunButton_Click" Style="{StaticResource PrimaryButton}" MinWidth="100"/>
+                        <Button Content="É¾³ý²å¼þ" Click="DeletePluginButton_Click" Style="{StaticResource DangerButton}" Margin="0,0,10,0"/>
+                        <Button Content="ÔËÐÐ (Run)" Click="RunButton_Click" Style="{StaticResource PrimaryButton}" MinWidth="100"/>
                     </StackPanel>
                 </Grid>
             </Border>

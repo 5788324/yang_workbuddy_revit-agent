@@ -839,8 +839,8 @@ namespace YangTools.Revit.UI
 
             var border = new Border
             {
-                Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FAF6F0")),
-                BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#D5C8B8")),
+                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("WindowBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(250, 246, 240))),
+                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("WindowBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(213, 200, 184))),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(4)
             };
@@ -852,13 +852,13 @@ namespace YangTools.Revit.UI
 
             var titleBar = new Border
             {
-                Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#8B6D4C")),
+                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("TitleBarStart") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(139, 109, 76))),
                 CornerRadius = new CornerRadius(4, 4, 0, 0)
             };
             var titleText = new TextBlock
             {
                 Text = "选择参数 (Select Parameters)",
-                Foreground = System.Windows.Media.Brushes.White,
+                Foreground = (System.Windows.Media.Brush)(Application.Current.TryFindResource("TitleText") ?? System.Windows.Media.Brushes.White),
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(10, 0, 0, 0)
             };
@@ -869,8 +869,8 @@ namespace YangTools.Revit.UI
             {
                 Margin = new Thickness(10),
                 SelectionMode = SelectionMode.Multiple,
-                Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#F5F0E8")),
-                BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C8B8A0"))
+                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("PanelBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(245, 240, 232))),
+                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
             };
 
             foreach (var name in parameterNames)
@@ -879,7 +879,7 @@ namespace YangTools.Revit.UI
                 {
                     Content = name,
                     Margin = new Thickness(4, 2, 4, 2),
-                    Foreground = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#3A3028"))
+                    Foreground = (System.Windows.Media.Brush)(Application.Current.TryFindResource("PrimaryText") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(58, 48, 40)))
                 };
                 _listBox.Items.Add(cb);
             }
@@ -900,8 +900,8 @@ namespace YangTools.Revit.UI
                 Content = "确定 (OK)",
                 Width = 80,
                 Margin = new Thickness(0, 0, 10, 0),
-                Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E8DFD0")),
-                BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C8B8A0"))
+                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(232, 223, 208))),
+                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
             };
             okBtn.Click += (s, ev) =>
             {
@@ -922,8 +922,8 @@ namespace YangTools.Revit.UI
             {
                 Content = "取消 (Cancel)",
                 Width = 80,
-                Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E8DFD0")),
-                BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C8B8A0"))
+                Background = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBg") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(232, 223, 208))),
+                BorderBrush = (System.Windows.Media.Brush)(Application.Current.TryFindResource("BtnBorder") ?? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 184, 160)))
             };
             cancelBtn.Click += (s, ev) => { DialogResult = false; Close(); };
             cancelBtn.IsCancel = true;

@@ -13,7 +13,7 @@
         </Style>
         
         <Style x:Key="TitleText" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
@@ -85,7 +85,7 @@
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border x:Name="bg" Background="Transparent" CornerRadius="0,7,0,0">
-                                    <Path Data="M 12,12 L 28,28 M 28,12 L 12,28" Stroke="#FFFFFF" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Path Data="M 12,12 L 28,28 M 28,12 L 12,28" Stroke="{DynamicResource TitleText}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">

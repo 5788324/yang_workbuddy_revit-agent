@@ -44,9 +44,9 @@
             <!-- Title Bar -->
             <Border CornerRadius="3,3,0,0" Background="{DynamicResource TitleBarGradient}">
                 <Grid>
-                    <TextBlock Text="文本分布与对齐" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold"/>
+                    <TextBlock Text="文本分布与对齐" Foreground="{DynamicResource TitleText}" VerticalAlignment="Center" Margin="15,0,0,0" FontWeight="Bold"/>
                     <Button Content="✕" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" 
-                            Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="16"
+                            Background="Transparent" BorderThickness="0" Foreground="{DynamicResource TitleText}" FontSize="16"
                             Click="BtnCancel_Click" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">

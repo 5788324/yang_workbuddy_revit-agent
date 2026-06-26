@@ -1,7 +1,7 @@
-ï»¿<Window x:Class="YangTools.Revit.UI.FilterAnalysisWindow"
+<Window x:Class="YangTools.Revit.UI.FilterAnalysisWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="è§†å›¾è¿‡æ»¤å™¨æ·±åº¦åˆ†æž" Height="600" Width="800"
+        Title="ÊÓÍ¼¹ýÂËÆ÷Éî¶È·ÖÎö" Height="600" Width="800"
         WindowStartupLocation="CenterOwner"
         Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei">
     
@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Margin="0,0,0,15">
-            <TextBlock x:Name="FilterNameText" Text="è¿‡æ»¤å™¨: [Name]" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
-            <TextBlock x:Name="FilterSummaryText" Text="æ­£åœ¨åˆ†æž..." FontSize="12" Foreground="{DynamicResource SecondaryText}" Margin="0,5,0,0"/>
+            <TextBlock x:Name="FilterNameText" Text="¹ýÂËÆ÷: [Name]" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+            <TextBlock x:Name="FilterSummaryText" Text="ÕýÔÚ·ÖÎö..." FontSize="12" Foreground="{DynamicResource SecondaryText}" Margin="0,5,0,0"/>
         </StackPanel>
         
         <Grid Grid.Row="1">
@@ -35,7 +35,7 @@
             <Border Grid.Column="0" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
-                        <TextBlock Text="A. æŽ§åˆ¶çš„æ—ç±»åˆ« (Categories)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+                        <TextBlock Text="A. ¿ØÖÆµÄ×åÀà±ð (Categories)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <ListBox x:Name="CategoriesListBox" BorderThickness="0" Background="Transparent" Margin="5"/>
                 </DockPanel>
@@ -45,7 +45,7 @@
             <Border Grid.Column="2" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
-                        <TextBlock Text="B. åŒ¹é…çš„æ¨¡åž‹å…ƒç´  (Elements)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+                        <TextBlock Text="B. Æ¥ÅäµÄÄ£ÐÍÔªËØ (Elements)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <DataGrid x:Name="ElementsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                               HeadersVisibility="Column" Background="Transparent" BorderThickness="0"
@@ -53,8 +53,8 @@
                               HorizontalGridLinesBrush="{DynamicResource BtnBg}" VerticalGridLinesBrush="{DynamicResource BtnBg}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
-                            <DataGridTextColumn Header="åç§°" Binding="{Binding Name}" Width="*"/>
-                            <DataGridTextColumn Header="ç±»åˆ«" Binding="{Binding Category}" Width="100"/>
+                            <DataGridTextColumn Header="Ãû³Æ" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Àà±ð" Binding="{Binding Category}" Width="100"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -64,7 +64,7 @@
             <Border Grid.Column="4" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
-                        <TextBlock Text="C. ä½¿ç”¨æ­¤è¿‡æ»¤å™¨çš„è§†å›¾ä¸Žæ ·æ¿" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+                        <TextBlock Text="C. Ê¹ÓÃ´Ë¹ýÂËÆ÷µÄÊÓÍ¼ÓëÑù°å" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <ListBox x:Name="ViewsListBox" BorderThickness="0" Background="Transparent" Margin="5"/>
                 </DockPanel>
@@ -74,7 +74,7 @@
             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="{DynamicResource GridRowBg}" BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1" CornerRadius="4">
                 <DockPanel>
                     <Border DockPanel.Dock="Top" Background="{DynamicResource BtnBg}" Padding="8,5">
-                        <TextBlock Text="D. è¿‡æ»¤å™¨è§„åˆ™ (Filter Rules)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
+                        <TextBlock Text="D. ¹ýÂËÆ÷¹æÔò (Filter Rules)" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}"/>
                     </Border>
                     <TextBox x:Name="FilterRulesTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Transparent" BorderThickness="0" Margin="5"/>
                 </DockPanel>
@@ -82,7 +82,7 @@
         </Grid>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button Content="å…³é—­ (Close)" Width="80" Height="30" Background="{DynamicResource AccentColor}" Foreground="White" BorderThickness="0" Cursor="Hand" Click="Close_Click">
+            <Button Content="¹Ø±Õ (Close)" Width="80" Height="30" Background="{DynamicResource AccentColor}" Foreground="{DynamicResource TitleText}" BorderThickness="0" Cursor="Hand" Click="Close_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" CornerRadius="4">

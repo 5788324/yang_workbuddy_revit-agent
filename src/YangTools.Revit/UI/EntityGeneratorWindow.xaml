@@ -1,7 +1,7 @@
-ï»¿<Window x:Class="YangTools.Revit.UI.EntityGeneratorWindow"
+<Window x:Class="YangTools.Revit.UI.EntityGeneratorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="å®žä½“ç”Ÿæˆ(Loft)"
+        Title="ÊµÌåÉú³É(Loft)"
         Width="550" SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource WindowBg}"
@@ -15,7 +15,7 @@
         Loaded="Window_Loaded">
 
     <Window.Resources>
-        <!-- æ™®é€šæŒ‰é’® -->
+        <!-- ÆÕÍ¨°´Å¥ -->
         <Style x:Key="FlatButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource BtnBg}"/>
             <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
@@ -49,7 +49,7 @@
             </Setter>
         </Style>
 
-        <!-- å¼ºè°ƒè‰²æŒ‰é’® -->
+        <!-- Ç¿µ÷É«°´Å¥ -->
         <Style x:Key="AccentButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
             <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
@@ -94,11 +94,11 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
                                 <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentColor}"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="itemBd" Property="Background" Value="{DynamicResource AccentHover}"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -114,7 +114,7 @@
             <RowDefinition Height="56"/>
         </Grid.RowDefinitions>
 
-        <!-- é¡¶éƒ¨æ¸å˜æ ‡é¢˜æ  -->
+        <!-- ¶¥²¿½¥±ä±êÌâÀ¸ -->
         <Border Grid.Row="0" Background="{DynamicResource TitleBarGradient}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
@@ -122,12 +122,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="å®žä½“ç”Ÿæˆ(Loft)" FontWeight="Bold" FontSize="18" Foreground="#FFFFFF"/>
-                    <TextBlock Text=" |  å°†é—­åˆæ›²çº¿å®žä¾‹æ”¾æ ·ç”Ÿæˆä¸‰ç»´å®žä½“" FontSize="13" Foreground="{DynamicResource TitleText}" Margin="8,3,0,0"/>
+                    <TextBlock Text="ÊµÌåÉú³É(Loft)" FontWeight="Bold" FontSize="18" Foreground="{DynamicResource TitleText}"/>
+                    <TextBlock Text=" |  ½«±ÕºÏÇúÏßÊµÀý·ÅÑùÉú³ÉÈýÎ¬ÊµÌå" FontSize="13" Foreground="{DynamicResource TitleText}" Margin="8,3,0,0"/>
                 </StackPanel>
                 <Button Grid.Column="1" Width="32" Height="32"
-                        Content="âœ•" FontSize="15" FontWeight="Bold"
-                        Foreground="#FFFFFF" Cursor="Hand"
+                        Content="?" FontSize="15" FontWeight="Bold"
+                        Foreground="{DynamicResource TitleText}" Cursor="Hand"
                         Click="CloseButton_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -145,12 +145,12 @@
             </Grid>
         </Border>
 
-        <!-- ä¸­é—´å¡ç‰‡å¼å†…å®¹ -->
+        <!-- ÖÐ¼ä¿¨Æ¬Ê½ÄÚÈÝ -->
         <Grid Grid.Row="1" Margin="22,18">
             <Border Background="{DynamicResource PanelBg}" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource WindowBorder}" Padding="18">
                 <StackPanel>
                     
-                    <TextBlock Text="æ–°å»ºæ—åç§°" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                    <TextBlock Text="ÐÂ½¨×åÃû³Æ" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                     <TextBox x:Name="TxtFamilyName" Text="GeneratedLoftFamily" FontSize="14" Padding="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" Margin="0,0,0,12"/>
                     
                     <Grid Margin="0,0,0,12">
@@ -159,48 +159,48 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="0,0,5,0">
-                            <TextBlock Text="æ—ç±»åˆ«" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                            <TextBlock Text="×åÀà±ð" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                             <ComboBox x:Name="CmbCategory" FontSize="14" Padding="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Bottom">
                             <StackPanel Orientation="Vertical">
-                                <CheckBox x:Name="ChkIsVoid" Content="ç”Ÿæˆç©ºå¿ƒæ¨¡åž‹ (Void)" FontSize="14" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,8"/>
-                                <CheckBox x:Name="ChkCutWithVoids" Content="è½½å…¥æ—¶å‰ªåˆ‡çš„ç©ºå¿ƒ" FontSize="14" Foreground="{DynamicResource PrimaryText}" IsEnabled="{Binding ElementName=ChkIsVoid, Path=IsChecked}" Margin="0,0,0,8"/>
+                                <CheckBox x:Name="ChkIsVoid" Content="Éú³É¿ÕÐÄÄ£ÐÍ (Void)" FontSize="14" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,8"/>
+                                <CheckBox x:Name="ChkCutWithVoids" Content="ÔØÈëÊ±¼ôÇÐµÄ¿ÕÐÄ" FontSize="14" Foreground="{DynamicResource PrimaryText}" IsEnabled="{Binding ElementName=ChkIsVoid, Path=IsChecked}" Margin="0,0,0,8"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
 
-                    <TextBlock Text="æè´¨åç§° (å°†åœ¨é¡¹ç›®ä¸­åŒ¹é…)" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                    <TextBlock Text="²ÄÖÊÃû³Æ (½«ÔÚÏîÄ¿ÖÐÆ¥Åä)" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                     <TextBox x:Name="TxtMaterialName" Text="Concrete" FontSize="14" Padding="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" Margin="0,0,0,12"/>
                     
-                    <TextBlock Text="ç›®æ ‡æ ‡é«˜" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                    <TextBlock Text="Ä¿±ê±ê¸ß" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                     <ComboBox x:Name="CmbLevel" FontSize="14" Padding="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}" Margin="0,0,0,12"/>
                     
-                    <TextBlock Text="æ—æ¨¡æ¿è·¯å¾„" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
+                    <TextBlock Text="×åÄ£°åÂ·¾¶" FontSize="13" Foreground="{DynamicResource SecondaryText}" Margin="0,0,0,4"/>
                     <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="TxtTemplatePath" FontSize="14" Padding="6" Background="{DynamicResource GridHover}" BorderBrush="{DynamicResource BtnBorder}"/>
-                        <Button Grid.Column="1" Content="æµè§ˆ..." Style="{StaticResource FlatButton}" Margin="10,0,0,0" Padding="15,4" Click="BtnBrowseTemplate_Click"/>
+                        <Button Grid.Column="1" Content="ä¯ÀÀ..." Style="{StaticResource FlatButton}" Margin="10,0,0,0" Padding="15,4" Click="BtnBrowseTemplate_Click"/>
                     </Grid>
                     
                 </StackPanel>
             </Border>
         </Grid>
 
-        <!-- åº•éƒ¨æ“ä½œæ  -->
+        <!-- µ×²¿²Ù×÷À¸ -->
         <Border Grid.Row="2" Background="{DynamicResource BottomBarBg}" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource WindowBorder}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="TxtStatus" Text="å‡†å¤‡å°±ç»ª" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource SuccessColor}"/>
+                <TextBlock x:Name="TxtStatus" Text="×¼±¸¾ÍÐ÷" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource SuccessColor}"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Content="å–æ¶ˆ" Style="{StaticResource FlatButton}" Click="CloseButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="ç”Ÿæˆ" Style="{StaticResource AccentButton}" Click="BtnGenerate_Click"/>
+                    <Button Content="È¡Ïû" Style="{StaticResource FlatButton}" Click="CloseButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Éú³É" Style="{StaticResource AccentButton}" Click="BtnGenerate_Click"/>
                 </StackPanel>
             </Grid>
         </Border>

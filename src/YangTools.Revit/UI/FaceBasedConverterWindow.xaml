@@ -1,18 +1,18 @@
-ï»¿<Window x:Class="YangTools.Revit.UI.FaceBasedConverterWindow"
+<Window x:Class="YangTools.Revit.UI.FaceBasedConverterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="åŸºäºŽé¢æ— â†’ å¸¸è§„æ¨¡åž‹æ— è½¬æ¢å·¥å…·" Width="750" Height="520"
+        Title="»ùÓÚÃæ×å ¡ú ³£¹æÄ£ÐÍ×å ×ª»»¹¤¾ß" Width="750" Height="520"
         WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip"
         Background="{DynamicResource WindowBg}" FontFamily="Microsoft YaHei"
         WindowStyle="None" AllowsTransparency="True"
         BorderBrush="{DynamicResource WindowBorder}" BorderThickness="1">
 
     <Window.Resources>
-        <SolidColorBrush x:Key="BtnHoverLocal" Color="#D4C4B0"/>
+        <SolidColorBrush x:Key="BtnHoverLocal" Color="{DynamicResource Color_BtnHover}"/>
 
         <Style x:Key="ActionButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{StaticResource AccentColor}"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{DynamicResource TitleText}"/>
             <Setter Property="Padding" Value="12,6"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -70,19 +70,19 @@
         <!-- Title Bar -->
         <Border Grid.Row="0" Background="{DynamicResource TitleBarGradient}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Padding="12,8">
             <Grid>
-                <TextBlock Text="åŸºäºŽé¢æ— â†’ å¸¸è§„æ¨¡åž‹æ— è½¬æ¢å·¥å…·" FontSize="15" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
-                <Button HorizontalAlignment="Right" Click="CloseButton_Click" Background="Transparent" BorderThickness="0" Foreground="White" Padding="5,2" Cursor="Hand" FontSize="14" Content="âœ•"/>
+                <TextBlock Text="»ùÓÚÃæ×å ¡ú ³£¹æÄ£ÐÍ×å ×ª»»¹¤¾ß" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TitleText}" VerticalAlignment="Center"/>
+                <Button HorizontalAlignment="Right" Click="CloseButton_Click" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource TitleText}" Padding="5,2" Cursor="Hand" FontSize="14" Content="?"/>
             </Grid>
         </Border>
 
         <!-- Toolbar -->
         <Border Grid.Row="1" Background="{StaticResource PanelBg}" BorderBrush="{StaticResource WindowBorder}" BorderThickness="0,0,0,1" Padding="10,6">
             <WrapPanel Orientation="Horizontal">
-                <Button Content="ðŸ”„ åˆ·æ–°åˆ—è¡¨" Style="{StaticResource SecondaryButton}" Click="RefreshList_Click" Margin="0,0,8,0"/>
-                <Button Content="ðŸ–±ï¸ ä»Žè§†å›¾é€‰æ‹©" Style="{StaticResource SecondaryButton}" Click="SelectFromView_Click" Margin="0,0,8,0"/>
+                <Button Content="?? Ë¢ÐÂÁÐ±í" Style="{StaticResource SecondaryButton}" Click="RefreshList_Click" Margin="0,0,8,0"/>
+                <Button Content="??? ´ÓÊÓÍ¼Ñ¡Ôñ" Style="{StaticResource SecondaryButton}" Click="SelectFromView_Click" Margin="0,0,8,0"/>
                 <Separator Margin="8,4"/>
-                <CheckBox x:Name="ChkSelectAll" Content="å…¨é€‰" VerticalAlignment="Center" Margin="10,0" Click="SelectAll_Click"/>
-                <TextBlock x:Name="TxtCount" Text="å…± 0 ä¸ªåŸºäºŽé¢æ—ç±»åž‹" VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}" Margin="10,0,0,0"/>
+                <CheckBox x:Name="ChkSelectAll" Content="È«Ñ¡" VerticalAlignment="Center" Margin="10,0" Click="SelectAll_Click"/>
+                <TextBlock x:Name="TxtCount" Text="¹² 0 ¸ö»ùÓÚÃæ×åÀàÐÍ" VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}" Margin="10,0,0,0"/>
             </WrapPanel>
         </Border>
 
@@ -94,17 +94,17 @@
                   Background="White" BorderBrush="{StaticResource WindowBorder}" BorderThickness="1"
                   RowBackground="{DynamicResource GridRowBg}" AlternatingRowBackground="{DynamicResource GridAltRowBg}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="é€‰æ‹©" Width="50">
+                <DataGridTemplateColumn Header="Ñ¡Ôñ" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="æ—åç§°" Binding="{Binding FamilyName}" Width="*"/>
-                <DataGridTextColumn Header="ç±»åž‹åç§°" Binding="{Binding TypeName}" Width="*"/>
-                <DataGridTextColumn Header="å®žä¾‹æ•°" Binding="{Binding InstanceCount}" Width="60"/>
-                <DataGridTextColumn Header="å®¿ä¸»ç±»åˆ«" Binding="{Binding HostCategory}" Width="100"/>
+                <DataGridTextColumn Header="×åÃû³Æ" Binding="{Binding FamilyName}" Width="*"/>
+                <DataGridTextColumn Header="ÀàÐÍÃû³Æ" Binding="{Binding TypeName}" Width="*"/>
+                <DataGridTextColumn Header="ÊµÀýÊý" Binding="{Binding InstanceCount}" Width="60"/>
+                <DataGridTextColumn Header="ËÞÖ÷Àà±ð" Binding="{Binding HostCategory}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -122,12 +122,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="æ—æ¨¡æ¿: " VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}" Margin="0,0,5,5"/>
+                <TextBlock Text="×åÄ£°å: " VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}" Margin="0,0,5,5"/>
                 <TextBox x:Name="TxtTemplatePath" Grid.Column="1" Padding="4" Margin="0,0,5,5" IsReadOnly="True" Background="White"/>
-                <Button Grid.Column="2" Content="æµè§ˆ..." Style="{StaticResource SecondaryButton}" Click="BrowseTemplate_Click" Margin="0,0,0,5"/>
+                <Button Grid.Column="2" Content="ä¯ÀÀ..." Style="{StaticResource SecondaryButton}" Click="BrowseTemplate_Click" Margin="0,0,0,5"/>
 
-                <CheckBox x:Name="ChkDeleteOld" Grid.Row="1" Grid.ColumnSpan="3" Content="è½¬æ¢å®ŒæˆåŽåˆ é™¤åŽŸå§‹åŸºäºŽé¢çš„å®žä¾‹" Margin="0,5,0,0" Foreground="{StaticResource WarningColor}" FontWeight="SemiBold"/>
-                <CheckBox x:Name="cbBakeRotation" Grid.Row="2" Grid.ColumnSpan="3" Content="çƒ˜ç„™ä¸‰ç»´å§¿æ€ (å…è®¸å€¾æ–œ/è´´å¢™ï¼Œä½†åŒç±»æ—å¯èƒ½ä¼šè¢«æ‹†åˆ†ä¸ºå¤šä¸ªç±»åž‹)" Margin="0,5,0,0" Checked="cbBakeRotation_CheckedChanged" Unchecked="cbBakeRotation_CheckedChanged" />
+                <CheckBox x:Name="ChkDeleteOld" Grid.Row="1" Grid.ColumnSpan="3" Content="×ª»»Íê³ÉºóÉ¾³ýÔ­Ê¼»ùÓÚÃæµÄÊµÀý" Margin="0,5,0,0" Foreground="{StaticResource WarningColor}" FontWeight="SemiBold"/>
+                <CheckBox x:Name="cbBakeRotation" Grid.Row="2" Grid.ColumnSpan="3" Content="ºæ±ºÈýÎ¬×ËÌ¬ (ÔÊÐíÇãÐ±/ÌùÇ½£¬µ«Í¬Àà×å¿ÉÄÜ»á±»²ð·ÖÎª¶à¸öÀàÐÍ)" Margin="0,5,0,0" Checked="cbBakeRotation_CheckedChanged" Unchecked="cbBakeRotation_CheckedChanged" />
             </Grid>
         </Border>
 
@@ -139,9 +139,9 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="TxtStatus" Text="å°±ç»ª" VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}"/>
-                <Button Grid.Column="1" Content="å¼€å§‹è½¬æ¢" Style="{StaticResource ActionButton}" Click="StartConvert_Click" Margin="0,0,10,0" MinWidth="100"/>
-                <Button Grid.Column="2" Content="å–æ¶ˆ" Style="{StaticResource SecondaryButton}" Click="CloseButton_Click" MinWidth="80"/>
+                <TextBlock x:Name="TxtStatus" Text="¾ÍÐ÷" VerticalAlignment="Center" Foreground="{StaticResource SecondaryText}"/>
+                <Button Grid.Column="1" Content="¿ªÊ¼×ª»»" Style="{StaticResource ActionButton}" Click="StartConvert_Click" Margin="0,0,10,0" MinWidth="100"/>
+                <Button Grid.Column="2" Content="È¡Ïû" Style="{StaticResource SecondaryButton}" Click="CloseButton_Click" MinWidth="80"/>
             </Grid>
         </Border>
     </Grid>
