@@ -1,93 +1,223 @@
-# YangTools Revit - 个人多功能二次开发插件框架
+# YangTools Revit 插件 v2.9
 
-[![Revit 2024](https://img.shields.io/badge/Revit-2024%20(net48)-blue.svg)](https://www.autodesk.com/)
-[![Revit 2025](https://img.shields.io/badge/Revit-2025%20(net8.0)-darkgreen.svg)](https://www.autodesk.com/)
-[![License](https://img.shields.io/badge/License-MIT-purple.svg)](#)
-
-这是一个面向 **Revit 2024 及更高版本** (如 Revit 2025+) 的模块化、轻量级插件基础开发框架。专为个人高频迭代开发设计，支持功能的**一秒增删**与**免管理员权限安装**。
+> 个人 Revit 效率增强插件，支持 Revit 2021-2027，57 个源文件，29 个功能按钮，4 套主题配色。
 
 ---
 
-## 🌟 核心设计优势
+## 项目概览
 
-1. **一套代码，双重兼容 (Multi-Targeting)**：
-   利用新版 SDK-Style 项目格式，编译时自动同时生成针对 `.NET Framework 4.8` (适配 Revit 2024) 和 `.NET 8.0-windows` (适配 Revit 2025+) 的运行库。
-2. **极速功能增删 (Dynamic Ribbon Loader)**：
-   利用自定义特性 `[RibbonButton]` 加反射机制，在 Revit 启动时自动构建 UI。**想增加或删除功能，只需直接增加或删除对应的 C# 代码文件即可，无需编写复杂的 UI 静态代码。**
-3. **免密码极简部署 (Non-Admin)**：
-   插件全部部署在当前用户的 `%APPDATA%` 目录下，不需要管理员特权即可顺利安装与卸载。
-4. **编译自动化 (Auto-Deploy)**：
-   项目配置了 MSBuild 后处理任务，您在 VS/Rider 中**点击编译，即代表安装完成**，重新打开 Revit 即可调试。
-5. **Modern WPF UI**：
-   集成了精致的深色风格 WPF 桥接窗口，使用句柄绑定技术防弹窗失踪。
+| 项目 | 说明 |
+|------|------|
+| **名称** | YangTools Revit 个人插件 |
+| **版本** | v2.9 |
+| **框架** | .NET Framework 4.8 (2021-2024) / .NET 8.0 (2025+) |
+| **平台** | x64 only |
+| **语言** | C# + WPF (XAML) |
+| **Revit API** | Nice3point.Revit.Api NuGet |
+| **许可证** | 仅供学习交流使用 |
 
 ---
 
-## 📂 项目目录结构
+## 项目结构
 
-```text
-e:\Antigravity\YANG TOOLS_REVIT\
-├── README.md                          # 本说明文档
-├── YangTools.Revit.sln                # Visual Studio / Rider 解决方案入口
-├── src/
-│   └── YangTools.Revit/
-│       ├── YangTools.Revit.csproj     # 双框架 SDK 格式主工程配置文件
-│       ├── YangTools.Revit.addin      # Revit 描述清单文件
-│       ├── App.cs                     # 插件生命周期入口 (IExternalApplication)
-│       ├── Core/
-│       │   ├── RibbonButtonAttribute.cs # 标记自动注册 UI 的自定义属性
-│       │   └── RibbonBuilder.cs       # 反射发现并组装菜单的核心类
-│       ├── Commands/                  # 功能命令集合（在此文件夹增删功能文件）
-│       │   ├── HelloWorldCommand.cs   # 示例：基础弹窗测试
-│       │   └── SampleWindowCommand.cs # 示例：激活现代化 WPF 窗口
-│       └── UI/
-│           ├── SampleWindow.xaml      # 现代暗黑色调 WPF 交互窗口
-│           └── SampleWindow.xaml.cs   # WPF 窗口与 Revit API 交互后台
-├── docs/
-│   ├── Architecture.md                # 架构设计解析说明书
-│   ├── Development.md                 # 开发者指南（快速添加功能与调试）
-│   └── Installation.md                # 部署安装与卸载指引
-└── scripts/
-    ├── Install.ps1                    # 免管理员一键编译部署脚本
-    └── Uninstall.ps1                  # 免管理员一键卸载清理脚本
+```
+YangTools.Revit/
+├── src/YangTools.Revit/
+│   ├── App.cs                          # 插件入口：Ribbon构建 + MCP启动 + 主题初始化
+│   ├── Commands/                       # 29个 ExternalCommand（每个按钮一个）
+│   ├── Core/
+│   │   ├── RibbonBuilder.cs            # 自动扫描 [RibbonButton] 属性构建 Ribbon
+│   │   ├── RibbonConfigManager.cs      # 面板可见性配置持久化
+│   │   ├── ThemeManager.cs             # 4套主题切换（light/dark/prof-blue/apple）
+│   │   ├── DeepSeekClient.cs           # AI 对话客户端（流式输出）
+│   │   ├── RevitEventHandler.cs        # ExternalEvent 线程安全队列
+│   │   ├── TransactionHelper.cs        # Transaction 包装工具
+│   │   └── BatchTasks/
+│   │       ├── BatchTaskEngine.cs       # NWC/IFC/DWG/PDF 批量导出 + CAD/Revit 链接
+│   │       ├── BatchTaskViewModel.cs    # 多文档批处理数据模型
+│   │       └── CadLinkService.cs        # CAD 链接服务
+│   ├── Mcp/
+│   │   └── McpHttpServer.cs            # MCP HTTP 服务器（AI↔Revit 通信）
+│   ├── Models/                         # 数据模型
+│   └── UI/
+│       ├── Themes/                     # 4套主题资源字典
+│       │   ├── LightTheme.xaml         # 暖棕风格
+│       │   ├── DarkTheme.xaml          # 深色风格
+│       │   ├── ProfBlueTheme.xaml      # 专业蓝风格
+│       │   └── AppleTheme.xaml         # 苹果水滴风
+│       ├── SharedStyles.xaml           # 全局统一按钮/输入框样式
+│       ├── ThemeHelper.cs              # 窗口主题注入工具
+│       ├── AssistantWindow.xaml/.cs    # 系统设置窗口（主题/面板/关于/Hello/MCP）
+│       ├── CopilotPanel.xaml/.cs       # AI 助手侧边栏（流式对话 + 摸鱼模式）
+│       ├── BatchTaskWindow.xaml/.cs    # 批处理与云链接窗口
+│       └── ...                         # 其余 28 个功能窗口
+├── McpServer/
+│   └── server.py                       # Python MCP 服务端
+├── deploy/                             # 部署输出目录
+│   ├── 2022/ → 2025/                   # 各版本插件文件
+│   └── deploy.zip                      # 安装器资源包
+├── Deploy.cmd                          # 手动部署脚本
+├── build_installer.cmd                 # 一键构建 EXE 安装器
+└── YangTools.Revit.sln                 # Visual Studio 解决方案
 ```
 
 ---
 
-## 🚀 1分钟快速上手
+## 功能面板总览（29 个按钮）
 
-### 1. 克隆与载入项目
-* 双击打开 [YangTools.Revit.sln](file:///e:/Antigravity/YANG_TOOLS_REVIT/YangTools.Revit.sln) 解决方案。
-* 项目会自动通过 NuGet 还原 `Nice3point.Revit.Api`（无需本地 Program Files 路径下有固定的 RevitAPI 物理依赖）。
+### 总控中心（1 个）
+| 按钮 | 功能 |
+|------|------|
+| 批处理与云链接 | JSON 配置批量导出 NWC/IFC/DWG/PDF，批量链接 Revit/CAD 模型，支持多文档 |
 
-### 2. 本地开发与测试
-1. 在 IDE 中直接执行 **生成解决方案 (Build)**。
-2. 编译成功后，输出信息会提示自动部署完毕：
-   ```text
-   [Auto Deploy] 正在部署至 Revit 2024 Addins 目录...
-   [Auto Deploy] 正在部署至 Revit 2025 Addins 目录...
-   ```
-3. 打开 Revit 2024 或 2025，在工具栏顶部您会看到崭新的 `YangTools` 标签页，并包含 **“你好，Revit”** 以及 **“个人助手”** 两个按钮，点击即可运行！
+### 模型修改区（5 个）
+| 按钮 | 功能 |
+|------|------|
+| 线性布置 | 沿路径线性布置族实例 |
+| 标高修改 | 修改图元标高并保持原位置 |
+| 基于面转换 | 基于面族 → 非基于面常规模型转换 |
+| 实体生成(Loft) | 基于轮廓生成放样/拉伸三维实体 |
+| 布尔几何 | 两个族实例布尔运算（连接/剪切/融合） |
 
-### 3. 一键部署与卸载 (Powershell)
-* **安装/编译部署**：
-  ```powershell
-  .\scripts\Install.ps1
-  ```
-* **干净卸载**：
-  ```powershell
-  .\scripts\Uninstall.ps1
-  ```
+### 项目管理区（4 个）
+| 按钮 | 功能 |
+|------|------|
+| 族文档管理 | 管理、重载、浏览族文档 |
+| 族实例管理 | 管理当前文档中的族实例 |
+| 项目资产管理器 | 视图/材质/工作集/过滤器/填充图案/线型/系统配置/链接/编组管理 |
+| 图纸管理 | 图纸列表编辑、Excel 批量建图/更新、图框换型 |
+
+### 文本工具区（4 个）
+| 按钮 | 功能 |
+|------|------|
+| 文本修改 | 查找、替换、格式化文本（支持选择/视图/项目范围） |
+| 文本合并 | 用分隔符合并多个文本 |
+| 等距分布 | 按间距及排列方式分布文本 |
+| 对齐到线 | 文本起点/终点对齐到虚拟线 |
+
+### 视图修改区（3 个）
+| 按钮 | 功能 |
+|------|------|
+| 可见性拷贝 | 视图覆盖设置复制到其他视图 |
+| 覆盖清理 | 清除手动覆盖的图形设置 |
+| 剖面(By Line) | 模型线/详图线生成剖面视图 |
+
+### 标注工具区（1 个）
+| 按钮 | 功能 |
+|------|------|
+| 标注替换 | 拾取标注替换显示文本 |
+
+### MEP 工具（2 个）
+| 按钮 | 功能 |
+|------|------|
+| 管井标高修改 | 管井族标高偏移量修改 |
+| 管道修改 TypeA | 文字内容修改管道注释/尺寸/高程 |
+
+### 其他面板（7 个）
+| 面板 | 按钮 | 功能 |
+|------|------|------|
+| 导入工具区 | 从CAD粘贴 | 提取 AutoCAD 剪贴板数据导入 |
+| 检查工具区 | 中文检查 | 检查项目中是否包含中文字符 |
+| 项目信息区 | 文件信息 | 项目基本信息与清理预测 |
+| 项目工具区 | 项目微工具 | 管理并运行外部项目微工具脚本 |
+| 系统管理区 | 系统设置 | 主题配色 + 面板可见性 + 关于 + MCP 状态 |
+| 系统管理区 | AI 助手 | 唤醒 Copilot 侧边栏 |
+| 系统管理区 | MCP 状态 | MCP 服务状态查看 |
+| 系统管理区 | 你好，Revit | 验证测试 |
 
 ---
 
-## 📝 开发规范与交接要求 (Project Requirements)
+## 主题系统
 
-**强制要求**：为了保证项目的可维护性和交接的顺畅，**每天必须更新工作日志**（如项目根目录下的 `操作日志.md` 或 `工作日志.md`）。请将所有的功能修改、Bug 修复、逻辑变更和架构优化详细记录在案。**要牢记这一点，这是方便后续项目完美交接的关键步骤。**
+4 套主题，通过 `DynamicResource` 全窗口实时切换：
+
+| 主题 | ID | 色系 |
+|------|-----|------|
+| 暖棕 | `light_warm` | 咖啡/米色，舒适护眼 |
+| 深色 | `dark_modern` | 暗色底 + 浅色字 |
+| 专业蓝 | `prof_blue` | 蓝灰风格 |
+| 苹果水滴 | `apple_frost` | iOS 风格浅灰 |
+
+**切换方式**：系统设置 → 界面设置 → 点击主题色块（即时生效，全窗口跟随）
 
 ---
 
-## 📖 深度查阅文档
-* 想探究跨 .NET 架构设计原理？请查阅 [架构设计说明书 (docs/Architecture.md)](file:///e:/Antigravity/YANG_TOOLS_REVIT/docs/Architecture.md)。
-* 想了解如何新增、删除业务指令？请查阅 [开发者指南 (docs/Development.md)](file:///e:/Antigravity/YANG_TOOLS_REVIT/docs/Development.md)。
-* 想了解如何在外部设备手动部署插件？请查阅 [安装与卸载指南 (docs/Installation.md)](file:///e:/Antigravity/YANG_TOOLS_REVIT/docs/Installation.md)。
+## AI 助手（Copilot）
+
+- **流式输出**：DeepSeek API 对话，打字机效果实时显示
+- **摸鱼模式**：角色扮演（猫娘/小秘书/哲学家），含敏感词过滤
+- **MCP 集成**：AI 可通过 MCP 协议直接操作 Revit
+
+---
+
+## 技术架构
+
+### 核心设计模式
+- **属性驱动 Ribbon**：`[RibbonButton]` 注解自动扫描并构建 Ribbon UI，无需手动注册
+- **ExternalEvent 线程安全**：`RevitEventHandler` 队列管理所有 Revit API 调用
+- **DynamicResource 主题**：所有颜色通过 `DynamicResource` 绑定，4 套 ResourceDictionary 热切换
+- **ThemeHelper 注入**：每个窗口 `ApplyToWindow()` 注入当前主题资源
+
+### 依赖包
+| 包 | 用途 |
+|----|------|
+| Nice3point.Revit.Api | Revit API 引用程序集 |
+| Newtonsoft.Json | JSON 序列化 |
+| MiniExcel | Excel 导入导出 |
+| IronPython | Python 脚本引擎 |
+
+---
+
+## 编译
+
+### 前置条件
+- Visual Studio 2022+ 或 .NET SDK 8.0+
+- .NET Framework 4.8 SDK（编译 2021-2024 版本）
+- Revit API NuGet 包自动下载
+
+### 编译命令
+
+```bash
+# Revit 2022 (net48, 需 Windows)
+dotnet build src\YangTools.Revit\YangTools.Revit.csproj -c 2022
+
+# Revit 2024 (net48, 需 Windows)
+dotnet build src\YangTools.Revit\YangTools.Revit.csproj -c 2024
+
+# Revit 2025 (net8.0, 任意平台)
+dotnet build src\YangTools.Revit\YangTools.Revit.csproj -c 2025 -p:EnableWindowsTargeting=true
+```
+
+输出目录：`src/YangTools.Revit/bin/x64/{版本号}/`
+
+---
+
+## 安装
+
+1. 下载 `YangTools_Installer_v2.9.zip`
+2. 解压，运行 `Deploy.cmd`（或手动复制 `deploy/{版本号}/` 到 `C:\ProgramData\Autodesk\Revit\Addins\{版本号}\`）
+3. 启动 Revit
+
+---
+
+## 版本历史
+
+| 版本 | 关键更新 |
+|------|---------|
+| v2.9 | 面板可见性保存+重启提示、DLL 编译完成 |
+| v2.8 | 图纸管理弹窗修复、项目资产管理器精简、系统设置 UI 改进 |
+| v2.7 | SolidColorBrush 循环引用崩溃修复（3 文件） |
+| v2.6 | 全量硬编码颜色清零（26 文件 × 数百处 → DynamicResource） |
+| v2.5 | 标题栏渐变统一 + IFC 事务修复 + ExternalCommand 保护 + 图标统一 |
+| v2.4 | 基础版：多主题、AI 助手、批处理、MCP 服务 |
+
+---
+
+## 链接
+
+- GitHub: https://github.com/5788324/yang_workbuddy_revit-agent
+- Revit 支持: 2021 / 2022 / 2023 / 2024 / 2025 / 2026 / 2027
+
+---
+
+*免责声明：本插件仅供学习与交流使用。开发者不对因使用本插件引起的任何直接或间接损失承担责任。*

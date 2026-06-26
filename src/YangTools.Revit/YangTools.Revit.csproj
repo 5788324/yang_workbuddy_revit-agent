@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>YangTools.Revit</AssemblyName>
     <RootNamespace>YangTools.Revit</RootNamespace>
-    <Version>1.0.3</Version>
+    <Version>2.9.0</Version>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <!-- Revit API 必须编译为 64 位 -->
     <Platforms>x64</Platforms>
