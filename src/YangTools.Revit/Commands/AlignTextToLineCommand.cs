@@ -18,81 +18,83 @@ public class AlignTextToLineCommand : IExternalCommand
 {
 	public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 	{
-		UIApplication application = commandData.Application;
-		UIDocument activeUIDocument = application.ActiveUIDocument;
-		if (activeUIDocument == null)
+		UIApplication uiApp = commandData.Application;
+		UIDocument uiDoc = uiApp.ActiveUIDocument;
+		if (uiDoc == null)
 		{
 			TaskDialog.Show("提示", "请先打开一个项目文档。");
 			return Result.Cancelled;
 		}
-		Document document = activeUIDocument.Document;
+		Document doc = uiDoc.Document;
 		try
 		{
-			ICollection<ElementId> preSelectedIds = activeUIDocument.Selection.GetElementIds();
-			List<TextNote> preSelectedTexts = preSelectedIds.Select(id => document.GetElement(id) as TextNote).Where(t => t != null).ToList();
+			ICollection<ElementId> preSelectedIds = uiDoc.Selection.GetElementIds();
+			List<TextNote> preSelectedTexts = preSelectedIds.Select(id => doc.GetElement(id) as TextNote).Where(t => t != null).ToList();
 
-			TextNote val2 = null;
+			TextNote targetText = null;
 			if (preSelectedTexts.Count > 0)
 			{
-				val2 = preSelectedTexts[0];
+				targetText = preSelectedTexts[0];
 			}
 			else
 			{
-				Reference val = activeUIDocument.Selection.PickObject(ObjectType.Element, new TextNoteSelectionFilter(), "检测到未选中任何文本，请点选要对齐的文本");
-				val2 = document.GetElement(val) as TextNote;
+				Reference pickRef = uiDoc.Selection.PickObject(ObjectType.Element, new TextNoteSelectionFilter(), "检测到未选中任何文本，请点选要对齐的文本");
+				targetText = doc.GetElement(pickRef) as TextNote;
 			}
 
-			if (val2 == null)
+			if (targetText == null)
 			{
 				return Result.Cancelled;
 			}
-			XYZ val3 = activeUIDocument.Selection.PickPoint("选择基准线起点");
-			XYZ val4 = activeUIDocument.Selection.PickPoint("选择基准线终点");
-			AlignTextToLineWindow alignTextToLineWindow = new AlignTextToLineWindow();
-			new WindowInteropHelper(alignTextToLineWindow).Owner = application.MainWindowHandle;
-			if (alignTextToLineWindow.ShowDialog() == true)
+
+			XYZ lineStart = uiDoc.Selection.PickPoint("选择基准线起点");
+			XYZ lineEnd = uiDoc.Selection.PickPoint("选择基准线终点");
+
+			AlignTextToLineWindow optionsWindow = new AlignTextToLineWindow();
+			new WindowInteropHelper(optionsWindow).Owner = uiApp.MainWindowHandle;
+			if (optionsWindow.ShowDialog() == true)
 			{
-				AlignToLineOptions options = alignTextToLineWindow.Options;
-				using (Transaction t = new Transaction(document, "对齐文本到线"))
+				AlignToLineOptions options = optionsWindow.Options;
+				using (Transaction t = new Transaction(doc, "对齐文本到线"))
 				{
 					try
 					{
 						t.Start();
-						XYZ val6 = (val4 - val3).Normalize();
-						double num = XYZ.BasisX.AngleTo(new XYZ(val6.X, val6.Y, 0.0).Normalize());
-						if (val6.Y < 0.0)
+						XYZ lineDirection = (lineEnd - lineStart).Normalize();
+						double lineAngle = XYZ.BasisX.AngleTo(new XYZ(lineDirection.X, lineDirection.Y, 0.0).Normalize());
+						if (lineDirection.Y < 0.0)
 						{
-							num = 0.0 - num;
+							lineAngle = -lineAngle;
 						}
-						if (options.KeepUpright && (num > 1.5717963267948964 || num < -1.5717963267948964))
+						if (options.KeepUpright && (lineAngle > Math.PI * 0.5 || lineAngle < -Math.PI * 0.5))
 						{
-							for (num += Math.PI; num > Math.PI; num -= Math.PI * 2.0)
-							{
-							}
-							for (; num <= -Math.PI; num += Math.PI * 2.0)
-							{
-							}
+							lineAngle += Math.PI;
+							while (lineAngle > Math.PI) lineAngle -= Math.PI * 2;
+							while (lineAngle <= -Math.PI) lineAngle += Math.PI * 2;
 						}
-						XYZ coord = val2.Coord;
-						double textNoteAngle = GetTextNoteAngle(val2);
-						double num2 = num - textNoteAngle;
-						Line val7 = Line.CreateBound(coord, coord + XYZ.BasisZ);
-						ElementTransformUtils.RotateElement(document, val2.Id, val7, num2);
-						XYZ val8 = coord;
+
+						XYZ textCoord = targetText.Coord;
+						double textAngle = TextNoteHelper.GetTextNoteAngle(targetText);
+						double rotationAngle = lineAngle - textAngle;
+
+						Line rotationAxis = Line.CreateBound(textCoord, textCoord + XYZ.BasisZ);
+						ElementTransformUtils.RotateElement(doc, targetText.Id, rotationAxis, rotationAngle);
+
+						XYZ targetPosition = textCoord;
 						if (options.AlignBase == AlignBasePoint.Start)
 						{
-							val8 = val3;
+							targetPosition = lineStart;
 						}
 						else if (options.AlignBase == AlignBasePoint.End)
 						{
-							val8 = val4;
+							targetPosition = lineEnd;
 						}
 						if (options.AlignBase != AlignBasePoint.Retain)
 						{
-							XYZ val9 = val8 - coord;
-							ElementTransformUtils.MoveElement(document, val2.Id, val9);
+							XYZ offset = targetPosition - textCoord;
+							ElementTransformUtils.MoveElement(doc, targetText.Id, offset);
 						}
-						TransactionHelper.ShowSuccessAndCommit(t, "成功", "文本对齐操作成功！", activeUIDocument);
+						TransactionHelper.ShowSuccessAndCommit(t, "成功", "文本对齐操作成功！", uiDoc);
 					}
 					catch (Exception ex)
 					{
@@ -105,7 +107,7 @@ public class AlignTextToLineCommand : IExternalCommand
 			}
 			return Result.Succeeded;
 		}
-		catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+		catch (OperationCanceledException)
 		{
 			return Result.Cancelled;
 		}
@@ -115,16 +117,5 @@ public class AlignTextToLineCommand : IExternalCommand
 			TaskDialog.Show("错误", $"发生异常。\n错误信息: {ex.Message}");
 			return Result.Failed;
 		}
-	}
-
-	private double GetTextNoteAngle(TextNote textNote)
-	{
-		XYZ baseDirection = ((TextElement)textNote).BaseDirection;
-		double num = XYZ.BasisX.AngleTo(new XYZ(baseDirection.X, baseDirection.Y, 0.0).Normalize());
-		if (baseDirection.Y < 0.0)
-		{
-			num = 0.0 - num;
-		}
-		return num;
 	}
 }

@@ -6,6 +6,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using YangTools.Revit.Core;
+using YangTools.Revit.Models;
 
 namespace YangTools.Revit.Commands
 {
@@ -26,7 +27,7 @@ namespace YangTools.Revit.Commands
                 }
                 var doc = uidoc.Document;
 
-                var state = new UI.BooleanGeometryState();
+                var state = new Models.BooleanGeometryState();
 
                 while (true)
                 {
@@ -246,12 +247,13 @@ namespace YangTools.Revit.Commands
                 }
                 finally
                 {
-                    // 确保族文档在任何情况下都被关闭
                     if (famDoc != null)
                     {
                         try { famDoc.Close(false); }
                         catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[YangTools] 关闭族文档失败: {ex.Message}"); }
                     }
+                    try { if (File.Exists(tempFile)) File.Delete(tempFile); }
+                    catch { }
                 }
 
                 TaskDialog.Show("完成", "批处理执行成功！");
@@ -303,19 +305,4 @@ namespace YangTools.Revit.Commands
         }
     }
 
-    public class FamilyOption : IFamilyLoadOptions
-    {
-        public bool OnFamilyFound(bool familyInUse, out bool overwriteParameterValues)
-        {
-            overwriteParameterValues = true;
-            return true;
-        }
-
-        public bool OnSharedFamilyFound(Family sharedFamily, bool familyInUse, out FamilySource source, out bool overwriteParameterValues)
-        {
-            source = FamilySource.Family;
-            overwriteParameterValues = true;
-            return true;
-        }
-    }
 }

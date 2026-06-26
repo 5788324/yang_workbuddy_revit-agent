@@ -119,7 +119,13 @@
                 <TextBlock Text="合并选项：" FontWeight="Bold" Foreground="{DynamicResource PrimaryText}" Margin="0,0,0,10"/>
                 
                 <Border Background="{DynamicResource PanelBg}" BorderBrush="{DynamicResource BtnBorder}" BorderThickness="1" CornerRadius="4" Padding="15,10">
-                    <CheckBox x:Name="ChkUseNewline" Content="以换行符分隔" IsChecked="True"/>
+                    <StackPanel>
+                        <CheckBox x:Name="ChkUseNewline" Content="以换行符分隔" IsChecked="True" Checked="ChkNewline_CheckedChanged" Unchecked="ChkNewline_CheckedChanged"/>
+                        <WrapPanel x:Name="SeparatorPanel" Margin="0,8,0,0" IsEnabled="False">
+                            <TextBlock Text="自定义分隔符：" Foreground="{DynamicResource PrimaryText}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox x:Name="TxtSeparator" Text="" Width="100" VerticalAlignment="Center"/>
+                        </WrapPanel>
+                    </StackPanel>
                 </Border>
             </StackPanel>
 

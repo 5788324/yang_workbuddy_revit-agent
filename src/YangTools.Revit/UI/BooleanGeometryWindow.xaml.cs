@@ -6,20 +6,11 @@ using System.Windows;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using YangTools.Revit.Models;
 using MediaColor = System.Windows.Media.Color;
 
 namespace YangTools.Revit.UI
 {
-    public class BooleanGeometryState
-    {
-        public List<FamilyInstance> MainInst = new List<FamilyInstance>();
-        public List<FamilyInstance> UnionInsts = new List<FamilyInstance>();
-        public List<FamilyInstance> CutInsts = new List<FamilyInstance>();
-        public List<FamilyInstance> JoinInsts = new List<FamilyInstance>();
-        public bool DeleteTargetInst = false;
-        public bool DeleteTargetFam = false;
-    }
-
     public partial class BooleanGeometryWindow : Window
     {
         private readonly UIApplication _uiapp;

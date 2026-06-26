@@ -130,7 +130,7 @@ namespace YangTools.Revit.UI
             var textNotes = GetTargetTextNotes();
             if (textNotes.Count == 0)
             {
-                MessageBox.Show("未找到目标文本注释。", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                TaskDialog.Show("提示", "未找到目标文本注释。");
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace YangTools.Revit.UI
             }
 
             TxtStatus.Text = $"成功修改 {count} 个文本。";
-            MessageBox.Show($"成功修改 {count} 个文本。", "完成", MessageBoxButton.OK, MessageBoxImage.Information);
+            TaskDialog.Show("完成", $"成功修改 {count} 个文本。");
             this.Close();
         }
 

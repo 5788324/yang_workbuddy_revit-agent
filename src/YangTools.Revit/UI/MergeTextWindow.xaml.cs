@@ -16,6 +16,7 @@ namespace YangTools.Revit.UI
     {
         public MergeSortMode SortMode { get; private set; } = MergeSortMode.SelectionOrder;
         public bool UseNewlineSeparator { get; private set; } = true;
+        public string SeparatorText { get; private set; } = "";
 
         public MergeTextWindow()
         {
@@ -40,6 +41,11 @@ namespace YangTools.Revit.UI
             Close();
         }
 
+        private void ChkNewline_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            SeparatorPanel.IsEnabled = ChkUseNewline.IsChecked == false;
+        }
+
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             if (RbXDesc.IsChecked == true)
@@ -54,6 +60,7 @@ namespace YangTools.Revit.UI
                 SortMode = MergeSortMode.SelectionOrder;
 
             UseNewlineSeparator = ChkUseNewline.IsChecked == true;
+            SeparatorText = TxtSeparator.Text;
 
             DialogResult = true;
             Close();
